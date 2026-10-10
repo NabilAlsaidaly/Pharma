@@ -5,6 +5,15 @@ Checkpoint A inspected; Checkpoint B passed. Continue Checkpoints C/D.
 The original pending proposal below is preserved as historical context; C1 was not
 selected. ADR-016 records the accepted decisions, including optional prices and
 future purchase requiring a configured price greater than zero.
+The remaining proposal/options and initial blocked result are historical gate-time
+evidence; their approval-required language does not reopen the accepted decisions.
+The implemented schema and API are documented in docs/database/catalog-schema.md
+and docs/api/catalog.md, with P1/C2/V1/S1 controlling any conflicting old proposal.
+
+Current execution evidence: primary-image preflight succeeded locally on MySQL 9.7
+and in GitHub MySQL 8.4 run 38079814888 before schema adoption. Forward Catalog
+migration is applied in development, batch 2; eight total tables. All six Catalog
+tables remain empty. Existing one customer and complete snapshot hash remain intact.
 Source: C:/Users/nabil/Desktop/sumaiya/phase3.md, especially sections 11 and 51.
 No Catalog migration, model, route, seed data or payment implementation is created.
 
@@ -251,7 +260,7 @@ order confirmation. Future quantity ownership is deferred; P1 would require an
 explicit future product/variant stock strategy, while P2 could place it on variants.
 No quantity/reservation/checkout/payment schema is created at this gate.
 
-## Gate result and next action
+## Historical initial gate result and next action
 
 EXPECTED: approved commercial schema before Catalog migrations.
 ACTUAL: A/B/C/D/E and Brand/Concern status semantics lack an accepted decision.

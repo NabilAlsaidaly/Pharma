@@ -17,7 +17,7 @@ Cart
 
 | Owner | Consequence | Implementation |
 | --- | --- | --- |
-| Catalog | Supply product ID, optional variant ID, explicit currency prices, visibility and declared availability; no promise of stock allocation | Catalog design awaits approval |
+| Catalog | Supply product ID, optional variant ID, explicit currency prices, visibility and declared availability; no promise of stock allocation | Read foundation implemented; commercial workflow not implemented |
 | Cart | Store customer selections later; additions do not reserve inventory | NOT IMPLEMENTED — FUTURE PHASE |
 | Checkout | Evaluate current price/currency and availability; snapshot payment percentage and calculated requirement in a preliminary intent | NOT IMPLEMENTED — FUTURE PHASE |
 | Payments | Manual verification must establish actual paid amount before confirmation; proof alone is insufficient | NOT IMPLEMENTED — FUTURE PHASE |

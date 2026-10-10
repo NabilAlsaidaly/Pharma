@@ -2,6 +2,9 @@
 
 Phase 2 implements Google-only customers. Catalog, management authentication and
 System Console are outside this implementation.
+The setup/verification notes below record the Phase 2 baseline. The owner subsequently
+reported a successful real Google login before Phase 3, and local credentials are now
+configured. Phase 3 preserves the mechanism/configuration and does not repeat that login.
 
 ## Boundaries and flow
 

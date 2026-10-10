@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Domains\Catalog\Application\Ports\PublicCatalogReader;
+use App\Domains\Catalog\Infrastructure\Persistence\Queries\EloquentPublicCatalogReader;
 use App\Domains\Identity\Application\Ports\CustomerIdentityRepository;
 use App\Domains\Identity\Application\Ports\GoogleOAuthClient;
 use App\Domains\Identity\Infrastructure\ExternalServices\Google\SocialiteGoogleOAuthClient;
@@ -19,6 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->app->bind(PublicCatalogReader::class, EloquentPublicCatalogReader::class);
         $this->app->bind(GoogleOAuthClient::class, SocialiteGoogleOAuthClient::class);
         $this->app->bind(CustomerIdentityRepository::class, EloquentCustomerIdentityRepository::class);
     }
