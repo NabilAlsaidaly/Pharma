@@ -8,7 +8,7 @@ Laravel's standard app, bootstrap, config, database, resources, routes, storage 
 
 ## Module layout and dependency direction
 
-Every module under `app/Domains/<Module>/` has four boundaries. Identity now implements
+Every module under `app/Domains/<Module>/` has four boundaries. Identity and Catalog implement
 them; other modules remain empty:
 
 - `Domain/`: business concepts, invariants and rules. Keep framework and external service concerns outside the core domain.
@@ -53,5 +53,5 @@ Performance by design means considering query counts, indexes, pagination, concu
 
 `docs/architecture` contains architectural guidance; `docs/adr` records accepted baseline
 decisions; `docs/api` documents the API foundation; `docs/deployment` documents CI/CD;
-`docs/database` and `docs/operations` remain reserved locations; `docs/reports` contains
+`docs/database` documents the implemented Catalog schema; `docs/operations` remains reserved; `docs/reports` contains
 phase reports.

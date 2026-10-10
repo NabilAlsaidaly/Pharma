@@ -1,6 +1,6 @@
 # Sumaya Pharma Backend
 
-Phase 2: customer identity and Google authentication. Other business modules remain deferred.
+Phase 3: read-only Catalog foundation, alongside customer Identity. Other business modules remain deferred.
 
 - Backend: Laravel 13.
 - Architecture: modular monolith with pragmatic hexagonal boundaries.
@@ -16,4 +16,11 @@ and validation. See [API foundation](api/foundation.md) and [CI/CD](deployment/c
 See [Identity architecture](architecture/identity-and-authentication.md),
 [customer authentication API](api/customer-authentication.md),
 [Phase 2 report](reports/phase-02-identity-google-auth-report.md) and ADRs 004, 012–014.
-Live Google OAuth is not verified until real OAuth credentials and a consent flow are available.
+The owner reports successful live Google login after Phase 2; that is manual owner
+evidence, not independently repeated automated OAuth verification.
+See [Catalog architecture](architecture/catalog.md), [API](api/catalog.md),
+[database schema](database/catalog-schema.md), [query review](architecture/catalog-query-design.md),
+[approved design gate](reports/phase-03-catalog-design-gate.md), ADR-016 and
+[PAY-001](architecture/payment-before-order-rule.md).
+
+The [Phase 3 implementation report](reports/phase-03-catalog-foundation-report.md) records schema, API, tests, query measurements, CI and customer preservation evidence.

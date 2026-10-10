@@ -1,7 +1,8 @@
 # API foundation
 
 `routes/api.php` is registered with Laravel's API middleware group and prefix `api/v1`.
-It contains no endpoints. `/up` remains Laravel's existing health endpoint.
+Phase 2 adds customer session authentication and Phase 3 adds eight read-only Catalog
+endpoints. `/up` remains Laravel's existing health endpoint.
 
 Future success responses follow `{"success":true,"message":"...","data":{}}`.
 No global response wrapper or business endpoint is introduced now.

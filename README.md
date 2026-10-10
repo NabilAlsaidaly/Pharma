@@ -1,6 +1,6 @@
 # Sumaya Pharma Backend
 
-Laravel 13 backend with **Phase 2: customer identity and Google authentication**.
+Laravel 13 backend with **Phase 3: read-only Catalog foundation**.
 
 Architecture: modular monolith with pragmatic hexagonal boundaries and domain-oriented modules. MySQL is the target database; Redis is planned for cache, queues, rate limiting and locks. Next.js belongs to a separate frontend project.
 
@@ -15,7 +15,10 @@ authentication, CSRF, exact-origin CORS and account suspension. See
 [customer authentication API](docs/api/customer-authentication.md) and the
 [Phase 2 report](docs/reports/phase-02-identity-google-auth-report.md).
 Redis remains planned; verified local fallbacks are file cache/session and sync queue.
-Catalog and both management areas remain deferred.
+Catalog now includes Brands, Products, Variants, Image metadata and Concerns with
+eight public read endpoints, optional decimal prices and bounded filtering/pagination.
+See [Catalog API](docs/api/catalog.md), [architecture](docs/architecture/catalog.md)
+and [schema](docs/database/catalog-schema.md). Both management areas and purchasing remain deferred.
 
 Local development uses Laravel Herd. Copy `.env.example` to `.env`, supply verified
 MySQL credentials, and run `php artisan key:generate`. Never commit `.env`.
