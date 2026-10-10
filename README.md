@@ -1,11 +1,21 @@
 # Sumaya Pharma Backend
 
-Laravel 13 backend in **Phase 0: foundation / architecture scaffold**.
+Laravel 13 backend with **Phase 1: runtime and engineering foundation**.
 
 Architecture: modular monolith with pragmatic hexagonal boundaries and domain-oriented modules. MySQL is the target database; Redis is planned for cache, queues, rate limiting and locks. Next.js belongs to a separate frontend project.
 
-See [documentation](docs/README.md), [architecture](docs/architecture/README.md) and the [Phase 0 report](docs/reports/phase-00-foundation-report.md).
+See [documentation](docs/README.md), [architecture](docs/architecture/README.md),
+the [Phase 0 report](docs/reports/phase-00-foundation-report.md),
+the [Phase 1 report](docs/reports/phase-01-runtime-foundation-report.md),
+[API foundation](docs/api/foundation.md) and [CI/CD](docs/deployment/ci-cd.md).
 
-No custom business features or API endpoints are implemented. Environment setup, database and Redis configuration, UUIDv7, authentication, error contracts, logging, testing foundation and CI are reserved for the next explicitly approved phase.
+No business features or business API endpoints are implemented. The runtime foundation
+includes MySQL configuration, server-generated UUIDv7 request IDs, safe API errors,
+log context, foundation tests, Larastan and GitHub Actions CI. Redis remains the approved
+cache/queue/rate-limit/lock infrastructure; enable it only after verifying connectivity.
+Identity, Google authentication and both management areas remain deferred.
 
-Composer scripts were disabled during initialization to avoid automatic migrations. Validation uses `php artisan --version`, `php artisan about` and `composer validate --strict`.
+Local development uses Laravel Herd. Copy `.env.example` to `.env`, supply verified
+MySQL credentials, and run `php artisan key:generate`. Never commit `.env`.
+No migrations have been run. Do not use the default `composer setup` script for this phase.
+See CI/CD documentation for the local quality commands and the future deployment flow.

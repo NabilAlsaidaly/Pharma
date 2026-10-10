@@ -25,7 +25,12 @@ Use ports and adapters where integration variability or testing justifies them. 
 
 ## API organization
 
-The future versioned contract is `/api/v1/`. `app/Http/Controllers/Api/V1`, `app/Http/Requests` and `app/Http/Resources` are empty organizational locations. Module-specific HTTP adapters may live under the corresponding Interfaces directory when needed. Decide concrete ownership during implementation, avoiding duplicate controllers. No custom route file, API registration, controller or endpoint is created in this phase.
+The versioned contract is `/api/v1/`. Phase 1 registers the empty `routes/api.php`
+with this prefix and adds global request IDs and generic API exception handling.
+`app/Http/Controllers/Api/V1`, `app/Http/Requests` and `app/Http/Resources` remain empty
+organizational locations. Module-specific HTTP adapters may live under the corresponding
+Interfaces directory when needed. Decide concrete ownership during implementation,
+avoiding duplicate controllers. No business endpoint or controller is created.
 
 ## Shared technical support
 
@@ -36,6 +41,11 @@ The future versioned contract is `/api/v1/`. `app/Http/Controllers/Api/V1`, `app
 `packages/system-console/` is a physically separate reusable Laravel package scaffold. It must remain independent of Product, Order, Gift, Customer, Brand and every Sumaya-specific business model. It has no service provider, package Composer manifest, autoload wiring or implementation yet. Package registration and integration are deferred.
 
 ## Performance and documentation
+
+The Sumaya-specific Business Management Panel and generic reusable System Console are
+separate concerns. Neither is implemented; guards and user models need not be shared
+and are intentionally undecided. The default User model and users migration remain
+Laravel scaffolding until Phase 2 decides Identity persistence.
 
 Performance by design means considering query counts, indexes, pagination, concurrency and algorithmic complexity while implementing future use cases. Measure before speculative optimization. See [performance principles](performance-principles.md).
 
