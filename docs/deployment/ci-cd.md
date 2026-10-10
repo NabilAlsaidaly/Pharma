@@ -26,10 +26,13 @@ composer audit
 On Windows use `php vendor/bin/pint` and `php vendor/bin/phpstan` if needed.
 Create `.env` from `.env.example` and run `php artisan key:generate` only on first setup.
 Do not use the skeleton `composer setup` script: it runs migrations and frontend commands
-outside the approved Phase 1 scope. No MySQL or Redis services are required by the current
-foundation tests. The stock PHPUnit SQLite settings are retained as framework defaults;
-they are not the approved business integration strategy. Future business integration
-tests must verify MySQL behavior against an isolated MySQL test database.
+outside the approved scope. Identity integration tests require the isolated MySQL
+database `sumaya_pharma_test`; `.env.testing` is ignored and must use its own DB settings.
+PHPUnit forces that database name; IdentityTestCase also checks environment and connection
+before RefreshDatabase can reset tables. Never point tests at development or production.
+CI provides an official `mysql:8.4` service with a health check, a disposable database
+and dummy CI-only credentials. Google adapter tests mock HTTP; no real provider secrets
+or Redis service are required. Production deployment remains unconnected.
 
 ## Future deployment flow
 

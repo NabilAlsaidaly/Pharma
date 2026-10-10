@@ -1,10 +1,11 @@
 # Module boundaries
 
-All modules currently contain only Domain, Application, Infrastructure and Interfaces directories. Responsibilities below describe future ownership, not implemented functionality.
+Identity is implemented in Phase 2. Other modules retain their empty Domain, Application,
+Infrastructure and Interfaces boundaries; their responsibilities describe future ownership.
 
 | Module | High-level responsibility |
 | --- | --- |
-| Identity | Customer identity boundaries. MVP customer authentication is Google only: no local customer password, username login, SMS OTP, phone verification or email/password registration. External Google integration will be an Infrastructure adapter. |
+| Identity | Implemented Google-only customer authentication through Socialite Infrastructure adapter, UUIDv7 persistence, dedicated customer guard and Sanctum sessions. See identity-and-authentication.md. |
 | Catalog | Brands, products, variants, images and concerns. Brand / Company is the primary product grouping; product type may be a secondary property or filter. |
 | Favorites | Favorites for authenticated customers, persisted and managed by the backend. |
 | Cart | Cart for authenticated customers, persisted and managed by the backend. |

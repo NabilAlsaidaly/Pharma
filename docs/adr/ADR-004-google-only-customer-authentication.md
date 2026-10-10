@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted / Baseline
+Accepted / Implemented in Phase 2
 
 ## Context
 
@@ -14,4 +14,8 @@ Use Google authentication for customers; omit local passwords, username login, S
 
 ## Consequences
 
-Google integration belongs in Infrastructure. Authentication wiring and management authentication details are deferred.
+Google integration uses Socialite in Infrastructure with session-backed OAuth state.
+Customers are identified only by Google's stable `sub`; email never links accounts.
+Persist profile data only, never provider tokens. Sanctum uses the dedicated customer
+session guard, without bearer tokens, password broker or remember tokens.
+See ADRs 012–014 and the Identity architecture document. Management authentication is deferred.

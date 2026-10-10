@@ -20,5 +20,6 @@ built-in `Illuminate\Database\Eloquent\Concerns\HasUuids`, whose default generat
 the installed Laravel 13 framework is UUIDv7. No custom UUID package or service is needed.
 
 Entity scope, storage and schema details remain deferred to their owning modules.
-The default `App\Models\User` and users migration remain unchanged; Identity persistence
-is a Phase 2 decision. No demonstration model or migration is created.
+Phase 2 uses `HasUuids` on Identity's Customer, with a non-incrementing string primary
+key stored as `char(36)`. MySQL integration tests verify generated UUID version 7.
+The untouched default User scaffold is removed; no demonstration model is created.

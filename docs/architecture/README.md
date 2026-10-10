@@ -8,7 +8,8 @@ Laravel's standard app, bootstrap, config, database, resources, routes, storage 
 
 ## Module layout and dependency direction
 
-Every module under `app/Domains/<Module>/` currently has four empty boundaries:
+Every module under `app/Domains/<Module>/` has four boundaries. Identity now implements
+them; other modules remain empty:
 
 - `Domain/`: business concepts, invariants and rules. Keep framework and external service concerns outside the core domain.
 - `Application/`: future focused Actions / Use Cases that coordinate a business operation. Define DTOs and ports only when a real use case needs them.
@@ -30,7 +31,8 @@ with this prefix and adds global request IDs and generic API exception handling.
 `app/Http/Controllers/Api/V1`, `app/Http/Requests` and `app/Http/Resources` remain empty
 organizational locations. Module-specific HTTP adapters may live under the corresponding
 Interfaces directory when needed. Decide concrete ownership during implementation,
-avoiding duplicate controllers. No business endpoint or controller is created.
+avoiding duplicate controllers. Phase 2 implements the four customer authentication
+routes in Identity's HTTP adapters; Google routes use the web session middleware.
 
 ## Shared technical support
 
@@ -44,8 +46,8 @@ avoiding duplicate controllers. No business endpoint or controller is created.
 
 The Sumaya-specific Business Management Panel and generic reusable System Console are
 separate concerns. Neither is implemented; guards and user models need not be shared
-and are intentionally undecided. The default User model and users migration remain
-Laravel scaffolding until Phase 2 decides Identity persistence.
+and are intentionally undecided. Phase 2 removes the untouched default User scaffold
+and uses a dedicated Customer model. See [Identity architecture](identity-and-authentication.md).
 
 Performance by design means considering query counts, indexes, pagination, concurrency and algorithmic complexity while implementing future use cases. Measure before speculative optimization. See [performance principles](performance-principles.md).
 
