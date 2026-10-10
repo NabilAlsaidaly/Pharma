@@ -22,3 +22,5 @@ See [Catalog architecture](architecture/catalog.md), [API](api/catalog.md),
 [database schema](database/catalog-schema.md), [query review](architecture/catalog-query-design.md),
 [approved design gate](reports/phase-03-catalog-design-gate.md), ADR-016 and
 [PAY-001](architecture/payment-before-order-rule.md).
+
+The [Phase 3 implementation report](reports/phase-03-catalog-foundation-report.md) records schema, API, tests, query measurements, CI and customer preservation evidence.
