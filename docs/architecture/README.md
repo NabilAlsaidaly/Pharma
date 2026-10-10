@@ -49,4 +49,7 @@ Laravel scaffolding until Phase 2 decides Identity persistence.
 
 Performance by design means considering query counts, indexes, pagination, concurrency and algorithmic complexity while implementing future use cases. Measure before speculative optimization. See [performance principles](performance-principles.md).
 
-`docs/architecture` contains architectural guidance; `docs/adr` records accepted baseline decisions; `docs/api`, `docs/database`, `docs/deployment` and `docs/operations` are reserved empty locations; `docs/reports` contains phase reports.
+`docs/architecture` contains architectural guidance; `docs/adr` records accepted baseline
+decisions; `docs/api` documents the API foundation; `docs/deployment` documents CI/CD;
+`docs/database` and `docs/operations` remain reserved locations; `docs/reports` contains
+phase reports.
