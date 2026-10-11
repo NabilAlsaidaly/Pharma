@@ -44,6 +44,20 @@ class CartEvaluator
         return $base;
     }
 
+    public function exclusionReason(array $item, string $currency): ?string
+    {
+        $price = $item['pricing'][$currency] ?? null;
+
+        return match (true) {
+            $item['product'] === null => 'selection_inaccessible',
+            in_array('selection_invalid', $item['evaluation']['reasons'], true) => 'selection_invalid',
+            ($item['evaluation']['availability'] ?? null) === 'unavailable' => 'selection_unavailable',
+            $price === null || $price['unit_price'] === null => 'missing_price',
+            ! $price['price_valid'] => 'zero_price',
+            default => null,
+        };
+    }
+
     public function totals(array $items): array
     {
         $totals = [];
@@ -53,14 +67,7 @@ class CartEvaluator
             $reasons = [];
             foreach ($items as $item) {
                 $price = $item['pricing'][$currency] ?? null;
-                $reason = match (true) {
-                    $item['product'] === null => 'selection_inaccessible',
-                    in_array('selection_invalid', $item['evaluation']['reasons'], true) => 'selection_invalid',
-                    ($item['evaluation']['availability'] ?? null) === 'unavailable' => 'selection_unavailable',
-                    $price === null || $price['unit_price'] === null => 'missing_price',
-                    ! $price['price_valid'] => 'zero_price',
-                    default => null,
-                };
+                $reason = $this->exclusionReason($item, $currency);
                 if ($reason !== null) {
                     $excluded++;
                     $reasons[$reason] = ($reasons[$reason] ?? 0) + 1;
