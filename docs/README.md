@@ -1,6 +1,6 @@
 # Sumaya Pharma Backend
 
-Phase 3: read-only Catalog foundation, alongside customer Identity. Other business modules remain deferred.
+Phase 4: customer Identity, read-only Catalog, persistent Favorites and Cart foundation. Other business modules remain deferred.
 
 - Backend: Laravel 13.
 - Architecture: modular monolith with pragmatic hexagonal boundaries.
@@ -24,3 +24,5 @@ See [Catalog architecture](architecture/catalog.md), [API](api/catalog.md),
 [PAY-001](architecture/payment-before-order-rule.md).
 
 The [Phase 3 implementation report](reports/phase-03-catalog-foundation-report.md) records schema, API, tests, query measurements, CI and customer preservation evidence.
+
+The [Phase 4 design gate](reports/phase-04-favorites-cart-design-gate.md) is owner-approved through phase4.1.md; ADR-017 records D1-D6. See [Favorites architecture](architecture/favorites.md), [Cart architecture](architecture/cart.md), [Catalog integration](architecture/cart-catalog-integration.md), [Checkout compatibility](architecture/cart-checkout-compatibility.md), [Favorites API](api/favorites.md), [Cart API](api/cart.md), [schema](database/favorites-cart-schema.md) and [Phase 4 implementation report](reports/phase-04-favorites-cart-foundation-report.md).

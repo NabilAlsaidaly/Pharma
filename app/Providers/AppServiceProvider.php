@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Domains\Catalog\Application\Ports\CatalogSelectionReader;
 use App\Domains\Catalog\Application\Ports\PublicCatalogReader;
+use App\Domains\Catalog\Infrastructure\Persistence\Queries\EloquentCatalogSelectionReader;
 use App\Domains\Catalog\Infrastructure\Persistence\Queries\EloquentPublicCatalogReader;
 use App\Domains\Identity\Application\Ports\CustomerIdentityRepository;
 use App\Domains\Identity\Application\Ports\GoogleOAuthClient;
@@ -21,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->app->bind(CatalogSelectionReader::class, EloquentCatalogSelectionReader::class);
         $this->app->bind(PublicCatalogReader::class, EloquentPublicCatalogReader::class);
         $this->app->bind(GoogleOAuthClient::class, SocialiteGoogleOAuthClient::class);
         $this->app->bind(CustomerIdentityRepository::class, EloquentCustomerIdentityRepository::class);
@@ -31,6 +34,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        RateLimiter::for('personal-collections', fn (Request $request) => Limit::perMinute(
+            config($request->isMethod('GET') || $request->isMethod('HEAD') ? 'customer_collections.reads_per_minute' : 'customer_collections.mutations_per_minute')
+        )->by('personal:'.$request->user('customer')->getAuthIdentifier().':'.($request->isMethod('GET') || $request->isMethod('HEAD') ? 'read' : 'write')));
         // Sanctum is session-only: ignore bearer tokens and never query a token table.
         Sanctum::getAccessTokenFromRequestUsing(fn (Request $request): ?string => null);
         RateLimiter::for('google-auth', fn (Request $request) => Limit::perMinute(

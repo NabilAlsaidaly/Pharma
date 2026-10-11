@@ -1,14 +1,14 @@
 # Module boundaries
 
-Identity and Catalog are implemented in Phases 2 and 3. Other modules retain their empty Domain, Application,
+Identity, Catalog, Favorites and Cart are implemented through Phase 4. Other modules retain their empty Domain, Application,
 Infrastructure and Interfaces boundaries; their responsibilities describe future ownership.
 
 | Module | High-level responsibility |
 | --- | --- |
 | Identity | Implemented Google-only customer authentication through Socialite Infrastructure adapter, UUIDv7 persistence, dedicated customer guard and Sanctum sessions. See identity-and-authentication.md. |
 | Catalog | Implemented read-only Brands, Products, Variants, Image metadata and Concerns. Brand is primary grouping; prices/visibility/availability follow ADR-016. No purchase or stock operations. |
-| Favorites | Favorites for authenticated customers, persisted and managed by the backend. |
-| Cart | Cart for authenticated customers, persisted and managed by the backend. |
+| Favorites | Implemented Product-level customer pairs, F1 hidden retention and private APIs. |
+| Cart | Implemented lazy owned selections, exact current estimates, optimistic updates and atomic merges; no stock or commercial workflow. |
 | Orders | Order and checkout boundary. Future work must address availability, current prices, price and address snapshots, transactions, idempotency, state transitions, concurrency and efficient queries. |
 | Gifts | Gift-related business concerns; detailed requirements are deferred. |
 | Consultations | Consultation-related business concerns; detailed requirements are deferred. |

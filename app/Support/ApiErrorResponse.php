@@ -2,7 +2,9 @@
 
 namespace App\Support;
 
+use App\Domains\Cart\Domain\Exceptions\CartConflict;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -18,6 +20,8 @@ class ApiErrorResponse
         }
 
         $status = match (true) {
+            $exception instanceof CartConflict => 409,
+            $exception instanceof QueryException && in_array($exception->errorInfo[1] ?? null, [1205, 1213], true) => 503,
             $exception instanceof ValidationException => 422,
             $exception instanceof AuthenticationException => 401,
             $exception instanceof HttpExceptionInterface => $exception->getStatusCode(),
@@ -31,6 +35,7 @@ class ApiErrorResponse
             404 => ['RESOURCE_NOT_FOUND', 'المورد المطلوب غير موجود.'],
             405 => ['METHOD_NOT_ALLOWED', 'طريقة الطلب غير مسموحة.'],
             409 => ['RESOURCE_CONFLICT', 'يوجد تعارض في الطلب.'],
+            413 => ['PAYLOAD_TOO_LARGE', 'حجم الطلب يتجاوز الحد المسموح.'],
             419 => ['SESSION_EXPIRED', 'انتهت صلاحية الجلسة.'],
             422 => ['VALIDATION_FAILED', 'بيانات الطلب غير صالحة.'],
             429 => ['RATE_LIMITED', 'يرجى المحاولة لاحقاً.'],
@@ -46,7 +51,7 @@ class ApiErrorResponse
             'error' => [
                 'code' => $code,
                 'message' => $message,
-                'fields' => $exception instanceof ValidationException ? (object) $exception->errors() : (object) [],
+                'fields' => $exception instanceof ValidationException ? (object) $exception->errors() : ($exception instanceof CartConflict ? (object) ['selection' => [$exception->reason]] : (object) []),
             ],
             'request_id' => $request->attributes->get('request_id'),
         ], $status, $headers);
