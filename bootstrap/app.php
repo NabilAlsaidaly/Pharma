@@ -1,5 +1,6 @@
 <?php
 
+use App\Domains\Cart\Domain\Exceptions\CartConflict;
 use App\Domains\Identity\Domain\Exceptions\AccountSuspended;
 use App\Domains\Identity\Interfaces\Http\IdentityErrorResponse;
 use App\Http\Middleware\AssignRequestId;
@@ -23,7 +24,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectGuestsTo(fn (Request $request): ?string => $request->is('api/*') ? null : '/');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        $exceptions->dontReport([AccountSuspended::class]);
+        $exceptions->dontReport([AccountSuspended::class, CartConflict::class]);
         $exceptions->render(IdentityErrorResponse::render(...));
         $exceptions->render(ApiErrorResponse::render(...));
     })->create();

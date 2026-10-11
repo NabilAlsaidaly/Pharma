@@ -8,7 +8,7 @@ Laravel's standard app, bootstrap, config, database, resources, routes, storage 
 
 ## Module layout and dependency direction
 
-Every module under `app/Domains/<Module>/` has four boundaries. Identity and Catalog implement
+Every module under `app/Domains/<Module>/` has four boundaries. Identity, Catalog, Favorites and Cart implement
 them; other modules remain empty:
 
 - `Domain/`: business concepts, invariants and rules. Keep framework and external service concerns outside the core domain.
@@ -28,8 +28,7 @@ Use ports and adapters where integration variability or testing justifies them. 
 
 The versioned contract is `/api/v1/`. Phase 1 registers the empty `routes/api.php`
 with this prefix and adds global request IDs and generic API exception handling.
-`app/Http/Controllers/Api/V1`, `app/Http/Requests` and `app/Http/Resources` remain empty
-organizational locations. Module-specific HTTP adapters may live under the corresponding
+`app/Http/Requests` contains shared personal collection validation; module controllers/resources live in their HTTP adapters. Module-specific HTTP adapters may live under the corresponding
 Interfaces directory when needed. Decide concrete ownership during implementation,
 avoiding duplicate controllers. Phase 2 implements the four customer authentication
 routes in Identity's HTTP adapters; Google routes use the web session middleware.
@@ -53,5 +52,7 @@ Performance by design means considering query counts, indexes, pagination, concu
 
 `docs/architecture` contains architectural guidance; `docs/adr` records accepted baseline
 decisions; `docs/api` documents the API foundation; `docs/deployment` documents CI/CD;
-`docs/database` documents the implemented Catalog schema; `docs/operations` remains reserved; `docs/reports` contains
+`docs/database` documents the implemented Catalog and Favorites/Cart schemas; `docs/operations` remains reserved; `docs/reports` contains
 phase reports.
+
+Phase 4: [Favorites](favorites.md), [Cart](cart.md), [Catalog boundary](cart-catalog-integration.md), [Checkout boundary](cart-checkout-compatibility.md).
