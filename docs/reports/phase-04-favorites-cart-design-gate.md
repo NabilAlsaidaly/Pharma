@@ -2,7 +2,7 @@
 
 Date: 2026-10-11 (Asia/Damascus).
 Status: **APPROVED through the owner's phase4.1.md authorization**.
-D1 F1+H2, D2 U1+A1, D3 CART-C2, D4 M1+R1, D5 L1+O1 and D6 Q1 are accepted; Checkpoints C1-C3 and D are authorized. [ADR-017](../adr/ADR-017-approved-favorites-cart-foundation.md) records the decisions. Implementation and actual final verification are tracked in the [Phase 4 report](phase-04-favorites-cart-foundation-report.md).
+D1 F1+H2, D2 U1+A1, D3 CART-C2, D4 M1+R1, D5 L1+O1 and D6 Q1 are accepted; Checkpoints C1-C3 and D are authorized. [ADR-017](../adr/ADR-017-approved-favorites-cart-foundation.md) records the decisions. Implementation and actual final verification are tracked in the [Phase 4 report](phase-04-favorites-cart-foundation-report.md): local/CI MySQL 9.7/8.4, 134 passing tests/1014 assertions, forward development migration and unchanged Customer/Catalog fingerprints. [PR #2](https://github.com/NabilAlsaidaly/Pharma/pull/2) is for owner review; no automatic merge.
 
 The original analysis below is preserved as a **historical pre-approval record**. Its pending/NOT IMPLEMENTED labels, initial branch state, recommendations and draft responses describe the earlier checkpoint, not the present approved implementation. No accepted decision is reopened. The implementation report and API/schema documentation are authoritative for current execution evidence and final response shapes.
 

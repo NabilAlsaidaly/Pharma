@@ -1,12 +1,12 @@
 # Phase 04: Favorites and Cart Foundation Report
 
-Date: 2026-10-11. Status: LOCAL VERIFICATION PASSED; CI AND DEVELOPMENT ADOPTION PENDING.
+Date: 2026-10-11. Status: **PHASE 4 COMPLETE - READY FOR OWNER REVIEW**.
 
 Evidence labels: CONFIRMED means observed code/execution; POTENTIAL means a risk hypothesis; NEEDS VERIFICATION means not established.
 
 ## 1. Executive Summary
 
-Phase 4 implementation is complete locally; remote compatibility and development adoption are pending. Do not interpret this provisional report as final completion. Owner phase4.1.md authorizes the approved D1-D6 only. No next-phase work or merge.
+CONFIRMED: the owner-approved Favorites/Cart foundation is implemented, tested and documented. 134 tests / 1014 assertions pass locally and on CI MySQL 8.4, including independent-process concurrent operations. Development forward migration applied after compatibility proof; Customer/Catalog fingerprints and Customer schema preserved. PR #2 is submitted for owner review, without merge or next-phase implementation.
 
 ## 2. Starting State
 
@@ -46,7 +46,7 @@ One Cart/customer, one Favorite pair, one normalized Cart selection. Tests prove
 
 ## 11. Nullable Variant Uniqueness Solution
 
-STORED CHAR(36) selection_key = COALESCE(variant_id,''); unique(cart_id,product_id,selection_key). Real raw concurrent duplicate NULL INSERTs use independent connections, overlap while FK parent lock is held, then one commits and the other fails with MySQL 1062. Local 9.7 confirmed; CI 8.4 NEEDS VERIFICATION before development adoption.
+STORED CHAR(36) selection_key = COALESCE(variant_id,''); unique(cart_id,product_id,selection_key). Tests prove duplicate NULL/real Variant rejection and distinct Variant acceptance. Real raw concurrent NULL INSERTs overlap behind an FK parent barrier; one commits, the other fails MySQL 1062. CONFIRMED on local 9.7 and CI mysql:8.4 before guarded forward development adoption.
 
 ## 12. Customer Ownership and IDOR
 
@@ -116,9 +116,28 @@ Real local EXPLAIN for owned Cart ID lookup uses carts_customer_id_unique, type 
 
 58 new executable cases across CartApiTest (including invalid-input data provider), FavoritesApiTest, CollectionsSchemaTest, CollectionsSecurityTest, CollectionsPerformanceTest and CollectionsConcurrencyTest; shared guarded PersonalCollectionsTestCase and independent collection-worker.php. Tests aggregate related required cases without weakening existing suites. Coverage: constraints, null/different Variant uniqueness, real concurrency, partial/whole totals, decimal maxima, ownership, hidden retention, current price/availability, guest/suspension, actual CSRF/session behavior, CORS, limits, overflow, pagination, constant query counts and no unauthorized schema/routes.
 
+Original engineering-contract requirement mapping (section37 has 20 Favorite cases; section38 has 40 Cart cases). Related assertions are grouped into executable tests; 58 new cases does not mean any required scenario was skipped.
+
+| Original requirements | Executed coverage |
+| --- | --- |
+| Favorites 1-8 | FavoritesApiTest guest/bearer, suspended and add/check/list/remove/idempotent tests |
+| Favorites 9-10 | CollectionsSchemaTest pair uniqueness and orphan/restrict FKs |
+| Favorites 11-16 | FavoritesApiTest ownership/forged fields, hidden Product/Brand and unpriced/unavailable cases |
+| Favorites 17-20 | CollectionsSecurityTest session logout/login; CollectionsConcurrencyTest duplicate/add-remove; FavoritesApiTest pagination; CollectionsPerformanceTest no N+1 |
+| Cart 1-11 | CartApiTest guest/suspension, empty/lazy/repeated simple add, explicit owning Variant, absolute PATCH, idempotent DELETE and 9 invalid-quantity dataset cases |
+| Cart 12-16 | CollectionsSchemaTest generated uniqueness/composite FK; CollectionsConcurrencyTest first Cart, same selection, increments, absolute version conflict, competing Variant changes and merge/add |
+| Cart 17-20 | CartApiTest stolen UUID/other owner and forged owner/price/total/stock fields |
+| Cart 21-25 | CartApiTest current whole-Cart price updates, exact Variant price/V1, missing currency/no conversion, maximum decimal arithmetic |
+| Cart 26-32 | CartApiTest zero/null/unavailable admission and retention, hidden Product/Brand placeholders, on_request, and CollectionsSecurityTest persistent session relogin |
+| Cart 33-36 | CartApiTest and CollectionsSchemaTest absence of Order/Payment/reservation/stock schema and endpoints; diff review confirms no allocation code |
+| Cart 37-40 | Existing envelope/request ID tests plus collection errors, actual CSRF all mutations, customer rate limits/CORS, no N+1 read measurements |
+
+Additional approved constraints: actual 200 selections, body 16KiB, page max48, quantity/version/merge overflow atomic rollback, readonly repeatable snapshot during independently committed Catalog change and safe hidden/unknown membership parity.
+
+
 ## 29. Total Tests and Assertions
 
-CONFIRMED local php artisan test --compact: 134 passed, 1014 assertions, 28.89 seconds. Baseline 76 tests unchanged; 58 new cases. Isolated sumaya_pharma_test MySQL only. CI counts pending actual logs.
+CONFIRMED local php artisan test --compact: 134 passed, 1014 assertions, 28.89 seconds. CI run 38125854675: 134 passed, 1014 assertions on mysql:8.4, identical query/concurrency results. Baseline 76 tests unchanged; 58 new executable cases. Destructive test setup is guarded to testing + mysql + sumaya_pharma_test only. No development fresh/reset/rollback/wipe/truncate.
 
 ## 30. Real Concurrency Test Results
 
@@ -126,7 +145,7 @@ Eight executable tests use independent Symfony Process PHP workers, independent 
 
 ## 31. MySQL Integration Results
 
-Local server actual VERSION() 9.7.0 and REPEATABLE-READ. All added migrations/constraints tested repeatedly on guarded isolated MySQL. Development actual database sumaya_pharma verified before pretend: only Phase4 migration pending. Development forward adoption and CI MySQL 8.4 compatibility NEEDS VERIFICATION at this provisional checkpoint. No SQLite substitution.
+CONFIRMED local actual VERSION() 9.7.0 and REPEATABLE-READ. Generated unique and exact composite FK tests pass locally and in mysql:8.4 CI (run 38125854675) including committed independent connections, null Variant, wrong parent and concurrent duplicate insertion. Only then: guarded actual sumaya_pharma forward migration, 2026_10_11_000001_create_favorites_and_cart_tables, batch3, DONE in 319.72ms. All three migrations Ran; three new tables count0. Customer/Catalog before/after exactly preserved. No rollback or destructive development command. The down method is used solely in guarded test teardown.
 
 ## 32. Identity Regression Results
 
@@ -142,7 +161,7 @@ CONFIRMED vendor/bin/phpstan analyse --no-progress: no errors, existing level 5.
 
 ## 35. Pint Result
 
-CONFIRMED vendor/bin/pint applied formatting; vendor/bin/pint --test passed on final local implementation. No formatting failure ignored.
+CONFIRMED final fresh-cache vendor/bin/pint and independently fresh-cache --test pass. First remote run 38125706367 failed four method_argument_space formatting findings and correctly skipped later tests. All four corrected in 3ef2251; clean CI 38125854675 passes formatting. No CI gate bypass or test weakening. Use independent cache verification when diagnosing discrepancies with an earlier local cached pass.
 
 ## 36. Composer Audit Result
 
@@ -150,15 +169,15 @@ CONFIRMED composer validate --strict valid; composer check-platform-reqs all pas
 
 ## 37. GitHub CI Result
 
-NEEDS VERIFICATION: PR creation and exact pushed-head Backend CI on MySQL 8.4 pending. Workflow unchanged; mysql:8.4, PHP8.4, Composer validation/platform/audit, Pint, PHPStan and full tests are mandatory.
+CONFIRMED [Backend CI 38125854675](https://github.com/NabilAlsaidaly/Pharma/actions/runs/38125854675) for exact implementation head 3ef2251cc34d482a61b80351c091ea14552e17f5, completed/success. Every required step passed: Composer strict validation/install/platform, Pint, PHPStan, full 134 tests/1014 assertions and audit; official mysql:8.4/PHP8.4 workflow unchanged. Earlier run 38125706367 failed formatting and is disclosed/corrected. This report is a subsequent documentation-only commit; final pushed-head CI is also verified at handoff through the PR checks, not inferred from this implementation run.
 
 ## 38. Customer Data Preservation Evidence
 
-CONFIRMED pre-migration actual sumaya_pharma: Customer count1, nine columns and all-row hash bfd1fec4fa98a4844988f217c4a4a887a41861e2f5559397fea314cf8184ab6c matches Phase3/gate. No personal fields or secrets printed. Post-forward comparison pending before completion.
+CONFIRMED development sumaya_pharma before AND after forward migration: Customer count1, same nine columns/definitions, full sorted-row SHA256 bfd1fec4fa98a4844988f217c4a4a887a41861e2f5559397fea314cf8184ab6c. Exact equality to gate/Phase3 baseline. Read-only evidence script guards actual database name and testing/environment distinction; migration runner compares original baseline immediately before Artisan migrate. No real Customer ID regeneration, row mutation, personal-field output or secrets. .env values/OAuth credentials unchanged.
 
 ## 39. Catalog Data Preservation Evidence
 
-CONFIRMED pre-migration all six Catalog tables count0, each SHA256 4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945. Post-forward comparison pending. Customer/Catalog fixtures exist only in test DB; development is not seeded.
+CONFIRMED development before AND after: brands, products, product_variants, product_images, concerns and concern_product all count0; each full-row SHA256 4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945. Counts/fingerprints exactly equal. Only additive authorized Variant unique index; no development Catalog seeding or price/status/availability writes. New favorites/carts/cart_items are empty after migration. Raw evidence is stored in ignored storage/framework/testing/phase4-development-before.json and phase4-development-after.json, with hashes/metadata only.
 
 ## 40. PAY-001 Compliance
 
@@ -233,11 +252,11 @@ None. Existing transitive brick/math 1.0.0 is reused; composer.json, composer.lo
 
 ## 47. Commits
 
-Pending feature implementation commit and final evidence documentation commit. Baseline 95fb9d7df09c933d8fcdfb9d05db636894f3e565. No force push/reset or automatic merge.
+Implementation: c3bc8be93362abb2e26d77ca7da67fefbba91edd, feat(collections): implement approved favorites and cart foundation. Formatting/gate correction: 3ef2251cc34d482a61b80351c091ea14552e17f5, chore(collections): correct formatting and approved gate status. Final documentation-only commit: docs(collections): record phase four verification and delivery (contains this report; inspect git log for its resulting hash). Baseline 95fb9d7df09c933d8fcdfb9d05db636894f3e565. No force push/reset or merge.
 
 ## 48. Branch and Pull Request
 
-feature/favorites-cart-foundation based on current verified main; PR into main pending. Final ready-for-owner-review requires green exact-head CI and preservation evidence; no merge authorized.
+CONFIRMED feature/favorites-cart-foundation from current main baseline. [PR #2](https://github.com/NabilAlsaidaly/Pharma/pull/2) targets main; implementation, preservation and CI verification complete. Submitted ready for owner review after final-head CI verification. No merge is performed; main remains baseline. Feature push excludes ignored env, credentials, runtime artifacts and evidence scripts. Final CI/head/clean-tree checked at handoff.
 
 ## 49. Limitations and Risks
 
