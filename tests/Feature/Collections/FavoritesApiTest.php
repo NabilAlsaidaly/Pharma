@@ -99,7 +99,7 @@ class FavoritesApiTest extends PersonalCollectionsTestCase
         }
         $first = $this->getJson('/api/v1/favorites?per_page=2')->assertJsonCount(2, 'data')->assertJsonPath('meta.total', 14)->json('data');
         $this->assertSame($first, $this->getJson('/api/v1/favorites?per_page=2')->json('data'));
-        $this->getJson('/api/v1/favorites?page=500')->assertJsonCount(0,'data');
+        $this->getJson('/api/v1/favorites?page=500')->assertJsonCount(0, 'data');
         $this->getJson('/api/v1/favorites?per_page=49')->assertUnprocessable();
     }
 }

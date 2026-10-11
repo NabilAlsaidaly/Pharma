@@ -82,8 +82,8 @@ class CollectionsSchemaTest extends PersonalCollectionsTestCase
         foreach (['orders', 'payments', 'reservations', 'stock_movements'] as $table) {
             $this->assertNotContains($table, $tables);
         }
-        $columns = array_column(DB::select('SHOW COLUMNS FROM cart_items'),'Field');
-        $this->assertNotContains('price_usd',$columns);
-        $this->assertNotContains('currency',$columns);
+        $columns = array_column(DB::select('SHOW COLUMNS FROM cart_items'), 'Field');
+        $this->assertNotContains('price_usd', $columns);
+        $this->assertNotContains('currency', $columns);
     }
 }

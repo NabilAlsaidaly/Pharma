@@ -220,8 +220,8 @@ class CollectionsConcurrencyTest extends TestCase
             $r = json_decode($worker->getOutput(), true, 512, JSON_THROW_ON_ERROR);
             $this->assertSame('success', $r['outcome']);
             $this->assertSame('2.00', $r['result']['totals']['USD']['estimated_total']);
-            $this->assertSame('available',$r['result']['items'][0]['evaluation']['availability']);
-            $this->assertNull(app(CartSnapshot::class)->read($this->owner->id,1,12)['totals']['USD']['estimated_total']);
+            $this->assertSame('available', $r['result']['items'][0]['evaluation']['availability']);
+            $this->assertNull(app(CartSnapshot::class)->read($this->owner->id, 1, 12)['totals']['USD']['estimated_total']);
         } finally {
             if ($worker->isRunning()) {
                 $worker->stop();

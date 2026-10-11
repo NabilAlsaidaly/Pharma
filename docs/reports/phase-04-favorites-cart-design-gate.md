@@ -1,14 +1,14 @@
 # Phase 04 - Favorites and Cart Design Gate
 
 Date: 2026-10-11 (Asia/Damascus).
-Status: **PHASE 4 — DESIGN APPROVAL REQUIRED**.
-Checkpoint A complete; Checkpoint B proposal ready for owner review.
-Favorites/Cart implementation, migrations and endpoints: **NOT IMPLEMENTED**.
+Status: **APPROVED through the owner's phase4.1.md authorization**.
+D1 F1+H2, D2 U1+A1, D3 CART-C2, D4 M1+R1, D5 L1+O1 and D6 Q1 are accepted; Checkpoints C1-C3 and D are authorized. [ADR-017](../adr/ADR-017-approved-favorites-cart-foundation.md) records the decisions. Implementation and actual final verification are tracked in the [Phase 4 report](phase-04-favorites-cart-foundation-report.md).
 
-This is an approval package, not an accepted ADR or implementation-complete report.
-Source: `C:/Users/nabil/Desktop/sumaiya/phase4.md`, particularly sections 46-47 and 55.
-That brief explicitly requires stopping before implementation when material decisions
-remain unresolved. Recommendations below do not constitute owner consent.
+The original analysis below is preserved as a **historical pre-approval record**. Its pending/NOT IMPLEMENTED labels, initial branch state, recommendations and draft responses describe the earlier checkpoint, not the present approved implementation. No accepted decision is reopened. The implementation report and API/schema documentation are authoritative for current execution evidence and final response shapes.
+
+Source authorization: C:/Users/nabil/Desktop/sumaiya/phase4.1.md. Original engineering contract: C:/Users/nabil/Desktop/sumaiya/phase4.md.
+
+## Historical pre-approval technical analysis
 
 ## Verified starting state
 

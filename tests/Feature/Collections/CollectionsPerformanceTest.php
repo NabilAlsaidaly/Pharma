@@ -72,6 +72,6 @@ class CollectionsPerformanceTest extends PersonalCollectionsTestCase
         $plan = DB::select('EXPLAIN FORMAT=TRADITIONAL SELECT id FROM carts WHERE customer_id = ?', [$this->owner->id]);
         $this->assertNotNull($plan[0]->key);
         fwrite(STDOUT, 'COLLECTION_MUTATION_COUNTS '.json_encode($counts).PHP_EOL);
-        fwrite(STDOUT,'COLLECTION_EXPLAIN '.json_encode($plan).PHP_EOL);
+        fwrite(STDOUT, 'COLLECTION_EXPLAIN '.json_encode($plan).PHP_EOL);
     }
 }
