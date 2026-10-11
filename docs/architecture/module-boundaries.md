@@ -9,7 +9,7 @@ Infrastructure and Interfaces boundaries; their responsibilities describe future
 | Catalog | Implemented read-only Brands, Products, Variants, Image metadata and Concerns. Brand is primary grouping; prices/visibility/availability follow ADR-016. No purchase or stock operations. |
 | Favorites | Implemented Product-level customer pairs, F1 hidden retention and private APIs. |
 | Cart | Implemented lazy owned selections, exact current estimates, optimistic updates and atomic merges; no stock or commercial workflow. |
-| Orders | Order and checkout boundary. Future work must address availability, current prices, price and address snapshots, transactions, idempotency, state transitions, concurrency and efficient queries. |
+| Orders | Phase5A implements non-binding Checkout evaluation through the Cart Application boundary only. Persistent Checkout, Orders, price/address history, financial idempotency and confirmed fulfillment remain deferred. |
 | Gifts | Gift-related business concerns; detailed requirements are deferred. |
 | Consultations | Consultation-related business concerns; detailed requirements are deferred. |
 | Content | Content-related concerns; detailed requirements are deferred. |

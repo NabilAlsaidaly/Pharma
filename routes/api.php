@@ -5,6 +5,7 @@ use App\Domains\Catalog\Interfaces\Http\Controllers\PublicCatalogController;
 use App\Domains\Favorites\Interfaces\Http\Controllers\FavoriteController;
 use App\Domains\Identity\Interfaces\Http\Controllers\CustomerSessionController;
 use App\Domains\Identity\Interfaces\Http\Middleware\EnsureActiveCustomer;
+use App\Domains\Orders\Interfaces\Http\Controllers\CheckoutEvaluationController;
 use App\Http\Middleware\LimitPersonalMutationBody;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,7 @@ Route::prefix('auth')->middleware(['auth:sanctum', EnsureActiveCustomer::class])
 });
 
 Route::middleware(['auth:sanctum', EnsureActiveCustomer::class, LimitPersonalMutationBody::class, 'throttle:personal-collections'])->group(function (): void {
+    Route::post('checkout/evaluations', CheckoutEvaluationController::class);
     Route::get('favorites', [FavoriteController::class, 'listing']);
     Route::get('favorites/check', [FavoriteController::class, 'check']);
     Route::post('favorites', [FavoriteController::class, 'add']);
