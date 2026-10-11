@@ -104,7 +104,7 @@ Full suite includes all134 historical tests plus61 new Checkout cases, including
 
 ## 26. MySQL compatibility
 
-**CONFIRMED locally:** actual development and isolated test DB MySQL9.7.0/REPEATABLE-READ; environment local versus testing verified before setup. Independent worker and new migration fixture guard actual SELECT DATABASE() as well as configured testing/mysql/name before use. CI MySQL8.4/PHP8.4 results recorded only once observed; not presumed from local execution.
+**CONFIRMED locally:** actual development and isolated test DB MySQL9.7.0/REPEATABLE-READ; environment local versus testing verified before setup. Independent worker and new migration fixture guard actual SELECT DATABASE() as well as configured testing/mysql/name before use. **CONFIRMED CI:** actual MySQL8.4.11 on PHP8.4,195tests/1371assertions, all three new real snapshot races passed; observed workflow/job logs, not presumed compatibility.
 
 ## 27. Development database preservation
 
@@ -132,15 +132,17 @@ None. Existing Brick Math, Symfony Process and testing tools reused. No Redis/se
 
 ## 33. Commits
 
-NEEDS VERIFICATION at initial report preparation: focused implementation commit follows green local gates. Actual source commit and later evidence-only commit are recorded after creation; final delivery HEAD is verified against PR and CI, never guessed before Git assigns it.
+**CONFIRMED implementation commit:**393bc8f0932246c23227cf0d08381c443b223e2f, `feat(checkout): implement non-binding checkout evaluation foundation`, based on main6ff053a. The subsequent `docs(checkout): record verified phase5a delivery evidence` commit updates this report only. The [PR](https://github.com/NabilAlsaidaly/Pharma/pull/3) exposes authoritative final delivery SHA; final owner response records its exact value after creation. No forced update/history rewrite/main merge.
 
 ## 34. CI run and result
 
-NEEDS VERIFICATION until pushed feature PR triggers actual exact-head Actions. Baseline main success is not new implementation CI. CI run/actual MySQL8.4 evidence will be recorded after observed completion; final delivery-head check is also linked in PR and final owner response.
+**CONFIRMED implementation-head [Backend CI38133333958](https://github.com/NabilAlsaidaly/Pharma/actions/runs/38133333958):**completed/success for393bc8f0932246c23227cf0d08381c443b223e2f; quality job114452012198 and every step success. Actual logs195passed/1371assertions; Checkout SQL counts6/6/6; snapshot reader/writer pairs108/107,111/110,114/113; MySQL8.4.11. Pint/PHPStan/Composer validation/platform/audit all green. This is new feature CI, not baseline main evidence.
+
+The final documentation-only commit receives another exact-head CI check; its result/run and equality with final PR HEAD are delivered on [PR checks](https://github.com/NabilAlsaidaly/Pharma/pull/3/checks) and the final owner response. Source/test files are unchanged from the verified implementation SHA above. Do not treat this recorded implementation run as the later delivery-head run.
 
 ## 35. PR URL and status
 
-NEEDS VERIFICATION until GitHub confirms one open PR against main. No merge/deployment authorization. Actual PR URL added after successful creation, not invented from assumed numbering.
+**CONFIRMED [PR#3](https://github.com/NabilAlsaidaly/Pharma/pull/3)**opened against main on2026-10-11T10:49:34Z, feature/checkout-evaluation-foundation; state=open, merged=false, draft=false. GitHub creation confirmed actual URL/number/head SHA. Final head/state are rechecked before delivery. No merge, branch deletion or deployment.
 
 ## 36. Known limitations
 
