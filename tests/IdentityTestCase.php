@@ -6,6 +6,7 @@ use App\Domains\Identity\Application\DTOs\GoogleIdentityData;
 use App\Domains\Identity\Domain\Enums\CustomerAccountStatus;
 use App\Domains\Identity\Infrastructure\Persistence\Models\Customer;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Testing\TestResponse;
 use RuntimeException;
 
@@ -19,7 +20,8 @@ abstract class IdentityTestCase extends TestCase
     {
         if (config('database.default') !== 'mysql'
             || config('database.connections.mysql.database') !== 'sumaya_pharma_test'
-            || ! app()->environment('testing')) {
+            || ! app()->environment('testing')
+            || DB::selectOne('SELECT DATABASE() AS name')->name !== 'sumaya_pharma_test') {
             throw new RuntimeException('Identity tests require the isolated sumaya_pharma_test MySQL database.');
         }
         $this->refreshIdentityDatabase();

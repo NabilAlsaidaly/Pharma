@@ -6,6 +6,7 @@ use App\Domains\Favorites\Interfaces\Http\Controllers\FavoriteController;
 use App\Domains\Identity\Interfaces\Http\Controllers\CustomerSessionController;
 use App\Domains\Identity\Interfaces\Http\Middleware\EnsureActiveCustomer;
 use App\Domains\Orders\Interfaces\Http\Controllers\CheckoutEvaluationController;
+use App\Domains\Orders\Interfaces\Http\Controllers\PreliminaryRequestController;
 use App\Http\Middleware\LimitPersonalMutationBody;
 use Illuminate\Support\Facades\Route;
 
@@ -35,4 +36,10 @@ Route::middleware(['auth:sanctum', EnsureActiveCustomer::class, LimitPersonalMut
     Route::post('cart/items', [CartController::class, 'add']);
     Route::patch('cart/items/{itemId}', [CartController::class, 'update']);
     Route::delete('cart/items/{itemId}', [CartController::class, 'remove']);
+});
+
+Route::middleware(['auth:sanctum', EnsureActiveCustomer::class, LimitPersonalMutationBody::class])->group(function (): void {
+    Route::post('checkout/intents', [PreliminaryRequestController::class, 'store'])->middleware('throttle:preliminary-checkout');
+    Route::get('checkout/intents', [PreliminaryRequestController::class, 'index'])->middleware('throttle:personal-collections');
+    Route::get('checkout/intents/{id}', [PreliminaryRequestController::class, 'show'])->middleware('throttle:personal-collections');
 });

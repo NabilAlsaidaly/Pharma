@@ -176,7 +176,9 @@ class CatalogPersistenceTest extends CatalogTestCase
     {
         $this->assertCount(9, Schema::getColumnListing('customers'));
         $this->assertFalse(Schema::hasColumn('customers', 'password'));
-        foreach (['inventories', 'stock_movements', 'stock_reservations', 'checkout_intents', 'orders', 'payments'] as $table) {
+        $this->assertTrue(Schema::hasTable('checkout_intents'));
+        $this->assertTrue(Schema::hasTable('checkout_intent_items'));
+        foreach (['inventories', 'stock_movements', 'stock_reservations', 'orders', 'payments'] as $table) {
             $this->assertFalse(Schema::hasTable($table));
         }
         foreach (['products' => ['brand_id', 'status', 'created_at', 'id'], 'product_variants' => ['product_id', 'sort_order', 'id'], 'product_images' => ['product_id', 'sort_order', 'id'], 'concern_product' => ['concern_id', 'product_id']] as $table => $columns) {

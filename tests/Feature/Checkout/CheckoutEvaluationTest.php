@@ -294,7 +294,7 @@ class CheckoutEvaluationTest extends PersonalCollectionsTestCase
         $before = $snapshot();
         $this->evaluate()->assertJsonPath('data.selection_status', 'valid');
         $this->assertEquals($before, $snapshot());
-        $routes = collect(app('router')->getRoutes())->filter(fn ($r) => str_starts_with($r->uri(), 'api/v1/checkout'));
+        $routes = collect(app('router')->getRoutes())->filter(fn ($r) => $r->uri() === 'api/v1/checkout/evaluations');
         $this->assertCount(1, $routes);
         $this->assertSame(['POST'], $routes->first()->methods());
     }

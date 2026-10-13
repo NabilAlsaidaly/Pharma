@@ -34,6 +34,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        RateLimiter::for('preliminary-checkout', fn (Request $request) => [
+            Limit::perHour(config('preliminary_checkout.customer_attempts_per_hour'))->by('preliminary:customer:'.$request->user('customer')->getAuthIdentifier()),
+            Limit::perHour(config('preliminary_checkout.ip_attempts_per_hour'))->by('preliminary:ip:'.$request->ip()),
+        ]);
         RateLimiter::for('personal-collections', fn (Request $request) => Limit::perMinute(
             config($request->isMethod('GET') || $request->isMethod('HEAD') ? 'customer_collections.reads_per_minute' : 'customer_collections.mutations_per_minute')
         )->by('personal:'.$request->user('customer')->getAuthIdentifier().':'.($request->isMethod('GET') || $request->isMethod('HEAD') ? 'read' : 'write')));

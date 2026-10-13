@@ -16,7 +16,10 @@ class EloquentCatalogSelectionReader implements CatalogSelectionReader
             return [];
         }
         $query = Product::query()->select(['id', 'brand_id', 'name', 'slug', 'status', 'availability_status', 'price_usd', 'price_syp'])
-            ->whereKey(array_unique($productIds))->withCount('variants')->orderBy('id');
+            ->whereKey(array_unique($productIds))->orderBy('id');
+        // A locking outer query does not make its aggregate subquery a current read.
+        // Structural Variant changes must be observed after waiting for the Product lock.
+        $query->withCount($lock ? ['variants' => fn ($variants) => $variants->lockForUpdate()] : 'variants');
         if ($lock) {
             $query->lockForUpdate();
         }
