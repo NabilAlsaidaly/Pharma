@@ -1,5 +1,7 @@
 # Architecture
 
+Phase 6A: [Owner authentication](owner-authentication.md) implements ManagementIdentity and a custom Blade personal account interface separately from Customer Identity and System Console.
+
 Phase 5A.2: [preliminary checkout request persistence](preliminary-checkout-requests.md) extends Orders with owned, idempotent submission and immutable history; see [ADR-019](../adr/ADR-019-preliminary-checkout-requests.md). Payment, confirmation and reservation remain deferred.
 
 ## Style and scope
@@ -10,8 +12,7 @@ Laravel's standard app, bootstrap, config, database, resources, routes, storage 
 
 ## Module layout and dependency direction
 
-Every module under `app/Domains/<Module>/` has four boundaries. Identity, Catalog, Favorites and Cart implement
-them; other modules remain empty:
+Every module under `app/Domains/<Module>/` has four boundaries. Identity, Catalog, Favorites, Cart, Orders and ManagementIdentity implement relevant parts; other modules remain empty:
 
 - `Domain/`: business concepts, invariants and rules. Keep framework and external service concerns outside the core domain.
 - `Application/`: future focused Actions / Use Cases that coordinate a business operation. Define DTOs and ports only when a real use case needs them.
@@ -46,8 +47,7 @@ routes in Identity's HTTP adapters; Google routes use the web session middleware
 ## Performance and documentation
 
 The Sumaya-specific Business Management Panel and generic reusable System Console are
-separate concerns. Neither is implemented; guards and user models need not be shared
-and are intentionally undecided. Phase 2 removes the untouched default User scaffold
+separate concerns. Phase 6A implements only Owner identity and account pages using a separate guard/model; System Console remains an independent unwired skeleton. Phase 2 removes the untouched default User scaffold
 and uses a dedicated Customer model. See [Identity architecture](identity-and-authentication.md).
 
 Performance by design means considering query counts, indexes, pagination, concurrency and algorithmic complexity while implementing future use cases. Measure before speculative optimization. See [performance principles](performance-principles.md).

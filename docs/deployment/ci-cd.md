@@ -11,6 +11,8 @@ test key, checks platform requirements, runs Pint, Larastan/PHPStan, PHPUnit and
 Composer audit. Every failing check fails the job. No production secrets or deployment
 steps are present. Composer downloads are cached by OS, PHP version and lock hash.
 
+Phase 6A adds Node 22, locked `npm ci` and `npm run build` to this same gate. The new frontend lockfile captures the existing Tailwind/Vite dependencies; no management framework is installed.
+
 Reproduce locally using Herd PHP:
 
 ```text
