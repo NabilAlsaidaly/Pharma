@@ -1,5 +1,7 @@
 # Architecture
 
+Phase 5A.2: [preliminary checkout request persistence](preliminary-checkout-requests.md) extends Orders with owned, idempotent submission and immutable history; see [ADR-019](../adr/ADR-019-preliminary-checkout-requests.md). Payment, confirmation and reservation remain deferred.
+
 ## Style and scope
 
 Sumaya Pharma is an API-first modular monolith: one Laravel backend deployment with explicit domain-oriented module boundaries. Next.js is a separate frontend project. MySQL is the target database; Redis is planned infrastructure. Phase 0 creates directories and documentation only.

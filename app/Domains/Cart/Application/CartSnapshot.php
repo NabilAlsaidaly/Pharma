@@ -11,6 +11,46 @@ class CartSnapshot
 {
     public function __construct(private readonly CatalogSelectionReader $catalog, private readonly CartEvaluator $evaluator) {}
 
+    public function lockedForSubmission(string $customerId, string $expectedVersion, string $currency): array
+    {
+        if (DB::transactionLevel() < 1) {
+            throw new \LogicException('Submission requires an enclosing Customer-locked transaction.');
+        }
+        $cart = Cart::query()->where('customer_id', $customerId)->lockForUpdate()->first();
+        if (($cart->version ?? '0') !== $expectedVersion) {
+            throw new CartConflict('stale_cart_version');
+        }
+        $limit = (int) config('customer_collections.cart_selection_limit');
+        $rows = $cart?->items()->orderByDesc('created_at')->orderBy('id')->limit($limit + 1)->get()->toArray() ?? [];
+        if (count($rows) > $limit) {
+            throw new CartConflict('cart_evaluation_capacity_exceeded');
+        }
+        if ($rows === []) {
+            throw new CartConflict('empty_cart');
+        }
+        $products = $this->catalog->read(array_column($rows, 'product_id'), array_column($rows, 'variant_id'), true);
+        // Customer/Cart serialize cooperating writers; take selection locks after Catalog locks.
+        $locked = $cart->items()->orderBy('id')->limit($limit + 1)->lockForUpdate()->get()->keyBy('id');
+        $items = [];
+        foreach ($rows as $row) {
+            $current = $locked->get($row['id']);
+            if ($current === null || $current->product_id !== $row['product_id'] || $current->quantity !== $row['quantity'] || $current->variant_id !== $row['variant_id']) {
+                throw new CartConflict('stale_cart_version');
+            }
+            $evaluation = $this->evaluator->item($row, $products[$row['product_id']] ?? null);
+            if ($this->evaluator->exclusionReason($evaluation, $currency) !== null) {
+                throw new CartConflict('checkout_selection_blocked');
+            }
+            $items[] = ['source_cart_item_id' => $row['id'], 'product_id' => $row['product_id'], 'variant_id' => $row['variant_id'],
+                'quantity' => $row['quantity'], 'requires_fulfillment_review' => $evaluation['evaluation']['requires_request'] ?? false];
+        }
+        if ($locked->count() !== count($rows)) {
+            throw new CartConflict('stale_cart_version');
+        }
+
+        return ['cart_id' => $cart->id, 'version' => $cart->version, 'items' => $items];
+    }
+
     public function complete(string $customerId): array
     {
         [$cart, $rows, $products] = DB::transaction(function () use ($customerId) {

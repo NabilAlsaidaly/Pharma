@@ -1,5 +1,7 @@
 # Sumaya Pharma Backend
 
+Phase 5A.2 adds [preliminary checkout requests](api/preliminary-checkout-requests.md), [architecture](architecture/preliminary-checkout-requests.md), [ADR-019](adr/ADR-019-preliminary-checkout-requests.md) and [implementation evidence](reports/phase-05a2-preliminary-checkout-requests-report.md). Requests remain submitted facts for owner review; no confirmed order, payment or reservation is introduced. Development schema rollout is deferred.
+
 Phase 4: customer Identity, read-only Catalog, persistent Favorites and Cart foundation. Other business modules remain deferred.
 
 Phase 5A adds only [non-binding Checkout evaluation](api/checkout-evaluation.md), with [architecture](architecture/checkout-evaluation.md), [ADR-018](adr/ADR-018-checkout-evaluation-foundation.md) and [implementation evidence](reports/phase-05a-checkout-evaluation-foundation-report.md). The preserved [Phase 5 design gate and owner clarifications](reports/phase-05-checkout-payments-design-gate.md) do not authorize the remaining commercial workflow.

@@ -9,6 +9,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -24,6 +25,17 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectGuestsTo(fn (Request $request): ?string => $request->is('api/*') ? null : '/');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+        $exceptions->report(function (Throwable $exception): ?bool {
+            if (request()->is('api/v1/checkout/intents', 'api/v1/checkout/intents/*')) {
+                // Exception SQL bindings/stack arguments can contain contact snapshots.
+                Log::error('preliminary_checkout_failed', ['exception_type' => $exception::class,
+                    'request_id' => request()->attributes->get('request_id')]);
+
+                return false;
+            }
+
+            return null;
+        });
         $exceptions->dontReport([AccountSuspended::class, CartConflict::class]);
         $exceptions->render(IdentityErrorResponse::render(...));
         $exceptions->render(ApiErrorResponse::render(...));
