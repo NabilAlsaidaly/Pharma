@@ -64,7 +64,7 @@ Decimal string-safe unsigned version checked against fresh MySQL state on each p
 
 ## 16. Logout Semantics
 
-Review regression initially reproduced an old-cookie replay: default `regenerate()` rotates ID but retains the old server record. All four Owner transitions now call `regenerate(true)`; the focused25-test/340-assertion authentication suite passes with stale-cookie refusal and Customer-key preservation. Final complete suite is still verified below before publication.
+Review regression initially reproduced an old-cookie replay: default `regenerate()` rotates ID but retains the old server record. All four Owner transitions now call `regenerate(true)`; the focused25-test/340-assertion authentication suite and complete351-test/2367-assertion local/CI suites pass with stale-cookie refusal and Customer-key preservation.
 
 **CONFIRMED:** owner logout clears only owner keys, rotates ID/CSRF and preserves unrelated Customer data. Fresh request and replayed old cookie cannot restore Owner. Existing Customer logout/suspension/OAuth failure invalidate the entire shared session; actual callback+both guards+Customer logout regression demonstrates Owner cleared on the next fresh request. Other tabs require current CSRF after rotation.
 
@@ -117,11 +117,13 @@ OwnerConcurrencyTest and tests/Support/owner-security-worker.php use independent
 | C competing passwords | Parent row lock; both independent FOR UPDATE queries observed; release yields one version2 and one403, old credential no longer valid. |
 | D disable | Worker identity/session ready before parent commits disabled state; resumed protected access403. |
 
-The workers use array sessions to prove DB account-state/version enforcement, not shared file locking. Browser separately exercises real file-session rotation and current access. Sample exact local IDs/results recorded in ignored phase6a-full-tests.log; final run details are verified before commit. No real Customer data touched by these races.
+The workers use array sessions to prove DB account-state/version enforcement, not shared file locking. Browser separately exercises real file-session rotation and current access. Exact final local worker connections: A3429/3430 (refused/created), C3433/3434 (version2/403), B3437 (403), D3440 (403). CI MySQL8.4.11 independently repeats A372/373, C376/377, B380, D383 with the same outcomes. No real Customer data touched by these races.
 
 ## 27. Full PHPUnit Test Results
 
 **CONFIRMED final local run:** `php vendor/bin/phpunit --colors=never` passes **351 tests / 2367 assertions**, 03:16.207,74MB, PHP8.4.26/MySQL9.7.0. Includes all prior288tests and63new Owner cases, including grouped required72scenarios and four real concurrency cases. Log: ignored storage/framework/testing/phase6a-full-tests.log. Assertion totals can vary slightly across allowed historical race outcomes; the exact CI result is separately recorded after observation.
+
+**CONFIRMED source-head CI:**351passed/2367assertions,49.88seconds on MySQL8.4.11; quality job115328132807. All Composer/frontend/Pint/PHPStan/audit gates also succeed. Subsequent documentation-only exact-head verification is linked in the PR description before delivery.
 
 ## 28. Historical Regression Results
 
@@ -145,7 +147,7 @@ All prior288tests are retained unchanged: Google adapter/Customer identity, Cata
 
 ## 33. MySQL Compatibility
 
-**CONFIRMED local:** MySQL9.7.0 REPEATABLE-READ, native unique/generated/check constraints and independent races. CI uses official MySQL8.4 image; exact compatibility result recorded after its run. No claim of8.4 validation before observed CI.
+**CONFIRMED:** local MySQL9.7.0 REPEATABLE-READ and CI MySQL8.4.11 both pass native unique/generated/check constraints and independent races. The CI container startup log explicitly identifies8.4.11; its whole351-test suite passes. No other engine/version compatibility is claimed.
 
 ## 34. Development Database Preservation
 
@@ -177,15 +179,17 @@ ADR-020; architecture/owner-authentication.md; security/owner-access.md; api/own
 
 ## 41. Git Commits
 
-Feature branch based on39377c49. Implementation/docs commit is followed by a documentation-only CI evidence commit. Source commit will be recorded after publication; final SHA and exact-head verification belong in PR description and delivery, avoiding a self-referential commit hash in its own report.
+Feature branch `feature/owner-authentication-foundation` based on39377c49. Implementation/docs source commit `30120217322a8198bf709540eca9c0a9867b4ef2` changes46files (4458additions/7deletions, mostly the new npm lock). This documentation-only evidence update is the second commit. Final SHA and exact-head verification belong in PR description and delivery, avoiding a self-referential commit hash in its own report. Worktree clean after source commit; no historical code/tests/gates changed.
 
 ## 42. Final CI Run
 
-**NEEDS VERIFICATION:** PR not yet published at this report draft. Source-head CI and subsequent final documentation-head CI must both succeed before delivery. Final exact head/run/job link will be recorded in the PR description after checking; this draft claims no CI success.
+**CONFIRMED implementation-head success:** [Backend CI38406716842](https://github.com/NabilAlsaidaly/Pharma/actions/runs/38406716842), quality job115328132807, completed/success at exact source SHA30120217322a8198bf709540eca9c0a9867b4ef2. Every step succeeds: Composer metadata/install/platform, Node22/locked npm install/Vite, Pint, PHPStan,351tests/2367assertions, Composer security audit. Logs confirm MySQL8.4.11 and the four independent Owner races.
+
+This documentation-only commit triggers a second complete run. The current final PR head/run/job and success are checked and recorded in PR5 before delivery; source-head success alone is not substituted for final-head evidence. The exact self-containing documentation SHA is intentionally not written into its own source file.
 
 ## 43. Pull Request URL
 
-Pending creation against main. Must remain OPEN/UNMERGED; no deployment/Phase6B.
+**CONFIRMED:** [PR5](https://github.com/NabilAlsaidaly/Pharma/pull/5), target main/base39377c49af46534512de35eb548e6321973895b3, OPEN, not draft, UNMERGED. Final current-head CI proof is maintained in its description. No merge/deployment/Phase6B.
 
 ## 44. Known Limitations
 
