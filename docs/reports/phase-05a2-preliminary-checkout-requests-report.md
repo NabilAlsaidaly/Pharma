@@ -16,7 +16,7 @@ Owner phase5.3.md authorizes Phase5A.2 implementation, exactly POST/GET checkout
 
 ## 4. Final feature commit
 
-Publication evidence pending final local checks and actual commit. The implementation commit and final documentation head will be distinguished here; a report cannot contain its own SHA without changing it again.
+**CONFIRMED implementation commit:** `0873d04fe3ee787dce4cbd4e00b6a7ae3d695691`,28 files,1403 insertions/4 deletions. This evidence update is a subsequent documentation-only commit. The exact final documentation head and its separately verified CI run are recorded in [PR4](https://github.com/NabilAlsaidaly/Pharma/pull/4) and the delivery message; a report cannot embed its own SHA without changing that SHA.
 
 ## 5. Feature branch
 
@@ -84,7 +84,7 @@ Strict invalid-field and forged-commercial-field datasets, actual CSRF enforceme
 
 ## 21. Full assertion count
 
-**CONFIRMED: 1852 assertions**, full local run110.52s. Additional final focused Race F run verifies the header-observed and exact MySQL-code assertions. Local and CI counts can differ with these additional observation assertions and when legitimate concurrent ordering exercises a different safe branch.
+**CONFIRMED: 1852 assertions**, full local run110.52s; final focused Race F test1 passed/11 assertions verifies header-observed and exact MySQL-code assertions. **CI288 passed/1854 assertions**,36.80s, includes those two final observation assertions in the full suite. Concurrent Cart ordering may additionally exercise a different safe branch on later runs; success/failure counts are reported independently.
 
 ## 22. Historical regressions
 
@@ -104,7 +104,7 @@ All195 historical tests retained. Two inventory assertions evolve only for expli
 
 ## 26. MySQL compatibility
 
-**CONFIRMED local:** MySQL9.7.0, REPEATABLE-READ, real migrations/CHECK/FK/uniqueness/races. MySQL8.4 CI result pending actual run; do not equate local proof with CI compatibility. No SQLite substitutes.
+**CONFIRMED:** local MySQL9.7.0 and CI MySQL8.4.11, REPEATABLE-READ, real migrations/CHECK/FK/uniqueness/races. Actual CI288 tests pass, including aggregate current-read regression and independent SQL failure. No SQLite substitutes.
 
 ## 27. Development preservation
 
@@ -124,11 +124,11 @@ None added/removed/updated. Existing Laravel limiter/cache/session used. No Redi
 
 ## 31. GitHub Actions
 
-Pending publication and exact final-head run. Required job includes Composer metadata/install/platform, Pint, PHPStan, full tests against MySQL8.4, audit. Final head must match observed PR head; earlier successful SHA alone is insufficient.
+**CONFIRMED implementation-head success:** [run38379903253](https://github.com/NabilAlsaidaly/Pharma/actions/runs/38379903253), quality job115237439914, completed/success at exact source SHA0873d04fe3ee787dce4cbd4e00b6a7ae3d695691. All steps success: Composer metadata/install/platform, Pint, PHPStan, full288 tests/1854 assertions against MySQL8.4.11, audit. Baseline PR3 run38133500394/job114452500007 also rechecked success. The documentation-only evidence commit triggers a second complete CI run; its final exact head/result is checked and recorded in PR4 before delivery. This source-head run alone is not used as final-head proof.
 
 ## 32. Pull request
 
-Pending actual URL. One PR to main, OPEN and UNMERGED. Owner review only. No merge authorization, deployment or next phase.
+**CONFIRMED:** [PR4](https://github.com/NabilAlsaidaly/Pharma/pull/4), target main/base8f8b7ff5c13255aa842d7c606c018534f6296b3c, OPEN, not draft, UNMERGED. One PR only. Owner review; no merge authorization, deployment or next phase.
 
 ## 33. Deferred capabilities
 
@@ -173,4 +173,4 @@ Additional Race F proof: `C test_database_failure_on_independent_connection_roll
 
 ## 35. Owner review recommendation
 
-Review the narrow preliminary-request behavior, privacy, restrictive history FKs, contact contract and operational migration plan. Merge remains exclusively the owner's action after a green exact-head PR review. Schema rollout/deployment and future phases remain deferred. Final recommendation pending complete local and GitHub evidence.
+**CONFIRMED:** source quality gates and real MySQL compatibility pass. Ready for owner review once the documentation-only final head also completes CI, which is verified in PR4 before final delivery. Review the narrow behavior, privacy, restrictive history FKs, contact contract and operational migration plan. Merge remains exclusively the owner's action. Development database is unchanged; schema rollout/deployment and future phases remain deferred. No approved policy, payment or reservation capability is implied by successful submission.
