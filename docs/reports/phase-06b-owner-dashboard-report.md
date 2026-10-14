@@ -108,11 +108,11 @@ No deleted_at, SoftDeletes trait, FK cascade, restore/purge or delete API.6C mus
 
 ## 24. SQL query counts
 
-**CONFIRMED local,50 and200 Products plus multiple Requests:** fresh guard resolution between actual HTTP requests: overview9, Products6, Requests5, Search7, Product detail5 (empty Variant relation), Request detail6. Counts identical at both cardinalities; no per-row framework queries. Populated related pages can add a bounded data query after count. Ignored log storage/framework/testing/phase6b-full-tests.log includes actual measurements. Constant query count does not imply constant cost; no latency benchmark.
+**CONFIRMED local and source CI,50 and200 Products plus multiple Requests:** fresh guard resolution between actual HTTP requests: overview9, Products6, Requests5, Search7, Product detail5 (empty Variant relation), Request detail6. Counts identical at both cardinalities on local MySQL9.7.0 and CI MySQL8.4.11; no per-row framework queries. Populated related pages can add a bounded data query after count. Ignored log storage/framework/testing/phase6b-full-tests.log and source CI job116091494826 include actual measurements. Constant query count does not imply constant cost; no latency benchmark.
 
 ## 25. Index usage
 
-EXPLAIN local9.7 confirms products_status_created_at_id_index covering lookup for status/date sort. Contained name search scans/sorts. Global Request dates can scan Customer/date/id covering index and sort, without a leading Customer equality. Estimates may differ from actual fixture cardinality; no actual scanned-row/latency assertion. No new index migration justified by foundation evidence; future global date index/approved search/cursor design remains measured work.
+EXPLAIN local9.7 and source CI8.4.11 confirm products_status_created_at_id_index covering lookup for status/date sort. CI: Product status type=ref/Using index; contained name type=ALL/Using where/Using filesort; global Request date type=index on checkout_intents_customer_id_created_at_id_index/Using where/Using index/Using filesort, without a leading Customer equality. Estimates may differ from actual fixture cardinality; no actual scanned-row/latency assertion. No new index migration justified by foundation evidence; future global date index/approved search/cursor design remains measured work.
 
 ## 26. Security test results
 
@@ -178,15 +178,17 @@ Zero new migrations/schema/index/seed. No pending development migration applied.
 
 ## 41. CI URL/status
 
-**NEEDS VERIFICATION at source report preparation:** PR/source CI not yet published. Source-head and final documentation-head CI must succeed before delivery. Exact final head/run/job/count will be recorded in PR description and final delivery; source-head success is not substituted for final-head evidence.
+**CONFIRMED source-head CI:** [Backend CI run22](https://github.com/NabilAlsaidaly/Pharma/actions/runs/38633723444), [quality job116091494826](https://github.com/NabilAlsaidaly/Pharma/actions/runs/38633723444/job/116091494826), SUCCESS for feature head `8151f51b6dacce38b307d3496aa364828b8e040f`. All gates pass: locked dependencies/build, Composer validation/platform/audit, Pint, PHPStan level5/512M, full394tests/2970assertions and retained real races. PHP8.4.26, MySQL8.4.11. The pull_request workflow tests GitHub's temporary merge ref against main (source run checkout `374a15d654bcf786be0d21a381a690333562ade3`), without merging the PR.
+
+**Final evidence protocol:** this report update is a documentation-only commit. Its own final hash and independently matched successful final-head run/job/count are recorded in PR6 description and delivery after that new run completes. Source-head success is not substituted for final-head evidence. Final-head delivery remains conditional until those checks succeed; no merge/deployment is authorized.
 
 ## 42. PR URL
 
-Pending creation against verified main. Must remain OPEN/UNMERGED, no deployment or6C.
+[PR6 — Phase 6B: custom read-only Owner dashboard](https://github.com/NabilAlsaidaly/Pharma/pull/6), targets main from feature/custom-owner-dashboard-foundation. Created OPEN/non-draft/UNMERGED; final state rechecked at delivery. No deployment or6C.
 
 ## 43. Final feature SHA
 
-Implementation commit and documentation evidence commit are recorded after publication. The final self-containing report commit hash cannot be embedded in its own source; exact final SHA and independently matched CI proof are recorded in the PR description/delivery. Branch and starting SHA above are already confirmed.
+Implementation/source commit: `8151f51b6dacce38b307d3496aa364828b8e040f`. The next documentation evidence commit contains this source CI proof. The final self-containing report commit hash cannot be embedded in its own source; exact final SHA and independently matched CI proof are recorded in the PR description/delivery. Branch and starting SHA above are already confirmed. The final delivery must match local HEAD, remote feature head and successful final-head PR CI.
 
 ## 44. Known limitations
 
