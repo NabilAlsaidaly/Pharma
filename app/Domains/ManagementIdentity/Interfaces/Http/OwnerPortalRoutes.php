@@ -2,6 +2,7 @@
 
 namespace App\Domains\ManagementIdentity\Interfaces\Http;
 
+use App\Domains\ManagementDashboard\Interfaces\Http\Controllers\OwnerDashboardController;
 use App\Domains\ManagementIdentity\Interfaces\Http\Controllers\OwnerAccountController;
 use App\Domains\ManagementIdentity\Interfaces\Http\Controllers\OwnerAuthenticationController;
 use App\Domains\ManagementIdentity\Interfaces\Http\Middleware\OwnerLoginAttempts;
@@ -49,6 +50,13 @@ class OwnerPortalRoutes
                 Route::patch('profile', [OwnerAccountController::class, 'update'])->name('profile.update');
                 Route::put('password', [OwnerAccountController::class, 'password'])->name('password.update');
                 Route::post('logout', [OwnerAuthenticationController::class, 'logout'])->name('logout');
+                Route::get('overview', [OwnerDashboardController::class, 'overview'])->name('dashboard');
+                Route::get('search', [OwnerDashboardController::class, 'search'])->name('search');
+                foreach (['products', 'brands', 'concerns', 'requests'] as $resource) {
+                    Route::get($resource, [OwnerDashboardController::class, 'index'])->defaults('resource', $resource)->name($resource.'.index');
+                    Route::get($resource.'/{id}', [OwnerDashboardController::class, 'show'])->defaults('resource', $resource)
+                        ->whereUuid('id')->name($resource.'.show');
+                }
             });
         });
     }

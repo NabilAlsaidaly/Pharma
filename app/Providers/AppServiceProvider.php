@@ -10,9 +10,13 @@ use App\Domains\Identity\Application\Ports\CustomerIdentityRepository;
 use App\Domains\Identity\Application\Ports\GoogleOAuthClient;
 use App\Domains\Identity\Infrastructure\ExternalServices\Google\SocialiteGoogleOAuthClient;
 use App\Domains\Identity\Infrastructure\Persistence\EloquentCustomerIdentityRepository;
+use App\Domains\ManagementDashboard\Application\OwnerNavigation;
+use App\Domains\ManagementIdentity\Infrastructure\Persistence\Models\ManagementUser;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Sanctum\Sanctum;
 
@@ -34,6 +38,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        View::composer('owner.layout', function ($view): void {
+            $navigation = app(OwnerNavigation::class);
+            $identity = ($view->getData()['skipOwnerIdentity'] ?? false) ? null : Auth::guard('owner')->user();
+            $owner = $identity instanceof ManagementUser ? $identity : null;
+            $view->with('portalOwner', $owner)->with('navigationItems', $navigation->resolve($navigation->definitions(), $owner));
+        });
         RateLimiter::for('preliminary-checkout', fn (Request $request) => [
             Limit::perHour(config('preliminary_checkout.customer_attempts_per_hour'))->by('preliminary:customer:'.$request->user('customer')->getAuthIdentifier()),
             Limit::perHour(config('preliminary_checkout.ip_attempts_per_hour'))->by('preliminary:ip:'.$request->ip()),

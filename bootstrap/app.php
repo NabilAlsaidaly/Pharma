@@ -31,10 +31,21 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->dontFlash(['current_password', 'password', 'password_confirmation']);
         $exceptions->render(function (Throwable $exception, Request $request) {
-            if (! str_starts_with((string) $request->route()?->getName(), 'owner.')) {
+            $login = app('router')->getRoutes()->getByName('owner.login');
+            $prefix = $login ? substr($login->uri(), 0, -6) : null;
+            $privatePath = $prefix !== null && ($request->path() === $prefix || str_starts_with($request->path(), $prefix.'/'));
+            if (! str_starts_with((string) $request->route()?->getName(), 'owner.') && ! $privatePath) {
                 return null;
             }
             if ($exception instanceof ValidationException) {
+                if (
+                    in_array($request->route()->getName(), ['owner.dashboard', 'owner.search'], true)
+                    || preg_match('/^owner\.(products|brands|concerns|requests)\./', (string) $request->route()->getName())
+                ) {
+                    return response()->view('owner.dashboard.validation', ['validationErrors' => $exception->errors()], 422)
+                        ->header('Cache-Control', 'no-store, private, max-age=0')->header('Referrer-Policy', 'no-referrer');
+                }
+
                 return redirect()->route($request->route()->getName() === 'owner.login.submit' ? 'owner.login' : 'owner.profile')
                     ->withErrors($exception->errors())->withInput($request->only(['email', 'display_name']))
                     ->header('Cache-Control', 'no-store, private, max-age=0')
@@ -42,8 +53,12 @@ return Application::configure(basePath: dirname(__DIR__))
             }
             $status = $exception instanceof HttpExceptionInterface ? $exception->getStatusCode() : 500;
 
-            return response()->view('owner.error', ['statusCode' => $status], $status,
-                $exception instanceof HttpExceptionInterface ? $exception->getHeaders() : [])
+            return response()->view(
+                'owner.error',
+                ['statusCode' => $status, 'skipOwnerIdentity' => true],
+                $status,
+                $exception instanceof HttpExceptionInterface ? $exception->getHeaders() : []
+            )
                 ->header('Cache-Control', 'no-store, private, max-age=0')
                 ->header('X-Frame-Options', 'DENY')->header('X-Content-Type-Options', 'nosniff')
                 ->header('Referrer-Policy', 'no-referrer');
@@ -56,8 +71,10 @@ return Application::configure(basePath: dirname(__DIR__))
             }
             if (request()->is('api/v1/checkout/intents', 'api/v1/checkout/intents/*')) {
                 // Exception SQL bindings/stack arguments can contain contact snapshots.
-                Log::error('preliminary_checkout_failed', ['exception_type' => $exception::class,
-                    'request_id' => request()->attributes->get('request_id')]);
+                Log::error('preliminary_checkout_failed', [
+                    'exception_type' => $exception::class,
+                    'request_id' => request()->attributes->get('request_id'),
+                ]);
 
                 return false;
             }

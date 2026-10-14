@@ -14,7 +14,8 @@ php artisan route:cache
 php artisan route:list --name=owner
 ```
 
-Verify exactly seven Owner routes and no unexpected aliases. Invalid configuration emits `owner_portal_routes_disabled` with a generic reason and registers zero Owner routes. A stale route cache retains its former routes until rebuilt; editing `.env` alone does not change a cached application. Private prefixes can appear in local HTML and server access logs and must not be published as a credential or treated as authentication.
+Verify the seven identity routes plus the current dashboard inventory, with no unexpected aliases. Invalid configuration emits `owner_portal_routes_disabled` with a generic reason and registers zero Owner routes. A stale route cache retains its former routes until rebuilt; editing `.env` alone does not change a cached application. Private prefixes can appear in local HTML and server access logs and must not be published as a credential or treated as authentication.
+Phase 6B extends the inventory to17: the same seven identity routes plus10 protected read-side dashboard routes. See [dashboard contract](../api/owner-dashboard-web.md); validate the complete current inventory after rebuilding caches.
 
 On a trusted terminal, after the schema rollout, invoke:
 

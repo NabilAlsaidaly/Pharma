@@ -1,5 +1,7 @@
 # Architecture
 
+Phase 6B: [ManagementDashboard](owner-dashboard.md) is a protected read-side presentation module over current business data, with custom Arabic Blade navigation, bounded search/statistics and read-only lists/details.
+
 Phase 6A: [Owner authentication](owner-authentication.md) implements ManagementIdentity and a custom Blade personal account interface separately from Customer Identity and System Console.
 
 Phase 5A.2: [preliminary checkout request persistence](preliminary-checkout-requests.md) extends Orders with owned, idempotent submission and immutable history; see [ADR-019](../adr/ADR-019-preliminary-checkout-requests.md). Payment, confirmation and reservation remain deferred.
@@ -12,7 +14,7 @@ Laravel's standard app, bootstrap, config, database, resources, routes, storage 
 
 ## Module layout and dependency direction
 
-Every module under `app/Domains/<Module>/` has four boundaries. Identity, Catalog, Favorites, Cart, Orders and ManagementIdentity implement relevant parts; other modules remain empty:
+Every module under `app/Domains/<Module>/` has four boundaries. Identity, Catalog, Favorites, Cart, Orders, ManagementIdentity and ManagementDashboard implement relevant parts; other modules remain empty:
 
 - `Domain/`: business concepts, invariants and rules. Keep framework and external service concerns outside the core domain.
 - `Application/`: future focused Actions / Use Cases that coordinate a business operation. Define DTOs and ports only when a real use case needs them.
