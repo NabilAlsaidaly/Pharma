@@ -9,3 +9,27 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+@layer base {
+    [data-owner-portal] :where(a, button, input, select, summary):focus-visible {
+        outline: 2px solid var(--color-emerald-700);
+        outline-offset: 3px;
+    }
+
+    [data-owner-portal] input[type='checkbox'] {
+        accent-color: var(--color-emerald-800);
+        width: 1rem;
+        height: 1rem;
+    }
+}
+
+@media (max-width: 1023px) {
+    [data-owner-enhanced='true'] .owner-sidebar {
+        position: fixed;
+        inset-block: 0;
+        inset-inline-start: 0;
+        z-index: 40;
+        width: min(19rem, 88vw);
+        overflow-y: auto;
+    }
+}

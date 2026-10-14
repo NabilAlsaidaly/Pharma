@@ -1,5 +1,7 @@
 # Sumaya Pharma Backend
 
+Phase 6B adds the read-only custom Arabic Owner dashboard: [architecture](architecture/owner-dashboard.md), [web queries/routes](api/owner-dashboard-web.md), [privacy/access](security/owner-dashboard-access.md), [ADR-021](adr/ADR-021-custom-owner-dashboard.md) and [report](reports/phase-06b-owner-dashboard-report.md). Real aggregates/search/inspection only; visitor analytics and business mutations remain deferred.
+
 Phase 6A adds the custom Arabic Owner identity foundation: [architecture](architecture/owner-authentication.md), [secure access operations](security/owner-access.md), [web interface](api/owner-web-interface.md), [ADR-020](adr/ADR-020-owner-authentication-foundation.md) and [evidence](reports/phase-06a-owner-authentication-report.md). Customer Google identity remains separate. Schema rollout and real owner provisioning are deferred; business management is not implemented.
 
 Phase 5A.2 adds [preliminary checkout requests](api/preliminary-checkout-requests.md), [architecture](architecture/preliminary-checkout-requests.md), [ADR-019](adr/ADR-019-preliminary-checkout-requests.md) and [implementation evidence](reports/phase-05a2-preliminary-checkout-requests-report.md). Requests remain submitted facts for owner review; no confirmed order, payment or reservation is introduced. Development schema rollout is deferred.

@@ -128,7 +128,7 @@ class OwnerAuthenticationTest extends CatalogTestCase
             $this->get($url)->assertNotFound();
         }
         $routes = collect(Route::getRoutes())->filter(fn ($route) => str_starts_with((string) $route->getName(), 'owner.'));
-        $this->assertCount(7, $routes);
+        $this->assertCount(17, $routes);
         foreach ($routes as $route) {
             $this->assertStringStartsWith('fixture-owner-portal', $route->uri());
             $this->assertContains('web', $route->gatherMiddleware());
