@@ -14,6 +14,8 @@
 /.zed
 /auth.json
 /node_modules
+/.playwright-cli/
+/output/playwright/
 /public/build
 /public/hot
 /public/storage

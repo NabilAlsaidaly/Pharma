@@ -1,5 +1,7 @@
 # Customer identity and authentication
 
+Phase 6A adds [separate Owner authentication](owner-authentication.md) without changing this Google-only Customer contract. Existing Customer full-session invalidation also removes Owner authentication when both share one browser session; Owner-only actions preserve Customer keys.
+
 Phase 2 implements Google-only customers. Catalog, management authentication and
 System Console are outside this implementation.
 The setup/verification notes below record the Phase 2 baseline. The owner subsequently

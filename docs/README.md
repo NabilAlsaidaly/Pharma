@@ -1,5 +1,7 @@
 # Sumaya Pharma Backend
 
+Phase 6A adds the custom Arabic Owner identity foundation: [architecture](architecture/owner-authentication.md), [secure access operations](security/owner-access.md), [web interface](api/owner-web-interface.md), [ADR-020](adr/ADR-020-owner-authentication-foundation.md) and [evidence](reports/phase-06a-owner-authentication-report.md). Customer Google identity remains separate. Schema rollout and real owner provisioning are deferred; business management is not implemented.
+
 Phase 5A.2 adds [preliminary checkout requests](api/preliminary-checkout-requests.md), [architecture](architecture/preliminary-checkout-requests.md), [ADR-019](adr/ADR-019-preliminary-checkout-requests.md) and [implementation evidence](reports/phase-05a2-preliminary-checkout-requests-report.md). Requests remain submitted facts for owner review; no confirmed order, payment or reservation is introduced. Development schema rollout is deferred.
 
 Phase 4: customer Identity, read-only Catalog, persistent Favorites and Cart foundation. Other business modules remain deferred.
@@ -10,7 +12,7 @@ Phase 5A adds only [non-binding Checkout evaluation](api/checkout-evaluation.md)
 - Architecture: modular monolith with pragmatic hexagonal boundaries.
 - Database: MySQL; customers migration applied locally, separate MySQL test database.
 - Planned infrastructure: Redis for cache, queues, rate limiting and locks.
-- Frontend: a separate Next.js application, outside this repository.
+- Customer frontend: a separate Next.js application, outside this repository. Owner identity interface: custom Laravel Blade in this repository.
 
 Start with [architecture](architecture/README.md), [module boundaries](architecture/module-boundaries.md), [coding principles](architecture/coding-principles.md), [performance principles](architecture/performance-principles.md), and [architecture decisions](adr/).
 
