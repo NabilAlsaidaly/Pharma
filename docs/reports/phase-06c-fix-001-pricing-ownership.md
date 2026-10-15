@@ -68,11 +68,11 @@ Six meaningful cases: original only-archived reproduction; no-Variant direct USD
 
 ## 13. Total PHPUnit test count
 
-CONFIRMED complete local PHPUnit459passed,234.98s. Includes every Catalog, Collections/Cart/Favorites, Checkout/Preliminary Request, Phase6C administration and historical test. Six new cases added to453 baseline; no skipped or removed tests. Focused6passed/297assertions separately before full run.
+CONFIRMED complete local PHPUnit459passed,234.98s; correction source CI459passed,76.70s on MySQL8.4.11/PHP8.4.26. Includes every Catalog, Collections/Cart/Favorites, Checkout/Preliminary Request, Phase6C administration and historical test. Six new cases added to453 baseline; no skipped or removed tests. Focused6passed/297assertions separately before full run.
 
 ## 14. Total assertion count
 
-CONFIRMED actual full3991assertions,459tests; focused297. Historical453/3694 retained plus6/297. Exact-head CI result is independently verified after publishing; never inferred from local or historical counts.
+CONFIRMED local and correction source CI3991assertions/459tests; focused297. Historical453/3694 retained plus6/297. Exact final documentation-head CI result is independently verified after publishing; never inferred from local or historical counts.
 
 ## 15. Pint result
 
@@ -100,11 +100,11 @@ No new or modified migration. Existing pending development migrations remain una
 
 ## 21. Final feature HEAD
 
-Starting head above. Correction/evidence hashes and exact final-head proof recorded after commit in PR7/final delivery; the report cannot embed its own commit hash. Normal push on feature/catalog-administration-foundation, no new branch/reset/force push.
+CONFIRMED correction source HEAD dd8f867971eaa00f5d25582a6a7ec21a27f20468, following starting head a1fa0fc9bdd2c2e6d29a3d3b782f58bb6e1c4ca7. This evidence-only documentation commit changes only this report; its final hash and exact workflow proof are independently recorded after verification in PR7/final delivery because the report cannot embed its own commit hash. Normal push on feature/catalog-administration-foundation, no new branch/reset/force push.
 
 ## 22. Final GitHub Actions URL and result
 
-NEEDS VERIFICATION until correction is committed/pushed and exact-head workflow succeeds. Prior Phase6C success does not prove this correction. Final SHA/run/job/results independently checked in PR7/final delivery after evidence commit.
+CONFIRMED [correction source CI run27](https://github.com/NabilAlsaidaly/Pharma/actions/runs/38728480431), [quality job](https://github.com/NabilAlsaidaly/Pharma/actions/runs/38728480431/job/116400086820), exact source head dd8f867971eaa00f5d25582a6a7ec21a27f20468: SUCCESS, every step green,459tests/3991assertions,76.70s. Actual logs independently confirm reproduction now source=variants/null ranges, public4/Favorites4queries at2/20, and MySQL8.4.11. Final documentation-head SHA/run/job/results are independently checked in PR7/final delivery after this evidence commit; source/previous Phase6C success does not substitute for final-head proof.
 
 ## 23. PR7 URL
 
@@ -116,4 +116,4 @@ POTENTIAL raw SQL/out-of-contract writers still require established invariant di
 
 ## 25. Merge-readiness assessment
 
-CONFIRMED reproduction, narrow fix,6focused/459full tests, all local quality gates and database preservation. Exact-head CI remains mandatory before final completion and merge-readiness claim. Merge remains Owner-controlled and is not authorized here. No Phase6D work.
+CONFIRMED reproduction, narrow fix,6focused/459full tests, all local/source-CI quality gates and database preservation. Correction source is ready for Owner review; final documentation-head CI must also be verified and recorded in PR7/final delivery before claiming completion. Merge remains Owner-controlled and is not authorized here. No Phase6D work.
