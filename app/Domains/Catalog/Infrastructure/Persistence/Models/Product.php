@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property AvailabilityStatus $availability_status
@@ -30,7 +31,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  */
 class Product extends Model
 {
-    use HasCatalogPrices, HasUuids;
+    use HasCatalogPrices, HasUuids, SoftDeletes;
 
     protected $fillable = ['brand_id', 'name', 'slug', 'short_description', 'full_description', 'status', 'availability_status', 'is_recommended', 'usage_instructions', 'suitable_for', 'benefits', 'price_usd', 'price_syp'];
 
@@ -78,8 +79,8 @@ class Product extends Model
     {
         return $this->getConnection()->transaction(function () use ($options) {
             if ($this->exists) {
-                static::query()->whereKey($this->getKey())->lockForUpdate()->firstOrFail();
-                if (($this->price_usd !== null || $this->price_syp !== null) && $this->variants()->exists()) {
+                static::withTrashed()->whereKey($this->getKey())->lockForUpdate()->firstOrFail();
+                if (($this->price_usd !== null || $this->price_syp !== null) && $this->variants()->withTrashed()->lockForUpdate()->exists()) {
                     throw new ConflictingPriceOwnership('Variant products cannot own parent prices.');
                 }
             }

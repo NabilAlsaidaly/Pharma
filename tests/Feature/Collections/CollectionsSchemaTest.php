@@ -33,7 +33,7 @@ class CollectionsSchemaTest extends PersonalCollectionsTestCase
         $this->assertConstraint(fn () => DB::table('favorites')->insert($row), 1062);
         $this->assertConstraint(fn () => DB::table('favorites')->insert(array_replace($row, ['product_id' => (string) Str::uuid7()])), 1452);
         $this->assertConstraint(fn () => DB::table('favorites')->insert(array_replace($row, ['customer_id' => (string) Str::uuid7()])), 1452);
-        $this->assertConstraint(fn () => $p->delete(), 1451);
+        $this->assertConstraint(fn () => $p->forceDelete(), 1451);
     }
 
     public function test_generated_key_rejects_duplicate_null_and_real_variants_accepts_distinct_selections(): void
@@ -62,7 +62,7 @@ class CollectionsSchemaTest extends PersonalCollectionsTestCase
         $cart = Cart::query()->sole();
         $this->assertConstraint(fn () => DB::table('cart_items')->insert($this->rawRow('cart_items', ['cart_id' => $cart->id, 'product_id' => $other->id, 'variant_id' => $v->id, 'quantity' => 1])), 1452);
         $this->assertConstraint(fn () => DB::table('product_variants')->where('id', $v->id)->update(['product_id' => $other->id]), 1451);
-        $this->assertConstraint(fn () => $v->delete(), 1451);
+        $this->assertConstraint(fn () => $v->forceDelete(), 1451);
         DB::table('cart_items')->insert($this->rawRow('cart_items', ['cart_id' => $cart->id, 'product_id' => $other->id, 'variant_id' => null, 'quantity' => 1]));
         $this->assertSame(2, CartItem::query()->count());
     }

@@ -60,3 +60,5 @@ decisions; `docs/api` documents the API foundation; `docs/deployment` documents 
 phase reports.
 
 Phase 4: [Favorites](favorites.md), [Cart](cart.md), [Catalog boundary](cart-catalog-integration.md), [Checkout boundary](cart-checkout-compatibility.md).
+
+Phase 6C: [Catalog administration](catalog-administration.md) extends the existing private Owner shell, with Catalog-owned transactional writes and audited archival. [ADR-022](../adr/ADR-022-catalog-administration.md).

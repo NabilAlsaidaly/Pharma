@@ -19,7 +19,7 @@ class EloquentCatalogSelectionReader implements CatalogSelectionReader
             ->whereKey(array_unique($productIds))->orderBy('id');
         // A locking outer query does not make its aggregate subquery a current read.
         // Structural Variant changes must be observed after waiting for the Product lock.
-        $query->withCount($lock ? ['variants' => fn ($variants) => $variants->lockForUpdate()] : 'variants');
+        $query->withCount(['variants' => fn ($variants) => $lock ? $variants->withTrashed()->lockForUpdate() : $variants->withTrashed()]);
         if ($lock) {
             $query->lockForUpdate();
         }
@@ -38,16 +38,28 @@ class EloquentCatalogSelectionReader implements CatalogSelectionReader
         $result = [];
         foreach ($products as $product) {
             $brand = $brands->get($product->brand_id);
-            $result[$product->id] = ['id' => $product->id, 'name' => $product->name, 'slug' => $product->slug,
+            $result[$product->id] = [
+                'id' => $product->id,
+                'name' => $product->name,
+                'slug' => $product->slug,
                 'visible' => $product->status === CatalogStatus::Active && $brand?->status === CatalogStatus::Active,
-                'availability' => $product->availability_status, 'price_usd' => $product->price_usd, 'price_syp' => $product->price_syp,
-                'variants_count' => $product->variants_count, 'image' => $product->primaryImage?->only(['id', 'path', 'is_primary', 'sort_order']),
-                'variants' => []];
+                'availability' => $product->availability_status,
+                'price_usd' => $product->price_usd,
+                'price_syp' => $product->price_syp,
+                'variants_count' => $product->variants_count,
+                'image' => $product->primaryImage?->only(['id', 'path', 'is_primary', 'sort_order']),
+                'variants' => [],
+            ];
         }
         foreach ($variants as $variant) {
             if (isset($result[$variant->product_id])) {
-                $result[$variant->product_id]['variants'][$variant->id] = ['id' => $variant->id, 'name' => $variant->name,
-                    'availability' => $variant->availability_status, 'price_usd' => $variant->price_usd, 'price_syp' => $variant->price_syp];
+                $result[$variant->product_id]['variants'][$variant->id] = [
+                    'id' => $variant->id,
+                    'name' => $variant->name,
+                    'availability' => $variant->availability_status,
+                    'price_usd' => $variant->price_usd,
+                    'price_syp' => $variant->price_syp,
+                ];
             }
         }
 

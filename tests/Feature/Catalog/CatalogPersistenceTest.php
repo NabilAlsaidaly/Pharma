@@ -70,7 +70,7 @@ class CatalogPersistenceTest extends CatalogTestCase
         $i = $this->image($p);
         $this->assertConstraint(fn () => $p->concerns()->attach($c), 1062);
         foreach ([$brand, $p, $c] as $model) {
-            $this->assertConstraint(fn () => $model->delete(), 1451);
+            $this->assertConstraint(fn () => $model->forceDelete(), 1451);
         }
         $this->assertDatabaseHas('product_variants', ['id' => $v->id]);
         $this->assertDatabaseHas('product_images', ['id' => $i->id]);

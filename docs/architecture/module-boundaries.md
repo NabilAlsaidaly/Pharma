@@ -22,3 +22,5 @@ Infrastructure and Interfaces boundaries; their responsibilities describe future
 | Settings | Sumaya business settings; detailed requirements are deferred. Operational package settings belong to System Console. |
 
 System Console is outside these modules at `packages/system-console/`. Its operational skeleton covers Health, Metrics, Backup, Cache, Queue, Scheduler, Logs, Settings, Maintenance, Actions and Support. It must never depend on Sumaya business models.
+
+Phase 6C: Catalog/Application/Administration owns Catalog business writes/archival/media/bulk/auditing. Catalog HTTP Owner adapter uses the existing identity boundary and dashboard presentation; ManagementDashboard remains read-only. Customer identity, Cart, Checkout history and System Console ownership remain unchanged. See [Catalog administration](catalog-administration.md).

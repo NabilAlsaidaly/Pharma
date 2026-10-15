@@ -49,6 +49,9 @@ class OwnerResourceReader
         }
         $columns = $resource === 'requests' ? ['id', 'status', 'currency', 'created_at'] : ['id', 'name', 'slug', 'status'];
         $query = DB::table($table)->select($columns);
+        if ($resource !== 'requests') {
+            $query->whereNull($table.'.deleted_at');
+        }
         $this->keyword($query, $table, $term);
 
         return $query->orderBy($resource === 'requests' ? 'created_at' : 'name')->orderBy('id')->limit(10)->get()->all();
@@ -59,10 +62,13 @@ class OwnerResourceReader
         $table = $this->table($resource);
         $this->schema->require($table);
         $query = DB::table($table);
+        if ($resource !== 'requests') {
+            $query->whereNull($table.'.deleted_at');
+        }
         if ($resource === 'products') {
             $this->schema->require('brands', 'product_variants');
             $query->join('brands', 'brands.id', '=', 'products.brand_id')->select('products.id', 'products.name', 'products.slug', 'products.status', 'products.availability_status', 'products.created_at', 'brands.name as brand_name')
-                ->selectSub(DB::table('product_variants')->selectRaw('COUNT(*)')->whereColumn('product_id', 'products.id'), 'variants_count');
+                ->selectSub(DB::table('product_variants')->whereNull('deleted_at')->selectRaw('COUNT(*)')->whereColumn('product_id', 'products.id'), 'variants_count');
             foreach (['brand' => 'brand_id', 'availability' => 'availability_status'] as $filter => $column) {
                 if (isset($input[$filter])) {
                     $query->where('products.'.$column, $input[$filter]);
@@ -87,10 +93,10 @@ class OwnerResourceReader
         } else {
             $this->schema->require('products');
             $query->select('id', 'name', 'slug', 'status', 'created_at');
-            $count = DB::table('products')->selectRaw('COUNT(*)')->whereColumn('brand_id', 'brands.id');
+            $count = DB::table('products')->whereNull('products.deleted_at')->selectRaw('COUNT(*)')->whereColumn('brand_id', 'brands.id');
             if ($resource === 'concerns') {
                 $this->schema->require('concern_product');
-                $count = DB::table('concern_product')->selectRaw('COUNT(*)')->whereColumn('concern_id', 'concerns.id');
+                $count = DB::table('concern_product')->join('products', 'products.id', '=', 'concern_product.product_id')->whereNull('products.deleted_at')->selectRaw('COUNT(*)')->whereColumn('concern_id', 'concerns.id');
             }
             $query->selectSub($count, 'products_count');
         }
@@ -118,15 +124,15 @@ class OwnerResourceReader
                 ->where('checkout_intent_id', $id)->orderBy('line_order')->orderBy('id')->paginate(25, ['*'], 'page', $page);
         } elseif ($resource === 'products') {
             $this->schema->require('brands', 'product_variants');
-            $record = DB::table($table)->join('brands', 'brands.id', '=', 'products.brand_id')->select('products.*', 'brands.name as brand_name')
-                ->selectSub(DB::table('product_variants')->selectRaw('COUNT(*)')->whereColumn('product_id', 'products.id'), 'variants_count')->where('products.id', $id)->first();
+            $record = DB::table($table)->whereNull('products.deleted_at')->join('brands', 'brands.id', '=', 'products.brand_id')->select('products.*', 'brands.name as brand_name')
+                ->selectSub(DB::table('product_variants')->whereNull('deleted_at')->selectRaw('COUNT(*)')->whereColumn('product_id', 'products.id'), 'variants_count')->where('products.id', $id)->first();
             abort_if($record === null, 404);
-            $related = DB::table('product_variants')->select('id', 'name', 'availability_status', 'price_usd', 'price_syp')->where('product_id', $id)->orderBy('sort_order')->orderBy('id')->paginate(25, ['*'], 'page', $page);
+            $related = DB::table('product_variants')->whereNull('deleted_at')->select('id', 'name', 'availability_status', 'price_usd', 'price_syp')->where('product_id', $id)->orderBy('sort_order')->orderBy('id')->paginate(25, ['*'], 'page', $page);
         } else {
-            $record = DB::table($table)->select('id', 'name', 'slug', 'status', 'created_at')->where('id', $id)->first();
+            $record = DB::table($table)->whereNull('deleted_at')->select('id', 'name', 'slug', 'status', 'created_at')->where('id', $id)->first();
             abort_if($record === null, 404);
             $this->schema->require('products');
-            $query = DB::table('products')->select('products.id', 'products.name', 'products.status', 'products.created_at');
+            $query = DB::table('products')->whereNull('products.deleted_at')->select('products.id', 'products.name', 'products.status', 'products.created_at');
             if ($resource === 'brands') {
                 $query->where('brand_id', $id);
             } else {
@@ -145,7 +151,7 @@ class OwnerResourceReader
             return [];
         }
 
-        $query = DB::table('brands')->select('id', 'name');
+        $query = DB::table('brands')->whereNull('deleted_at')->select('id', 'name');
         if ($selected !== null) {
             $query->orderByRaw('id = ? DESC', [$selected]);
         }

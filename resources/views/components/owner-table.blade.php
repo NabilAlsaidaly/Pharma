@@ -11,12 +11,11 @@
         <div class="overflow-x-auto" tabindex="0" role="region"
             aria-label="جدول {{ $title }}، يمكن تمريره أفقياً">
             <table class="w-full min-w-[40rem] text-right text-sm">
-                <caption class="sr-only">{{ $title }} · عرض وقراءة فقط</caption>
+                <caption class="sr-only">{{ $title }}</caption>
                 <thead class="bg-stone-50 text-xs text-stone-600">{{ $head }}</thead>
                 <tbody class="divide-y divide-stone-100">{{ $slot }}</tbody>
             </table>
         </div>
     @endif
-    <p class="border-t border-stone-100 px-5 py-3 text-xs leading-6 text-stone-500">التحديد لهذه الصفحة فقط، ولا ينفّذ
-        أي إجراء على السجلات.</p>
+    <p class="border-t border-stone-100 px-5 py-3 text-xs leading-6 text-stone-500">مربعات الجدول تحدد سجلات الصفحة. في إدارة الكتالوج يمكنكِ اختيار كل النتائج من نطاق التحديد، ثم معاينة الإجراء وتأكيده.</p>
 </section>
