@@ -19,6 +19,7 @@ class FavoriteOperations
             ->select(['products.id', 'products.brand_id', 'products.name', 'products.slug', 'products.short_description',
                 'products.availability_status', 'products.is_recommended', 'products.price_usd', 'products.price_syp'])
             ->with(['brand:id,name,slug', 'primaryImage'])->withCount('variants')
+            ->withPricingOwnership()
             ->withMin('variants', 'price_usd')->withMax('variants', 'price_usd')->withMin('variants', 'price_syp')->withMax('variants', 'price_syp')
             ->orderByDesc('favorites.created_at')->orderBy('products.id')->paginate($perPage);
     }

@@ -12,7 +12,7 @@ class ProductResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
-        $variantPricing = (int) $this->variants_count > 0;
+        $variantPricing = $this->has_physical_variants;
         $pricing = ['source' => $variantPricing ? 'variants' : 'product', 'price_usd' => $variantPricing ? null : $this->price_usd, 'price_syp' => $variantPricing ? null : $this->price_syp];
         if ($variantPricing) {
             $pricing['range_usd'] = ['min' => $this->variants_min_price_usd, 'max' => $this->variants_max_price_usd];

@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string|null $suitable_for
  * @property string|null $benefits
  * @property int $variants_count
+ * @property bool $has_physical_variants
  * @property string|null $variants_min_price_usd
  * @property string|null $variants_max_price_usd
  * @property string|null $variants_min_price_syp
@@ -43,6 +44,12 @@ class Product extends Model
     public function scopePubliclyVisible(Builder $query): void
     {
         $query->where('products.status', CatalogStatus::Active->value)->whereHas('brand', fn (Builder $brand) => $brand->where('status', CatalogStatus::Active->value));
+    }
+
+    public function scopeWithPricingOwnership(Builder $query): void
+    {
+        // P1 ownership survives archival; current Variant counts/ranges keep their own scopes.
+        $query->withExists(['variants as has_physical_variants' => fn ($variants) => $variants->withTrashed()]);
     }
 
     /** @return BelongsTo<Brand, $this> */

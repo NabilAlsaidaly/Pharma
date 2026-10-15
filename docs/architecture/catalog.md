@@ -49,3 +49,17 @@ is not activated; no production image content exists in development.
 All development Catalog tables are initially empty; tests use isolated fixtures only.
 Identity/Google/Customer schema and data remain unchanged. System Console, management,
 stock, cache, payments and all future modules remain outside implementation.
+
+## Phase 6C correction FIX-6C-001
+
+Physical Variant existence reserves P1 ownership even after archival. Public/current
+Variant collections and currency min/max still exclude SoftDeletes. Product's explicit
+`withPricingOwnership()` SQL EXISTS projection (`has_physical_variants`, including
+archived rows) determines ProductResource pricing.source independently of the current
+variants_count. Both EloquentPublicCatalogReader and the Favorites listing apply it;
+every ProductResource consumer is covered without exposing the internal flag or
+archived metadata, adding queries, or hydrating Variants for ownership. All-archived
+Products return source=variants with null direct prices and null range endpoints.
+Direct Products retain the existing pricing JSON shape. Cart/Checkout physical counts,
+admission, retention and historical idempotency remain unchanged. See the
+[reproduction and regression report](../reports/phase-06c-fix-001-pricing-ownership.md).

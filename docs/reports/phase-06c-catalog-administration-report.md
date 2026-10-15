@@ -241,3 +241,5 @@ Explicit authorized schema rollout/backup/physical target verification for pendi
 ## 60. Owner review checklist
 
 Require final exact-head successful CI/open unmerged PR, actual Arabic form/image/archive/bulk/restore browser evidence, immutable Customer/history snapshots, race barriers/outcomes, typed cap100 confirmations, decimal/physical-Variant ownership, media compensation limits and eleven-table preservation proof. Review remaining production/accessibility limits separately. No merge, development migration, real provisioning or Phase6D authorized by delivery.
+
+Pre-merge correction FIX-6C-001: the historical source/final CI evidence above remains unchanged. A later focused runtime test proved all-archived physical Variants incorrectly serialized source=product through the public/current count. Shared explicit physical-ownership projection now covers public Catalog and Favorites without exposing archived metadata or changing Cart/Checkout. Before/after values, six regressions, updated full results and exact correction-head CI are tracked in the [25-section correction report](phase-06c-fix-001-pricing-ownership.md) and existing PR7; no new PR or migration.
