@@ -4,7 +4,7 @@ Date: 2026-10-15 (Asia/Damascus client context). CONFIRMED = observed; POTENTIAL
 
 ## 1. Arabic executive summary
 
-أُضيفت إدارة عربية مخصصة للكتالوج داخل Laravel: إنشاء وتعديل المنتجات والعلامات والاهتمامات والخيارات، أسعار مستقلة، وسائط آمنة، أرشفة واستعادة، وعمليات جماعية محدودة ومؤكدة مع سجل تدقيق دائم. تُحفظ المفضلة والسلة والطلبات السابقة. لا يوجد حذف نهائي أو تغيير مدفوعات أو مخزون أو ترحيل لقاعدة التطوير. تبقى أدلة المتصفح والالتزام النهائي وCI شروطاً مستقلة قبل إعلان اكتمال التسليم.
+أُضيفت إدارة عربية مخصصة للكتالوج داخل Laravel: إنشاء وتعديل المنتجات والعلامات والاهتمامات والخيارات، أسعار مستقلة، وسائط آمنة، أرشفة واستعادة، وعمليات جماعية محدودة ومؤكدة مع سجل تدقيق دائم. تُحفظ المفضلة والسلة والطلبات السابقة. اكتمل فحص المتصفح ونجح CI للمصدر بـ453 اختباراً و3694 تحققاً. لا يوجد حذف نهائي أو تغيير مدفوعات أو مخزون أو ترحيل لقاعدة التطوير. يُتحقق أيضاً من CI لالتزام التوثيق النهائي، ويُثبت دليله في طلب المراجعة والتسليم.
 
 ## 2. Starting commit
 
@@ -12,7 +12,7 @@ CONFIRMED: fetched origin/main, verified merged PR6 main `a15753aa79b8bf1cde96d7
 
 ## 3. Final feature commit
 
-Implementation/source and final documentation evidence hashes are recorded after publication in sections5/53 and PR description. Final delivery must match local HEAD/remote feature head and successful final-head workflow. Pending until independently checked.
+CONFIRMED implementation/source head `488526a58335224b5a40997677a63d8d277b44ae`, successful source CI below. This following evidence-only documentation commit changes this report without changing source/tests. Its own final hash and exact-head workflow are independently recorded in PR7/final delivery after verification; a file cannot embed its own commit hash. Final delivery must match local HEAD/remote feature head and successful final-head workflow.
 
 ## 4. Feature branch
 
@@ -20,7 +20,7 @@ Implementation/source and final documentation evidence hashes are recorded after
 
 ## 5. Pull Request URL
 
-Pending one Phase6C PR against main; must remain OPEN/UNMERGED. No merge or deployment authorization.
+CONFIRMED one [Phase6C PR7](https://github.com/NabilAlsaidaly/Pharma/pull/7), base main `a15753aa79b8bf1cde96d7e3fc11928522b776b7`, feature head above. OPEN/UNMERGED; no merge or deployment performed.
 
 ## 6. Exact authorized scope
 
@@ -140,7 +140,7 @@ Products sorted first, children then Brands/Concerns sorted; bulk prelocks entir
 
 ## 35. Actual concurrency evidence
 
-CONFIRMED:15focused independent-process scenarios: competing Owner edits, parent-price/first-Variant, Product archive/Cart add, Variant archive/submission, Brand hide/selection, primary contention, overlapping bulk, Variant restore/parent-price, Product restore/Brand archive, Variant archive/Cart increase, Product archive/submission, Brand hide/submission, simultaneous slugs, archive/restore, Variant-price/parent-price. Held row or insert-gap barrier, independent connection IDs and actual blocked SQL observed through processlist before commit; final state/audit assertions. Final local worker instrumentation records one outer transaction attempt per worker across all15cases; no retries/deadlocks observed in these controlled overlaps. No sequential test is called a race. Earlier9case run79assertions; expanded outcomes and final exact counts are recorded below after verification.
+CONFIRMED:15focused independent-process scenarios: competing Owner edits, parent-price/first-Variant, Product archive/Cart add, Variant archive/submission, Brand hide/selection, primary contention, overlapping bulk, Variant restore/parent-price, Product restore/Brand archive, Variant archive/Cart increase, Product archive/submission, Brand hide/submission, simultaneous slugs, archive/restore, Variant-price/parent-price. Held row or insert-gap barrier, independent connection IDs and actual blocked SQL observed through processlist before commit; final state/audit assertions. Final local and source CI instrumentation records one outer transaction attempt per worker across all15cases; no retries/deadlocks observed in these controlled overlaps. CI worker connections57..109 independently observed; competing edits/bulk reject one409, slug rejects duplicate SQL, parent price attempts reject P1, primary attempts both succeed serially with exactly one final primary. No sequential test is called a race. Exact full counts below.
 
 ## 36. Query counts
 
@@ -148,7 +148,7 @@ CONFIRMED13 HTTP paths at50/200 Products with10Variants/20Images/Brands/Concerns
 
 ## 37. Index usage
 
-Local EXPLAIN uses products_deleted_at_id_index covering lookup for current Product ID paging. Existing status/date index and literal name/global date scan limits retained; new soft-delete scope can alter optimizer choice. CI8.4 plan evidence must be checked independently. No wildcard/range indexing claim without measured support.
+Local9.7 EXPLAIN uses products_deleted_at_id_index covering lookup for current Product ID paging. Source CI8.4 independently confirms type=ref, key=products_deleted_at_id_index, rows201, Extra='Using where; Using index'. All13HTTP query counts match local values at50/200. Existing status/date index and literal name/global date scan limits retained; new soft-delete scope can alter optimizer choice. No wildcard/range indexing claim without measured support.
 
 ## 38. Image storage consistency
 
@@ -168,11 +168,11 @@ CONFIRMED labelled RTL forms, LTR currencies/IDs, responsive grids, explicit cou
 
 ## 42. PHPUnit test count
 
-CONFIRMED final local full run453passed (221.86s), baseline394 retained plus59new cases. Earlier451run exposed3legitimate historical hard-delete expectation conflicts; no success claimed for that run. Explicit forceDelete retains exact MySQL1451 protection. Last image-restoration cap hardening is separately rechecked in the media suite, then full exact-head CI.
+CONFIRMED local full453passed (221.86s), baseline394 retained plus59new cases. Final media-cap hardening:10passed/83assertions (4.65s), then complete exact source CI453passed (89.06s). Earlier451run exposed3legitimate historical hard-delete expectation conflicts; no success claimed for that run. Explicit forceDelete retains exact MySQL1451 protection. No tests deleted or skipped.
 
 ## 43. PHPUnit assertion count
 
-CONFIRMED local full3689assertions; a final5assertion image-restoration cap regression follows that run. Historical baseline2970 is not a new Phase6C result. Allowed historical race outcomes can cause small assertion-count variation; source/final CI counts must be reported distinctly if different.
+CONFIRMED source CI453tests/3694assertions after final5assertion image-restoration cap regression. Local full before that narrow hardening453tests/3689assertions; final media suite10tests/83assertions. Historical baseline394/2970 is not a new Phase6C result. Allowed historical race outcomes can cause small assertion-count variation; final exact documentation-head CI counts are independently checked and recorded in PR7/final delivery.
 
 ## 44. Historical regression results
 
@@ -200,7 +200,7 @@ One additive Catalog archival/version/index/audit migration, tested only on posi
 
 ## 50. MySQL 8.4/9.7 compatibility
 
-CONFIRMED local9.7.0; original generated-image unique/CHECK/FK tests retained alongside new archival/audit schema. CI8.4 result remains pending exact-head verification; do not substitute local success. Generated expression/index unchanged.
+CONFIRMED local9.7.0 and source CI MySQL8.4.11 (actual container startup version), PHP8.4.26. All453tests pass, original generated-image unique/CHECK/FK tests retained alongside new archival/audit schema. Generated expression/index unchanged. Final documentation-head CI independently checked in PR7 before delivery.
 
 ## 51. Development database preservation
 
@@ -212,7 +212,7 @@ CONFIRMED no real Owner provisioned or real account/Google/.env modification. Al
 
 ## 53. CI URL and final status
 
-NEEDS VERIFICATION until source PR CI and final documentation-head CI are published and checked. Exact final SHA/run/job/test counts are recorded in PR description and final delivery after independent check. Source success must not substitute final-head proof; PR workflow tests GitHub temporary merge ref without merging PR.
+CONFIRMED [source CI run25](https://github.com/NabilAlsaidaly/Pharma/actions/runs/38710138867), [quality job](https://github.com/NabilAlsaidaly/Pharma/actions/runs/38710138867/job/116339201681), source head488526a58335224b5a40997677a63d8d277b44ae: every step successful,453tests/3694assertions,89.06s; build/Pint/PHPStan/Composer audit green. This evidence-only report commit triggers another full CI. Its exact final SHA/run/job/result are independently recorded in PR7 and final delivery after verification, avoiding a self-referential hash. Source success must not substitute final-head proof; PR workflow tests GitHub temporary merge ref without merging PR.
 
 ## 54. Files created
 
