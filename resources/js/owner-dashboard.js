@@ -59,25 +59,37 @@ document.querySelectorAll("[data-selection]").forEach((table) => {
     const all = table.querySelector("[data-select-page]");
     const clear = table.querySelector("[data-clear-selection]");
     const count = table.querySelector("[data-selected-count]");
+    const bulk = document.getElementById("catalog-bulk");
+    const scope = bulk?.querySelector('[name="scope"]');
     const refresh = () => {
         const selected = rows.filter((row) => row.checked).length;
         count.textContent = selected
             ? `تم تحديد ${selected} سجل من هذه الصفحة`
             : "لم يتم تحديد سجلات";
         clear.disabled = selected === 0;
+        if (scope?.value === "matching") {
+            count.textContent = `تم تحديد ${bulk.dataset.matchingCount} سجل مطابق عبر الصفحات`;
+            clear.disabled = false;
+        }
         if (all) {
             all.checked = selected > 0 && selected === rows.length;
             all.indeterminate = selected > 0 && selected < rows.length;
         }
     };
-    rows.forEach((row) => row.addEventListener("change", refresh));
+    scope?.addEventListener("change", refresh);
+    rows.forEach((row) => row.addEventListener("change", () => {
+        if (scope) scope.value = "ids";
+        refresh();
+    }));
     all?.addEventListener("change", () => {
+        if (scope) scope.value = "ids";
         rows.forEach((row) => {
             row.checked = all.checked;
         });
         refresh();
     });
     clear.addEventListener("click", () => {
+        if (scope) scope.value = "ids";
         rows.forEach((row) => {
             row.checked = false;
         });
@@ -85,6 +97,7 @@ document.querySelectorAll("[data-selection]").forEach((table) => {
     });
     // Never retain selection across pages, history restoration or browser storage.
     window.addEventListener("pageshow", () => {
+        if (scope) scope.value = "ids";
         rows.forEach((row) => {
             row.checked = false;
         });

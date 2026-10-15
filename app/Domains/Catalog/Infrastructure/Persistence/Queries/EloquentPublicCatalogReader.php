@@ -41,6 +41,7 @@ class EloquentPublicCatalogReader implements PublicCatalogReader
         return Product::query()->publiclyVisible()->select($columns)
             ->with(['brand:id,name,slug', 'primaryImage'])
             ->withCount('variants')
+            ->withPricingOwnership()
             ->withMin('variants', 'price_usd')->withMax('variants', 'price_usd')
             ->withMin('variants', 'price_syp')->withMax('variants', 'price_syp');
     }

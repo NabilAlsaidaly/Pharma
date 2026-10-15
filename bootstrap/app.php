@@ -1,11 +1,13 @@
 <?php
 
 use App\Domains\Cart\Domain\Exceptions\CartConflict;
+use App\Domains\Catalog\Domain\Exceptions\ConflictingPriceOwnership;
 use App\Domains\Identity\Domain\Exceptions\AccountSuspended;
 use App\Domains\Identity\Interfaces\Http\IdentityErrorResponse;
 use App\Domains\ManagementIdentity\Interfaces\Console\ProvisionOwnerCommand;
 use App\Http\Middleware\AssignRequestId;
 use App\Support\ApiErrorResponse;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -38,6 +40,10 @@ return Application::configure(basePath: dirname(__DIR__))
                 return null;
             }
             if ($exception instanceof ValidationException) {
+                if (str_starts_with((string) $request->route()?->getName(), 'owner.catalog.')) {
+                    return response()->view('owner.catalog.validation', ['validationErrors' => $exception->errors()], 422)
+                        ->header('Cache-Control', 'no-store, private, max-age=0')->header('Referrer-Policy', 'no-referrer');
+                }
                 if (
                     in_array($request->route()->getName(), ['owner.dashboard', 'owner.search'], true)
                     || preg_match('/^owner\.(products|brands|concerns|requests)\./', (string) $request->route()->getName())
@@ -50,6 +56,14 @@ return Application::configure(basePath: dirname(__DIR__))
                     ->withErrors($exception->errors())->withInput($request->only(['email', 'display_name']))
                     ->header('Cache-Control', 'no-store, private, max-age=0')
                     ->header('Referrer-Policy', 'no-referrer');
+            }
+            if ($exception instanceof ConflictingPriceOwnership || $exception instanceof UniqueConstraintViolationException) {
+                return response()->view('owner.catalog.validation', ['validationErrors' => ['catalog' => ['تعارض في ملكية السعر أو رابط محجوز. راجعي القيم وحدّثي الصفحة.']]], 409)
+                    ->header('Cache-Control', 'no-store, private, max-age=0')->header('Referrer-Policy', 'no-referrer');
+            }
+            if ($exception instanceof HttpExceptionInterface && in_array($exception->getStatusCode(), [409, 422], true) && str_starts_with((string) $request->route()?->getName(), 'owner.catalog.')) {
+                return response()->view('owner.catalog.validation', ['validationErrors' => ['catalog' => [$exception->getMessage() ?: 'تعذر تنفيذ الإجراء. حدّثي الصفحة وأعيدي المعاينة.']]], $exception->getStatusCode())
+                    ->header('Cache-Control', 'no-store, private, max-age=0')->header('Referrer-Policy', 'no-referrer');
             }
             $status = $exception instanceof HttpExceptionInterface ? $exception->getStatusCode() : 500;
 

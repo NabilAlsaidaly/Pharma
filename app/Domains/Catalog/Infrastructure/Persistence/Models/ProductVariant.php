@@ -8,11 +8,12 @@ use App\Domains\Catalog\Infrastructure\Persistence\Concerns\HasCatalogPrices;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /** @property AvailabilityStatus $availability_status */
 class ProductVariant extends Model
 {
-    use HasCatalogPrices, HasUuids;
+    use HasCatalogPrices, HasUuids, SoftDeletes;
 
     protected $fillable = ['product_id', 'name', 'price_usd', 'price_syp', 'availability_status', 'sort_order'];
 

@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property AvailabilityStatus $availability_status
@@ -23,6 +24,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property string|null $suitable_for
  * @property string|null $benefits
  * @property int $variants_count
+ * @property bool $has_physical_variants
  * @property string|null $variants_min_price_usd
  * @property string|null $variants_max_price_usd
  * @property string|null $variants_min_price_syp
@@ -30,7 +32,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  */
 class Product extends Model
 {
-    use HasCatalogPrices, HasUuids;
+    use HasCatalogPrices, HasUuids, SoftDeletes;
 
     protected $fillable = ['brand_id', 'name', 'slug', 'short_description', 'full_description', 'status', 'availability_status', 'is_recommended', 'usage_instructions', 'suitable_for', 'benefits', 'price_usd', 'price_syp'];
 
@@ -42,6 +44,12 @@ class Product extends Model
     public function scopePubliclyVisible(Builder $query): void
     {
         $query->where('products.status', CatalogStatus::Active->value)->whereHas('brand', fn (Builder $brand) => $brand->where('status', CatalogStatus::Active->value));
+    }
+
+    public function scopeWithPricingOwnership(Builder $query): void
+    {
+        // P1 ownership survives archival; current Variant counts/ranges keep their own scopes.
+        $query->withExists(['variants as has_physical_variants' => fn ($variants) => $variants->withTrashed()]);
     }
 
     /** @return BelongsTo<Brand, $this> */
@@ -78,8 +86,8 @@ class Product extends Model
     {
         return $this->getConnection()->transaction(function () use ($options) {
             if ($this->exists) {
-                static::query()->whereKey($this->getKey())->lockForUpdate()->firstOrFail();
-                if (($this->price_usd !== null || $this->price_syp !== null) && $this->variants()->exists()) {
+                static::withTrashed()->whereKey($this->getKey())->lockForUpdate()->firstOrFail();
+                if (($this->price_usd !== null || $this->price_syp !== null) && $this->variants()->withTrashed()->lockForUpdate()->exists()) {
                     throw new ConflictingPriceOwnership('Variant products cannot own parent prices.');
                 }
             }
