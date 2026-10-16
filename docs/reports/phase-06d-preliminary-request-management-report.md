@@ -20,7 +20,7 @@ Recorded after source/evidence commits and independent exact-head verification i
 
 ## 5. PR URL
 
-Pending one Phase6D PR against main. Must remain OPEN/UNMERGED; no deployment or subsequent milestone.
+CONFIRMED exactly one [Phase6D PR #8](https://github.com/NabilAlsaidaly/Pharma/pull/8) against main, OPEN/UNMERGED. No deployment or subsequent milestone.
 
 ## 6. Design gate and Owner approval
 
@@ -143,7 +143,7 @@ CONFIRMED empty list4. At50/200/1000synthetic requests, exact equal counts acros
 
 ## 34. Index plans
 
-CONFIRMED before Owner-wide date query used covering scan of Customer-first index plus sort. New additive checkout_owner_created_id_index after: local covering range scan; at1000rows measured plan uses that covering index with25rows/Using where;Using index. Existing status/activity/event request-time indexes support predicates/history; joins/count costs may still scale. No contact index or unmeasured throughput claim; CI8.4 plan must be independently checked.
+CONFIRMED before Owner-wide date query used covering scan of Customer-first index plus sort. New additive checkout_owner_created_id_index after: local covering range scan; at1000rows measured plan uses that covering index with25rows/Using where;Using index. Source CI on MySQL8.4.11 independently confirms checkout_owner_created_id_index, type=index, rows25, Using where;Using index, and all ten HTTP counts at50/200/1000 equal the local measurements. Existing status/activity/event request-time indexes support predicates/history; joins/count costs may still scale. No contact index or unmeasured throughput claim.
 
 ## 35. Responsive/browser evidence
 
@@ -163,7 +163,7 @@ CONFIRMED final full511passed/4498assertions,04:57.436,86MB,PHPUNIT_EXIT=0 and J
 
 ## 39. Total assertions
 
-CONFIRMED actual final full4498assertions/511tests. Initial focused50/479 and historical459/3991 are independently executed results, not substituted final counts. Exact source/final CI counts will be separately verified.
+CONFIRMED actual final local full4498assertions/511tests; source CI independently passed511tests/4498assertions in134.51seconds. Initial focused50/479 and historical459/3991 are independently executed results, not substituted final counts. Documentation-head CI is independently verified after this evidence commit and recorded in PR/final delivery.
 
 ## 40. Pint result
 
@@ -183,7 +183,7 @@ CONFIRMED locked npm ci --offline --no-audit --no-fund,87existing packages; Vite
 
 ## 44. MySQL compatibility
 
-CONFIRMED local9.7.0/REPEATABLE-READ. Additive schema/real constraints/aggregates/independent races exercised. Exact-head CI8.4 pending; local success is not substituted. Original generated Catalog/Checkout keys unchanged.
+CONFIRMED local9.7.0/REPEATABLE-READ and source CI MySQL8.4.11/PHP8.4.26. Additive schema/real constraints/aggregates/independent races exercised on both environments. CI logs independently show seven overlapping-worker cases plus coherent snapshot reader/writer (connections561 through589), attempts1, committed replay sharing one event, stale conflicts and captured-set isolation. Original generated Catalog/Checkout keys unchanged. Final documentation-head CI is separately verified externally.
 
 ## 45. Database preservation
 
@@ -195,7 +195,7 @@ CONFIRMED only synthetic guarded test Owners. No real account/Customer/media/.en
 
 ## 47. CI URL/status
 
-Pending source PR and final evidence-head CI. Exact final SHA/run/job/result independently recorded in PR/final delivery after verification; report file cannot contain its own hash. No merge/deployment.
+CONFIRMED source head1de487f8a4a4c5073fa74c6f6808b360043c7f6b, [CI run30](https://github.com/NabilAlsaidaly/Pharma/actions/runs/38911607630), quality job117008564872: every step successful, including locked build, formatting, PHPStan,511tests/4498assertions and security audit without advisories. PR#8 remains OPEN/UNMERGED. Final documentation evidence-head SHA/run/job/result independently verified and recorded in PR/final delivery after this commit; report file cannot contain its own hash. No merge/deployment.
 
 ## 48. Created/modified files
 
@@ -221,4 +221,4 @@ Explicit authorized schema rollout/backup/physical target verification for all p
 
 ## 53. Merge-readiness assessment
 
-Owner-approved policy implemented; focused/race/browser evidence confirmed. Full latest tests and final preservation comparison pass; one OPEN/UNMERGED PR and exact final-head successful CI remain required before declaring completion. No merge/deployment/subsequent milestone is authorized by delivery.
+Owner-approved policy implemented; focused/race/browser evidence confirmed. Full latest local tests, final preservation comparison and source CI pass; exactly one PR#8 is OPEN/UNMERGED. Source change comprises44files (29new/15modified). Ready for Owner review subject to independently successful documentation-head CI, recorded in the PR/final delivery before declaring completion. Rollout prerequisites in section52 remain separate operational work. No merge/deployment/subsequent milestone is authorized by delivery.
