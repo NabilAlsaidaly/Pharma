@@ -16,11 +16,11 @@ CONFIRMED: feature/store-commercial-settings-and-content created from verified c
 
 ## 4. Final feature SHA
 
-NEEDS VERIFICATION: final source/evidence commit hash is recorded externally in PR/final delivery after this report's commit, avoiding an impossible self-referential hash. Final documentation-head CI must be independently verified.
+Final feature SHA is independently recorded in PR/final delivery after this report's commit, avoiding an impossible self-referential hash. Source head3d5e14908d24c04b6ff8b624d4bbd1eb26da5cb2 is verified below; final documentation-head CI must independently succeed before delivery.
 
 ## 5. Pull Request URL
 
-NEEDS VERIFICATION: exactly one Phase6E PR against main will be opened and left OPEN/UNMERGED after local gates; URL recorded here with source CI evidence.
+CONFIRMED: exactly one [Phase6E PR#9](https://github.com/NabilAlsaidaly/Pharma/pull/9) against main, OPEN/UNMERGED, source head3d5e14908d24c04b6ff8b624d4bbd1eb26da5cb2. No merge/deployment or subsequent milestone.
 
 ## 6. Design gate
 
@@ -168,7 +168,7 @@ CONFIRMED: empty overview3SQL. At1/20/100records (banners capped20, FAQ/zones re
 
 ## 42. EXPLAIN findings
 
-CONFIRMED: local9.7actual EXPLAIN: event time/id covering reverse index scan rows25; per-record FAQ revision uses se7_revision_unique covering reverse lookup rows1. These demonstrate selected indexes at measured data, not guaranteed plans at arbitrary scale. MySQL8.4CI plans require separate log verification.
+CONFIRMED: local9.7actual EXPLAIN: event time/id covering reverse index scan rows25; per-record FAQ revision uses se7_revision_unique covering reverse lookup rows1. Source CI MySQL8.4.11 independently confirms store_event_time_index type=index/rows25 and se7_revision_unique type=ref/rows1, both Backward index scan;Using index, with identical ten-path counts at1/20/100. These demonstrate selected indexes at measured data, not guaranteed plans at arbitrary scale.
 
 ## 43. Real MySQL concurrency evidence
 
@@ -192,7 +192,7 @@ CONFIRMED: latest complete suite580tests/5240assertions,09:07.812,90MB,PHPUNIT_E
 
 ## 48. Total assertions
 
-CONFIRMED: actual latest local full5240assertions/580tests, JUnit/output verified. Final source/documentation-head CI counts will be independently read from job logs. Baseline/focused counts are not substituted.
+CONFIRMED: latest local full5240assertions/580tests, JUnit/output verified. Source CI independently passed580tests/5240assertions in220.16seconds on PHP8.4.26/MySQL8.4.11. Logs show all six independent-process races with connections659–681,attempts1, expected stale409/replay/safe image outcomes. Final documentation-head CI independently verified externally after this evidence commit. Baseline/focused counts are not substituted.
 
 ## 49. Pint result
 
@@ -228,7 +228,7 @@ CONFIRMED: none. Existing Laravel13/PHP8.4/MySQL/Blade/Tailwind/Vite/GD/native J
 
 ## 57. Final-head CI URL/status
 
-NEEDS VERIFICATION: source PR/head and final report-evidence head CI will be independently checked; no prior-main/source result substitutes for exact final feature HEAD. Record exact final SHA/run/job/results in PR/final delivery to avoid report self-reference. No merge/deployment.
+CONFIRMED: source head3d5e14908d24c04b6ff8b624d4bbd1eb26da5cb2, [CI run33](https://github.com/NabilAlsaidaly/Pharma/actions/runs/38927763425), quality job117063595204, every step successful including locked frontend build, Pint, PHPStan,580tests/5240assertions and security audit without advisories. Real server log confirms MySQL8.4.11, installed PHP8.4.26. Final report-evidence head SHA/run/job/results are independently recorded in PR/final delivery after verification, avoiding report self-reference. No prior-main/source result substitutes for exact final feature HEAD. No merge/deployment.
 
 ## 58. Remaining risks
 
@@ -244,4 +244,4 @@ CONFIRMED: separately authorize backup and physical-target verification, apply a
 
 ## 61. Merge-readiness assessment
 
-CONFIRMED local gates; NEEDS VERIFICATION final CI: Owner-approved implementation, full580/5240, independent focused/race/browser evidence and final development preservation pass; exact final-head CI remains required before declaring completion. Deliver exactly one OPEN/UNMERGED PR and stop, no deployment/next phase.
+CONFIRMED: Owner-approved implementation, local full580/5240, independent focused/race/browser evidence, development preservation and source CI all pass. Exactly one PR#9 remains OPEN/UNMERGED and is ready for Owner review subject to independently verified successful final documentation-head CI, recorded in PR/final delivery before declaring completion. Rollout prerequisites remain separate authorized operational work. No merge/deployment/next phase.
