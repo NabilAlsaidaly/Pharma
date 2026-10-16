@@ -24,3 +24,5 @@ Infrastructure and Interfaces boundaries; their responsibilities describe future
 System Console is outside these modules at `packages/system-console/`. Its operational skeleton covers Health, Metrics, Backup, Cache, Queue, Scheduler, Logs, Settings, Maintenance, Actions and Support. It must never depend on Sumaya business models.
 
 Phase 6C: Catalog/Application/Administration owns Catalog business writes/archival/media/bulk/auditing. Catalog HTTP Owner adapter uses the existing identity boundary and dashboard presentation; ManagementDashboard remains read-only. Customer identity, Cart, Checkout history and System Console ownership remain unchanged. See [Catalog administration](catalog-administration.md).
+
+Phase 6D: Orders/Application/Review owns preliminary-request operational review, private notes/events and atomic bounded bulk actions. ManagementDashboard consumes read projections; existing Owner identity/Blade adapters provide access. Submission facts, Customer APIs, Cart/Catalog/payment/System Console remain unchanged. See [review architecture](preliminary-request-management.md).

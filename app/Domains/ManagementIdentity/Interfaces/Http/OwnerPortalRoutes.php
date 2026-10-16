@@ -10,6 +10,8 @@ use App\Domains\ManagementIdentity\Interfaces\Http\Controllers\OwnerAuthenticati
 use App\Domains\ManagementIdentity\Interfaces\Http\Middleware\OwnerLoginAttempts;
 use App\Domains\ManagementIdentity\Interfaces\Http\Middleware\OwnerPortalResponse;
 use App\Domains\ManagementIdentity\Interfaces\Http\Middleware\RequireOwner;
+use App\Domains\Orders\Interfaces\Http\Owner\OwnerRequestReviewController;
+use App\Domains\Orders\Interfaces\Http\Owner\ReviewWriteThrottle;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
@@ -62,7 +64,14 @@ class OwnerPortalRoutes
                 Route::patch('catalog/{type}/{id}', [OwnerCatalogController::class, 'save'])->whereIn('type', ['products', 'brands', 'concerns', 'variants'])->whereUuid('id')->name('catalog.update');
                 Route::post('catalog/{type}/{id}/media', [OwnerCatalogController::class, 'upload'])->whereIn('type', ['products', 'brands'])->whereUuid('id')->name('catalog.upload');
                 Route::patch('catalog/products/{id}/images/{image}', [OwnerCatalogController::class, 'image'])->whereUuid(['id', 'image'])->name('catalog.image');
-                foreach (['products', 'brands', 'concerns', 'requests'] as $resource) {
+                Route::get('requests', [OwnerRequestReviewController::class, 'index'])->name('requests.index');
+                Route::get('requests/{id}', [OwnerRequestReviewController::class, 'show'])->whereUuid('id')->name('requests.show');
+                Route::middleware(ReviewWriteThrottle::class)->group(function (): void {
+                    Route::post('requests/preview', [OwnerRequestReviewController::class, 'preview'])->name('requests.preview');
+                    Route::post('requests/confirm', [OwnerRequestReviewController::class, 'confirm'])->name('requests.confirm');
+                    Route::post('requests/{id}/review', [OwnerRequestReviewController::class, 'mutate'])->whereUuid('id')->name('requests.review');
+                });
+                foreach (['products', 'brands', 'concerns'] as $resource) {
                     Route::get($resource, [OwnerDashboardController::class, 'index'])->defaults('resource', $resource)->name($resource.'.index');
                     Route::get($resource.'/{id}', [OwnerDashboardController::class, 'show'])->defaults('resource', $resource)
                         ->whereUuid('id')->name($resource.'.show');

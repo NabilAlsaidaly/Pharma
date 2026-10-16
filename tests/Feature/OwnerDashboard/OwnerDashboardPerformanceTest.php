@@ -42,8 +42,9 @@ class OwnerDashboardPerformanceTest extends OwnerDashboardTestCase
             $measurements[$target] = $counts;
         }
         $this->assertSame($measurements[50], $measurements[200]);
-        foreach ($measurements[200] as $count) {
-            $this->assertLessThanOrEqual(10, $count);
+        foreach ($measurements[200] as $name => $count) {
+            // Phase6D adds two real SQL review aggregates only to the overview.
+            $this->assertLessThanOrEqual($name === 'dashboard' ? 11 : 10, $count);
         }
         $plans = [
             'name_contains' => DB::select("EXPLAIN SELECT id, name FROM products WHERE name LIKE ? ESCAPE '!' ORDER BY name, id LIMIT 10", ['%مرطب%']),
