@@ -4,12 +4,26 @@ use App\Domains\Cart\Interfaces\Http\Controllers\CartController;
 use App\Domains\Catalog\Interfaces\Http\Controllers\PublicCatalogController;
 use App\Domains\Content\Interfaces\Http\PublicStorefrontController;
 use App\Domains\Favorites\Interfaces\Http\Controllers\FavoriteController;
+use App\Domains\Gifts\Interfaces\Http\GiftApiController;
+use App\Domains\Gifts\Interfaces\Http\GiftHttpBoundary;
 use App\Domains\Identity\Interfaces\Http\Controllers\CustomerSessionController;
 use App\Domains\Identity\Interfaces\Http\Middleware\EnsureActiveCustomer;
 use App\Domains\Orders\Interfaces\Http\Controllers\CheckoutEvaluationController;
 use App\Domains\Orders\Interfaces\Http\Controllers\PreliminaryRequestController;
 use App\Http\Middleware\LimitPersonalMutationBody;
 use Illuminate\Support\Facades\Route;
+
+Route::prefix('gifts')->middleware(GiftHttpBoundary::class)->controller(GiftApiController::class)->group(function (): void {
+    Route::get('packages', 'index');
+    Route::get('packages/{slug}', 'show')->where('slug', '[a-z0-9]+(?:-[a-z0-9]+)*');
+    Route::get('occasions', 'occasions');
+    Route::get('media/{id}.png', 'media')->whereUuid('id');
+});
+Route::prefix('gifts')->middleware(['auth:sanctum', EnsureActiveCustomer::class, GiftHttpBoundary::class])->controller(GiftApiController::class)->group(function (): void {
+    Route::post('requests', 'store');
+    Route::get('requests', 'history')->middleware('throttle:personal-collections');
+    Route::get('requests/{id}', 'requestDetail')->whereUuid('id')->middleware('throttle:personal-collections');
+});
 
 Route::prefix('storefront')->controller(PublicStorefrontController::class)->group(function (): void {
     Route::get('media/{id}.png', 'media')->whereUuid('id');

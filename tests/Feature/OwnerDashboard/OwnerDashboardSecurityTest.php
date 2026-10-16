@@ -67,7 +67,7 @@ class OwnerDashboardSecurityTest extends OwnerDashboardTestCase
         $response = $this->get(route('owner.products.index'))->assertOk()->assertSee('aria-current="page"', false);
         $navigation = app(OwnerNavigation::class);
         $entries = $navigation->resolve($navigation->definitions(), $this->owner);
-        $this->assertCount(9, $entries);
+        $this->assertCount(12, $entries);
         foreach ($entries as $entry) {
             $this->assertTrue(Route::has($entry['route']));
         }

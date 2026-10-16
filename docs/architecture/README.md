@@ -1,5 +1,7 @@
 # Architecture
 
+Phase 6F: [Gifts](gift-domain.md), [hybrid composition](gift-package-composition.md), [publication/revisions](gift-publication-and-revisions.md), [preliminary Gift Requests](preliminary-gift-requests.md), [individual review](gift-review-workflow.md), [ADR025](../adr/ADR-025-dynamic-hybrid-gifts.md). Laravel owns business truth; no confirmed commercial Order/payment/stock/shipping or Next.js implementation.
+
 Phase 6B: [ManagementDashboard](owner-dashboard.md) is a protected read-side presentation module over current business data, with custom Arabic Blade navigation, bounded search/statistics and read-only lists/details.
 
 Phase 6A: [Owner authentication](owner-authentication.md) implements ManagementIdentity and a custom Blade personal account interface separately from Customer Identity and System Console.

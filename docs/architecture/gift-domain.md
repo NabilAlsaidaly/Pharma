@@ -1,0 +1,9 @@
+# Gifts domain
+
+See [approved gate](../reports/phase-06f-gift-business-design-gate.md) and [ADR025](../adr/ADR-025-dynamic-hybrid-gifts.md). Gifts' Domain owns pure version/quantity-related identity rules; Application owns explicit package/occasion/submission/review commands and allowlisted validation; Infrastructure owns narrow Catalog reads, published SQL eligibility, coherent private readers and SQL coordination; Interfaces owns Resources, REST adapters, native Owner forms and route/boundary registration. Existing private Owner shell and Customer session identity are reused.
+
+CatalogSelectionReader supplies authoritative current Product, exact Variant, physical Variant count (including archived), Brand visibility and effective availability under its established locks. Gifts ignores component unit prices. It does not reuse CartEvaluator's currency-price admission or copy Catalog persistence models/business writes into Gifts. ReviewStatus from Orders is a small existing pure approved rule; no Checkout review persistence is reused.
+
+GiftStore is internal Gifts coordination, not an arbitrary table/setting repository. It loads only fixed revision families and serializes fixed audit projections. GiftInput uses shared technical plain-text validation; it never grants browser-selected schema keys. No event bus, microservice, admin framework, generic workflow engine or dependency is added.
+
+The [schema](../database/gift-schema.md), [composition](gift-package-composition.md), [publication](gift-publication-and-revisions.md), [submission](preliminary-gift-requests.md), [review](gift-review-workflow.md), [security](../security/gift-security.md) and internal APIs document concrete contracts. Runtime behavior still requires final verification recorded in the phase report; this is not production rollout evidence.

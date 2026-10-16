@@ -120,7 +120,7 @@ class StoreSecurityTest extends StoreConfigurationTestCase
             }
         }
         $routes = collect(Route::getRoutes()->getRoutes())->filter(fn ($r) => str_starts_with((string) $r->getName(), 'owner.'));
-        $this->assertCount(40, $routes);
+        $this->assertCount(53, $routes);
         $this->assertDatabaseCount('content_pages', 2);
         $this->assertDatabaseHas('content_pages_revisions', ['record_id' => $other, 'version' => 1]);
     }

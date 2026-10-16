@@ -45,6 +45,9 @@ class ApiErrorResponse
 
         // Preserve protocol headers such as Retry-After and Allow, never exception messages.
         $headers = $exception instanceof HttpExceptionInterface ? $exception->getHeaders() : [];
+        if ($request->is('api/v1/gifts/*')) {
+            $headers['Cache-Control'] = 'no-store, private';
+        }
 
         return response()->json([
             'success' => false,
