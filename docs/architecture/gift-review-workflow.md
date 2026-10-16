@@ -1,0 +1,9 @@
+# Gift review workflow
+
+GiftRequests supplies private Owner request summaries/details; ReviewGiftRequest writes only gift_request_reviews, gift_review_events and bounded generic gift_change_events metadata. Original request/header/components remain immutable. A missing review is inferred new/version0; reads create nothing. GET detail/review/timeline share a REPEATABLE READ transaction.
+
+Use the exact existing pure ReviewStatus::allows rule: new→under_review/awaiting_contact; under_review→awaiting_contact/reviewed; awaiting_contact→under_review; reviewed→under_review with mandatory reason. No bulk. Notes and manual follow-up retain state, require nonempty text<=2000 and append an attributed event; no actual contact/notification outcome is invented. Review completion is not purchase/payment/delivery confirmation.
+
+Owner is locked/revalidated before Owner-scoped operation replay; request header then review are locked before expected-version check and atomic aggregate/event/audit writes. Matching committed replay precedes stale validation; changed payload or stale409. Owner serialization prevents same operation identity from racing across different Gift targets. Version is a canonical decimal string, exact even beyond JavaScript integer precision; overflow rejected. Review-start time records first state transition, completion time clears on reopening, last activity records every real event, actor ID remains stable while display name is a current bounded join.
+
+List filters safe identifier prefix, currency, approved review status, paired submission dates<=93days in app timezone converted to half-open UTC; pages<=1000, bounded page sizes. Original submission and event timestamps are distinct. Timeline25/page and generic audit25/page. Notes/follow-up bodies appear only on Owner detail and never generic audit or Customer resources. Raw SQL/DBA changes are outside application append-only guarantees.

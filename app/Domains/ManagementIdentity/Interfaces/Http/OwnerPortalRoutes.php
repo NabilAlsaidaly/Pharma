@@ -5,6 +5,7 @@ namespace App\Domains\ManagementIdentity\Interfaces\Http;
 use App\Domains\Catalog\Interfaces\Http\Controllers\OwnerCatalogController;
 use App\Domains\Catalog\Interfaces\Http\LimitOwnerCatalogBody;
 use App\Domains\Content\Interfaces\Http\OwnerStoreContentController;
+use App\Domains\Gifts\Interfaces\Http\GiftOwnerRoutes;
 use App\Domains\ManagementDashboard\Interfaces\Http\Controllers\OwnerDashboardController;
 use App\Domains\ManagementIdentity\Interfaces\Http\Controllers\OwnerAccountController;
 use App\Domains\ManagementIdentity\Interfaces\Http\Controllers\OwnerAuthenticationController;
@@ -51,6 +52,7 @@ class OwnerPortalRoutes
             Route::get('login', [OwnerAuthenticationController::class, 'form'])->name('login');
             Route::post('login', [OwnerAuthenticationController::class, 'login'])->middleware(OwnerLoginAttempts::class)->name('login.submit');
             Route::middleware(RequireOwner::class)->group(function (): void {
+                GiftOwnerRoutes::register();
                 Route::get('/', [OwnerAccountController::class, 'home'])->name('home');
                 Route::get('profile', [OwnerAccountController::class, 'profile'])->name('profile');
                 Route::patch('profile', [OwnerAccountController::class, 'update'])->name('profile.update');

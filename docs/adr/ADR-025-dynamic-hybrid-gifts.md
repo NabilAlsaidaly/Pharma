@@ -1,0 +1,15 @@
+# ADR-025: Dynamic hybrid gift packages and preliminary requests
+
+Status: accepted for Phase 6F implementation. Number025 checked unused on main `07b31d05fad1f99f110c862ede904291815ef07f`. Owner approved the [consolidated gate](../reports/phase-06f-gift-business-design-gate.md): «أعتمد المقترح كاملاً بتفاصيله وحدوده».
+
+Gifts owns ready-made packages with Catalog-linked exact selections and manual components, independent USD/SYP package prices, occasions, private raster media, immutable package revisions, preliminary Customer requests and their separate operational reviews. No stored value, component price inheritance, customized bundles, stock or financial workflow. Laravel remains authoritative; Next.js is deferred.
+
+Every successful package command inserts a typed header revision and relational component/image/occasion snapshots atomically, then advances the latest version and optionally the same-package published pointer. Draft editing preserves the prior published revision. Slugs remain reserved forever; archive clears publication, restore remains unpublished. Owner commands serialize on the existing Owner row before replay/target; current-read publication validation respects Catalog Product→Variant→Brand order. Occasions have no reverse Package lock acquisition.
+
+Public SQL filters current published packages against current linked Catalog visibility/physical Variant ownership/availability before pagination, metadata and binary media admission. Withheld packages return404 including known media URLs, recover eligibility when current conditions recover, and never expose hidden component metadata. Catalog prices do not participate. Published text stays snapshotted; current Catalog eligibility does not promise stock.
+
+New requests lock active Customer, replay committed operations first, lock Package/current version, selected Occasion and Catalog in compatible order, then atomically copy immutable accepted facts into Gift-only tables. One package/quantity1/recipient per request; positive selected-currency price; display_price_snapshot is informational, not shipping-inclusive payable total. Account email comes from the locked Customer and is excluded from the payload fingerprint for durable lost-response replay. No Cart/Checkout writes.
+
+Gift review reuses the existing pure ReviewStatus transition rule, with its own tables/events, Owner operation coordination and exact version checks. Missing review is inferred new/version0 without GET writes; no bulk. Private notes/follow-up do not confirm payment, fulfillment or actual contact. Generic audit contains changed-field names only.
+
+Reuse BusinessRaster's technical GD inspection/re-encoding, but keep Gift storage namespace and authorization separate from Content business publication. Private local files, generated immutable filenames, retained history and fresh-file compensation; SQL/filesystem crash atomicity and already-admitted bytes remain explicit limits. Additive restrictive migration only on guarded physical test database. No dependencies, environment changes, real Owner, development/production migration, deployment or merge are authorized.

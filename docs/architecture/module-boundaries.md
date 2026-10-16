@@ -1,6 +1,6 @@
 # Module boundaries
 
-Identity, Catalog, Favorites and Cart are implemented through Phase 4; Orders adds Phase 5A/5A.2/6D, ManagementIdentity adds Phase 6A, ManagementDashboard adds Phase 6B, and Settings/Content add Phase6E. Other modules retain their empty Domain, Application,
+Identity, Catalog, Favorites and Cart are implemented through Phase 4; Orders adds Phase 5A/5A.2/6D, ManagementIdentity adds Phase 6A, ManagementDashboard adds Phase 6B, Settings/Content add Phase6E, and Gifts adds Phase6F. Other modules retain their empty Domain, Application,
 Infrastructure and Interfaces boundaries; their responsibilities describe future ownership.
 
 | Module | High-level responsibility |
@@ -12,7 +12,7 @@ Infrastructure and Interfaces boundaries; their responsibilities describe future
 | Favorites | Implemented Product-level customer pairs, F1 hidden retention and private APIs. |
 | Cart | Implemented lazy owned selections, exact current estimates, optimistic updates and atomic merges; no stock or commercial workflow. |
 | Orders | Phase5A implements non-binding Checkout evaluation; Phase5A.2 persists owned preliminary contact/selection requests and historical snapshots through the Cart Application boundary. Confirmed Orders, financial/payment policy snapshots, verification and fulfillment remain deferred. |
-| Gifts | Gift-related business concerns; detailed requirements are deferred. |
+| Gifts | Phase6F owns dynamic hybrid gift packages, independent prices, occasions, private versioned publication, preliminary immutable Gift Requests and private individual review. Catalog supplies current linked selection truth; no Cart/Checkout/payment/stock mutation. See gift-domain.md. |
 | Consultations | Consultation-related business concerns; detailed requirements are deferred. |
 | Content | Phase6E owns typed banner/page/FAQ/policy drafts, immutable revisions, explicit publication and safe published read APIs. No generic site builder or legal templates. |
 | Delivery | Delivery-related concerns; detailed requirements are deferred. |
