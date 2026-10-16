@@ -16,11 +16,11 @@ Evidence labels: **CONFIRMED** = directly observed; **POTENTIAL** = reasoned unc
 
 ## 4. Final head SHA
 
-**NEEDS VERIFICATION:** recorded externally in the final PR body and final delivery after the source/evidence commits, avoiding recursive self-referential documentation SHA changes. Successful CI of a prior source head does not satisfy final-head verification.
+**CONFIRMED:** final source `b27228afcf672f183c161e7bf5bf019fd4e7ba86` passed the complete PR integration workflow. This report-only evidence commit follows it. The resulting final documentation head, its separate successful workflow and exact SHA are recorded externally in PR #10 and final delivery, avoiding recursive self-referential SHA changes. Source-head CI alone does not satisfy that final delivery gate.
 
 ## 5. Pull Request
 
-**NEEDS VERIFICATION:** exactly one PR will be opened after local required checks, targeting main and left OPEN/UNMERGED. No merge/deployment authorization.
+**CONFIRMED:** exactly one [PR #10](https://github.com/NabilAlsaidaly/Pharma/pull/10) opened, targeting verified main and left OPEN/UNMERGED. No merge/deployment authorization.
 
 ## 6. Approved gate
 
@@ -44,7 +44,7 @@ Evidence labels: **CONFIRMED** = directly observed; **POTENTIAL** = reasoned unc
 
 ## 11. Migration
 
-**CONFIRMED:** additive `2026_10_17_000001_create_dynamic_gifts.php`; no historical migration edits. Only physical guarded test database authorized. down destroys Gift history and is not an automatic recovery plan. Actual migration/rollback execution is exercised by full-schema independent-worker tests; final full-suite verification pending below.
+**CONFIRMED:** additive `2026_10_17_000001_create_dynamic_gifts.php`; no historical migration edits. Only physical guarded test database authorized. down destroys Gift history and is not an automatic recovery plan. Actual migration/rollback execution is exercised by full-schema independent-worker tests; final source full suite passed as recorded below.
 
 ## 12. Package aggregate
 
@@ -160,7 +160,7 @@ Evidence labels: **CONFIRMED** = directly observed; **POTENTIAL** = reasoned unc
 
 ## 40. EXPLAIN
 
-**CONFIRMED:** actual MySQL9.7 plans inspected: Customer history covering index (initial mixed order required filesort, corrected descending-date/ascending-ID index removed it), review timeline covering reverse index, exact revision unique lookup, media/occasion reverse covering indexes. The initial public antijoin materialized all1326 historical component rows in the measured fixture. The final fixed STRAIGHT_JOIN starts with200 Package rows, unique current-revision lookup and indexed dependent component eligibility (NO_SEMIJOIN), avoiding unrelated revision/component history; page and COUNT plans are tested separately. Sort of current packages may still filesort; constant network query count/optimizer estimates are not throughput evidence. Primary engine rationale is linked in [publication design](../architecture/gift-publication-and-revisions.md). CI MySQL8.4 plans still **NEEDS VERIFICATION**.
+**CONFIRMED:** actual MySQL9.7 plans inspected: Customer history covering index (initial mixed order required filesort, corrected descending-date/ascending-ID index removed it), review timeline covering reverse index, exact revision unique lookup, media/occasion reverse covering indexes. The initial public antijoin materialized all1326 historical component rows in the measured fixture. The final fixed STRAIGHT_JOIN starts with200 Package rows, unique current-revision lookup and indexed dependent component eligibility (NO_SEMIJOIN), avoiding unrelated revision/component history; page and COUNT plans are tested separately. Sort of current packages may still filesort; constant network query count/optimizer estimates are not throughput evidence. Primary engine rationale is linked in [publication design](../architecture/gift-publication-and-revisions.md). CONFIRMED on CI MySQL8.4.11: all7 plans logged and assertions passed; page/count start at Package200 rows, unique current revision, dependent indexed component probes without historical materialization. Tiny Brand/Variant fixture tables may use hash-join scans; no production capacity claim.
 
 ## 41. Browser evidence
 
@@ -176,19 +176,19 @@ Evidence labels: **CONFIRMED** = directly observed; **POTENTIAL** = reasoned unc
 
 ## 44. Historical compatibility
 
-**CONFIRMED:** local full685-test regression and protected staged diff audit passed. No legacy business mutation/schema edits; only four existing route/navigation inventory assertions updated. Config/manifests/locks/System Console, Cart/Orders/Favorites/Settings/Content and Catalog Domain/Application/Infrastructure plus PAY001 unchanged. Allowed adapter changes add scoped Gift error headers/logging/body dispatch/navigation/routes. Exact-source/full final-head CI remains a separate gate.
+**CONFIRMED:** local full685-test regression and protected staged diff audit passed. No legacy business mutation/schema edits; only four existing route/navigation inventory assertions updated. Config/manifests/locks/System Console, Cart/Orders/Favorites/Settings/Content and Catalog Domain/Application/Infrastructure plus PAY001 unchanged. Allowed adapter changes add scoped Gift error headers/logging/body dispatch/navigation/routes. Exact-source full CI passed; final report-only head is independently verified externally before delivery.
 
 ## 45. Full PHPUnit
 
-**CONFIRMED:** complete local685tests/6240assertions,14:06.388,92MB,PHPUNIT_EXIT=0; JUnit zero errors/failures/skips. This includes all580 historical tests plus105 Gift cases across9 classes. Afterwards, EXPLAIN-driven SQL join/optimizer controls and safer fixture-root cleanup were added without changing business rules; complete focused105tests/963assertions,2:18.401,68MB,exit0/JUnit clean then passed. A further real SQL probe reproduced a primary-image CHECK NULL loophole; the corrected new migration and both rejection tests then passed all24 package/security cases with367assertions,12.467sec,64MB/JUnit clean. Exact-source full CI is independently required below; the earlier full local result is not mislabeled as a post-correction full run. Exploratory/aborted/failed runs are not claimed passed.
+**CONFIRMED:** complete local685tests/6240assertions,14:06.388,92MB,PHPUNIT_EXIT=0; JUnit zero errors/failures/skips. This includes all580 historical tests plus105 Gift cases across9 classes. Afterwards, EXPLAIN-driven SQL join/optimizer controls and safer fixture-root cleanup were added without changing business rules; complete focused105tests/963assertions,2:18.401,68MB,exit0/JUnit clean then passed. A further real SQL probe reproduced a primary-image CHECK NULL loophole; the corrected new migration and both rejection tests then passed all24 package/security cases with367assertions,12.467sec,64MB/JUnit clean. Final-source CI independently passed685tests/6247assertions in290.99s on PHP8.4.26/MySQL8.4.11 (run38974037654, quality job117219467455); the earlier full local result is not mislabeled as a post-correction full run. Exploratory/aborted/failed runs are not claimed passed.
 
 ## 46. Assertions
 
-**CONFIRMED:** local complete suite6240 assertions before the final optimizer-control/check additions. **NEEDS VERIFICATION:** final-source and final-documentation-head CI assertion totals are independently observed, not inferred by summing partial runs.
+**CONFIRMED:** local complete suite6240 assertions before the final optimizer-control/check additions; final-source CI685tests/6247assertions independently observed. The final report-only documentation head is independently checked and its actual total recorded externally in PR #10/final delivery, not inferred by summing partial runs.
 
 ## 47. Pint
 
-**CONFIRMED:** existing full Pint --test passed after formatting; no ignore/config changes. Recheck if PHP changes before source freeze.
+**CONFIRMED:** existing full Pint --test passed after formatting; no ignore/config changes. The final source CI formatting step also passed.
 
 ## 48. PHPStan
 
@@ -228,8 +228,8 @@ Evidence labels: **CONFIRMED** = directly observed; **POTENTIAL** = reasoned unc
 
 ## 57. CI URL/conclusion
 
-**NEEDS VERIFICATION:** source CI then report-only evidence commit, followed by successful workflow/job/log verification for the actual final PR head against verified main. Final SHA/CI URL/result recorded in external PR/final delivery without another recursive report commit. Previous successful main/Phase6E/source CI alone cannot close this gate.
+**CONFIRMED:** final source `b27228afcf672f183c161e7bf5bf019fd4e7ba86`, [Backend CI #37 / run38974037654](https://github.com/NabilAlsaidaly/Pharma/actions/runs/38974037654), quality job117219467455 SUCCESS with every executed step successful. Checkout explicitly merged that exact source into baseline `07b31d05fad1f99f110c862ede904291815ef07f` (integration checkout52d4d06). Full685tests/6247assertions,290.99s,PHP8.4.26/MySQL8.4.11; Pint, PHPStan, locked frontend build, Composer/platform and security audit passed. Eleven real race records (connections441–486) and all7 EXPLAIN plans were inspected in logs. This report-only evidence commit must then pass its own workflow; exact final SHA/run/job/conclusion are recorded externally in PR #10/final delivery without another recursive report commit. Prior successful main/Phase6E/source CI alone cannot close the final delivery gate.
 
 ## 58. Merge-readiness assessment
 
-**CONFIRMED:** implementation/local regression/current Gift focused checks, tooling, browser, preservation and protected diff are ready for PR review. **NEEDS VERIFICATION:** full exact-source and final documentation-head CI. No merge, deployment, development/production migration, real Owner or Phase6G. Successful final CI supports Owner review and deliberate merge consideration; operational activation remains separately authorized.
+**CONFIRMED:** implementation, full exact-source CI, local regression/current Gift checks, tooling, browser, preservation and protected diff support Owner review. Final report-only documentation-head CI remains a delivery gate recorded externally in PR #10/final delivery. No merge, deployment, development/production migration, real Owner or Phase6G. Successful final CI supports deliberate merge consideration; operational activation remains separately authorized.
