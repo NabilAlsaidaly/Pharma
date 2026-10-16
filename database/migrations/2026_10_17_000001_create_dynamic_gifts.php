@@ -182,7 +182,7 @@ return new class extends Migration
             DB::statement("ALTER TABLE $table ADD CHECK (quantity BETWEEN 1 AND 100), ADD CHECK ((type = 'manual' AND product_id IS NULL AND variant_id IS NULL AND variant_name IS NULL) OR (type = 'catalog' AND product_id IS NOT NULL))");
         }
         DB::statement('ALTER TABLE gift_requests ADD CHECK (display_price_snapshot > 0)');
-        DB::statement('ALTER TABLE gift_revision_images ADD CHECK ((is_primary = 1 AND primary_slot = 1) OR (is_primary = 0 AND primary_slot IS NULL))');
+        DB::statement('ALTER TABLE gift_revision_images ADD CHECK ((is_primary = 1 AND primary_slot IS NOT NULL AND primary_slot = 1) OR (is_primary = 0 AND primary_slot IS NULL))');
         foreach (['gift_occasions', 'gift_package_revisions', 'gift_revision_components', 'gift_revision_images', 'gift_request_components'] as $table) {
             DB::statement("ALTER TABLE $table ADD CHECK (sort_order <= 999999999)");
         }

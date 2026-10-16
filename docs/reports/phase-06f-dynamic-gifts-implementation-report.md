@@ -180,7 +180,7 @@ Evidence labels: **CONFIRMED** = directly observed; **POTENTIAL** = reasoned unc
 
 ## 45. Full PHPUnit
 
-**CONFIRMED:** complete local685tests/6240assertions,14:06.388,92MB,PHPUNIT_EXIT=0; JUnit zero errors/failures/skips. This includes all580 historical tests plus105 Gift cases across9 classes. Afterwards, EXPLAIN-driven SQL join/optimizer controls and safer fixture-root cleanup were added without changing business rules; complete current focused105tests/963assertions,2:18.401,68MB,exit0/JUnit clean then passed. Exact-source full CI is independently required below; the earlier full local result is not mislabeled as a post-optimization full run. Earlier exploratory/aborted/failed runs are not claimed passed.
+**CONFIRMED:** complete local685tests/6240assertions,14:06.388,92MB,PHPUNIT_EXIT=0; JUnit zero errors/failures/skips. This includes all580 historical tests plus105 Gift cases across9 classes. Afterwards, EXPLAIN-driven SQL join/optimizer controls and safer fixture-root cleanup were added without changing business rules; complete focused105tests/963assertions,2:18.401,68MB,exit0/JUnit clean then passed. A further real SQL probe reproduced a primary-image CHECK NULL loophole; the corrected new migration and both rejection tests then passed all24 package/security cases with367assertions,12.467sec,64MB/JUnit clean. Exact-source full CI is independently required below; the earlier full local result is not mislabeled as a post-correction full run. Exploratory/aborted/failed runs are not claimed passed.
 
 ## 46. Assertions
 

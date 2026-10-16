@@ -198,5 +198,11 @@ class GiftSecurityTest extends GiftTestCase
         $this->assertConstraint(fn () => DB::table('gift_packages')->where('id', $id)->delete(), 1451);
         $this->assertConstraint(fn () => DB::table('gift_revision_components')->where('revision_id', $r['id'])->update(['quantity' => 101]), 3819);
         $this->assertConstraint(fn () => DB::table('gift_revision_components')->where('revision_id', $r['id'])->update(['type' => 'catalog']), 3819);
+        $this->assertConstraint(fn () => DB::table('gift_revision_images')->where('revision_id', $r['id'])->update(['is_primary' => true, 'primary_slot' => null]), 3819);
+        DB::table('gift_revision_images')->where('revision_id', $r['id'])->update(['is_primary' => true, 'primary_slot' => 1]);
+        $duplicate = (array) DB::table('gift_revision_images')->where('revision_id', $r['id'])->first();
+        $duplicate['id'] = (string) Str::uuid7();
+        $duplicate['media_id'] = (string) Str::uuid7();
+        $this->assertConstraint(fn () => DB::table('gift_revision_images')->insert($duplicate), 1062);
     }
 }
