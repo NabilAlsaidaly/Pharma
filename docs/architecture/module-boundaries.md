@@ -1,6 +1,6 @@
 # Module boundaries
 
-Identity, Catalog, Favorites and Cart are implemented through Phase 4; Orders adds Phase 5A/5A.2, ManagementIdentity adds Phase 6A and ManagementDashboard adds Phase 6B. Other modules retain their empty Domain, Application,
+Identity, Catalog, Favorites and Cart are implemented through Phase 4; Orders adds Phase 5A/5A.2/6D, ManagementIdentity adds Phase 6A, ManagementDashboard adds Phase 6B, and Settings/Content add Phase6E. Other modules retain their empty Domain, Application,
 Infrastructure and Interfaces boundaries; their responsibilities describe future ownership.
 
 | Module | High-level responsibility |
@@ -14,12 +14,12 @@ Infrastructure and Interfaces boundaries; their responsibilities describe future
 | Orders | Phase5A implements non-binding Checkout evaluation; Phase5A.2 persists owned preliminary contact/selection requests and historical snapshots through the Cart Application boundary. Confirmed Orders, financial/payment policy snapshots, verification and fulfillment remain deferred. |
 | Gifts | Gift-related business concerns; detailed requirements are deferred. |
 | Consultations | Consultation-related business concerns; detailed requirements are deferred. |
-| Content | Content-related concerns; detailed requirements are deferred. |
+| Content | Phase6E owns typed banner/page/FAQ/policy drafts, immutable revisions, explicit publication and safe published read APIs. No generic site builder or legal templates. |
 | Delivery | Delivery-related concerns; detailed requirements are deferred. |
 | Payments | Payment-related concerns. Manual payments are the accepted baseline; workflow details are deferred. |
 | Reports | Business reporting concerns; detailed requirements are deferred. |
 | Notifications | Business notification concerns; channels and workflows are deferred. |
-| Settings | Sumaya business settings; detailed requirements are deferred. Operational package settings belong to System Console. |
+| Settings | Phase6E owns typed identity/contact/social/currency presentation and preparatory payment/delivery revisions, authorized Owner changes and audit. Operational settings remain outside business UI. |
 
 System Console is outside these modules at `packages/system-console/`. Its operational skeleton covers Health, Metrics, Backup, Cache, Queue, Scheduler, Logs, Settings, Maintenance, Actions and Support. It must never depend on Sumaya business models.
 

@@ -26,6 +26,7 @@ class OwnerNavigation
                 'description' => $resource['description'],
             ];
         }
+        $entries[] = ['key' => 'settings', 'label' => 'إعدادات المتجر', 'route' => 'owner.settings.index', 'group' => 'المتجر والمحتوى', 'icon' => 'home', 'order' => 80];
         $entries[] = ['key' => 'profile', 'label' => 'حسابي', 'route' => 'owner.profile', 'group' => 'الحساب', 'icon' => 'profile', 'order' => 100];
 
         return array_map(fn ($entry) => $entry + ['ability' => null, 'description' => null], $entries);

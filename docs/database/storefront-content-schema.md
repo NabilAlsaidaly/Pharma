@@ -1,0 +1,11 @@
+# Storefront content schema
+
+The same additive Phase6E migration creates four first-class Content aggregates and four typed revision tables: content_banners, content_pages, content_faqs, content_policies and corresponding `_revisions`. Together with eight Settings tables and store_change_events, seventeen new tables, each with a demonstrated responsibility. See [shared SQL/version constraints](business-settings-schema.md) and [Content catalog](../architecture/storefront-content-management.md).
+
+Every aggregate has UUIDv7, positive unsigned version, nullable exact published revision pointer, archive/timestamps and a singleton_key CHECK requiring null (not singleton content). Revisions have UUID, same-aggregate FK, unique(record_id,version), restrictive Owner and fixed action enum. Required title/slug/body or question/answer/order or banner title/alt/order are NOT NULL; image is nullable for a draft until publication eligibility is checked under lock. Optional description/link/SEO fields remain nullable. Explicit lengths in migration; Unicode text limits also enforced by application characters/body bytes.
+
+Page slug unique80 and stable for the document lifetime; policy slug likewise unique and restricted by application to privacy/terms/returns. Archived identities remain reserved. Publication pointer cannot cross documents or reference missing history. Archive requires null pointer; restoration leaves it null. Previous snapshots and publication events persist. No scheduled dates, soft-delete purge, Customer agreements or legal templates.
+
+Indexes bound aggregate summary pagination, ordering and one-record revision pagination. Readable current public order uses **revision** sort_order, not the edited draft's order. Public metadata uses the exact published revision's title/body/link/image; no live draft serialization. History event stores field-name changes and revision references, not duplicated long content.
+
+No schema/foreign key alters existing Catalog, Checkout, review, Customer, Favorites or Cart. Text immutability is an application boundary; trusted SQL is outside enforcement. Generated immutable image paths are not client-controlled; old bytes and referenced revisions retained. No SQL/filesystem distributed transaction or cleanup job. Rollback explicitly loses all new history and is separate authorized operational work.

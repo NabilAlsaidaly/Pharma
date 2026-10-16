@@ -4,6 +4,7 @@ namespace App\Domains\ManagementIdentity\Interfaces\Http;
 
 use App\Domains\Catalog\Interfaces\Http\Controllers\OwnerCatalogController;
 use App\Domains\Catalog\Interfaces\Http\LimitOwnerCatalogBody;
+use App\Domains\Content\Interfaces\Http\OwnerStoreContentController;
 use App\Domains\ManagementDashboard\Interfaces\Http\Controllers\OwnerDashboardController;
 use App\Domains\ManagementIdentity\Interfaces\Http\Controllers\OwnerAccountController;
 use App\Domains\ManagementIdentity\Interfaces\Http\Controllers\OwnerAuthenticationController;
@@ -12,6 +13,8 @@ use App\Domains\ManagementIdentity\Interfaces\Http\Middleware\OwnerPortalRespons
 use App\Domains\ManagementIdentity\Interfaces\Http\Middleware\RequireOwner;
 use App\Domains\Orders\Interfaces\Http\Owner\OwnerRequestReviewController;
 use App\Domains\Orders\Interfaces\Http\Owner\ReviewWriteThrottle;
+use App\Domains\Settings\Interfaces\Http\OwnerStoreSettingsController;
+use App\Domains\Settings\Interfaces\Http\StoreWriteThrottle;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
@@ -55,6 +58,17 @@ class OwnerPortalRoutes
                 Route::post('logout', [OwnerAuthenticationController::class, 'logout'])->name('logout');
                 Route::get('overview', [OwnerDashboardController::class, 'overview'])->name('dashboard');
                 Route::get('search', [OwnerDashboardController::class, 'search'])->name('search');
+                Route::get('store-settings', [OwnerStoreSettingsController::class, 'index'])->name('settings.index');
+                Route::get('store-media/{id}', [OwnerStoreSettingsController::class, 'media'])->whereUuid('id')->name('settings.media');
+                Route::get('store-settings/history', [OwnerStoreSettingsController::class, 'history'])->name('settings.history');
+                Route::get('store-settings/{group}', [OwnerStoreSettingsController::class, 'group'])->whereIn('group', ['profile', 'currency', 'payment', 'zones'])->name('settings.group');
+                Route::get('store-settings/{group}/create', [OwnerStoreSettingsController::class, 'edit'])->where('group', 'zones')->name('settings.create');
+                Route::get('store-settings/{group}/{id}', [OwnerStoreSettingsController::class, 'edit'])->where('group', 'zones')->whereUuid('id')->name('settings.edit');
+                Route::post('store-settings/{group}/{id?}', [OwnerStoreSettingsController::class, 'mutate'])->whereIn('group', ['profile', 'currency', 'payment', 'zones'])->whereUuid('id')->middleware(StoreWriteThrottle::class)->name('settings.mutate');
+                Route::get('store-content/{type}', [OwnerStoreContentController::class, 'index'])->whereIn('type', ['banners', 'pages', 'faqs', 'policies'])->name('content.index');
+                Route::get('store-content/{type}/create', [OwnerStoreContentController::class, 'edit'])->whereIn('type', ['banners', 'pages', 'faqs', 'policies'])->name('content.create');
+                Route::get('store-content/{type}/{id}', [OwnerStoreContentController::class, 'edit'])->whereIn('type', ['banners', 'pages', 'faqs', 'policies'])->whereUuid('id')->name('content.edit');
+                Route::post('store-content/{type}/{id?}', [OwnerStoreContentController::class, 'mutate'])->whereIn('type', ['banners', 'pages', 'faqs', 'policies'])->whereUuid('id')->middleware(StoreWriteThrottle::class)->name('content.mutate');
                 Route::post('catalog/confirm', [OwnerCatalogController::class, 'execute'])->name('catalog.execute');
                 Route::get('catalog/{type}/create', [OwnerCatalogController::class, 'form'])->whereIn('type', ['products', 'brands', 'concerns', 'variants'])->name('catalog.create');
                 Route::post('catalog/{type}', [OwnerCatalogController::class, 'save'])->whereIn('type', ['products', 'brands', 'concerns', 'variants'])->name('catalog.store');

@@ -14,7 +14,7 @@ Laravel's standard app, bootstrap, config, database, resources, routes, storage 
 
 ## Module layout and dependency direction
 
-Every module under `app/Domains/<Module>/` has four boundaries. Identity, Catalog, Favorites, Cart, Orders, ManagementIdentity and ManagementDashboard implement relevant parts; other modules remain empty:
+Every module under `app/Domains/<Module>/` has four boundaries. Identity, Catalog, Favorites, Cart, Orders, ManagementIdentity, ManagementDashboard, Settings and Content implement relevant parts; other modules remain empty:
 
 - `Domain/`: business concepts, invariants and rules. Keep framework and external service concerns outside the core domain.
 - `Application/`: future focused Actions / Use Cases that coordinate a business operation. Define DTOs and ports only when a real use case needs them.
@@ -64,3 +64,5 @@ Phase 4: [Favorites](favorites.md), [Cart](cart.md), [Catalog boundary](cart-cat
 Phase 6C: [Catalog administration](catalog-administration.md) extends the existing private Owner shell, with Catalog-owned transactional writes and audited archival. [ADR-022](../adr/ADR-022-catalog-administration.md).
 
 Phase 6D: [Preliminary request management](preliminary-request-management.md) implements the Owner-approved internal review workflow separately from immutable Customer submissions and PAY001.
+
+Phase 6E: [Business settings](business-settings.md), [Content publication](storefront-content-management.md), [commercial preparation](commercial-policy-preparation.md), [ADR024](../adr/ADR-024-business-settings-and-storefront-content.md), [approved gate](../reports/phase-06e-business-configuration-design-gate.md). Payment/delivery execution and intake pausing remain deferred.

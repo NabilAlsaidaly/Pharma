@@ -2,6 +2,7 @@
 
 use App\Domains\Cart\Interfaces\Http\Controllers\CartController;
 use App\Domains\Catalog\Interfaces\Http\Controllers\PublicCatalogController;
+use App\Domains\Content\Interfaces\Http\PublicStorefrontController;
 use App\Domains\Favorites\Interfaces\Http\Controllers\FavoriteController;
 use App\Domains\Identity\Interfaces\Http\Controllers\CustomerSessionController;
 use App\Domains\Identity\Interfaces\Http\Middleware\EnsureActiveCustomer;
@@ -9,6 +10,13 @@ use App\Domains\Orders\Interfaces\Http\Controllers\CheckoutEvaluationController;
 use App\Domains\Orders\Interfaces\Http\Controllers\PreliminaryRequestController;
 use App\Http\Middleware\LimitPersonalMutationBody;
 use Illuminate\Support\Facades\Route;
+
+Route::prefix('storefront')->controller(PublicStorefrontController::class)->group(function (): void {
+    Route::get('media/{id}.png', 'media')->whereUuid('id');
+    Route::get('configuration', 'configuration');
+    Route::get('{type}', 'listing')->whereIn('type', ['banners', 'faqs']);
+    Route::get('{type}/{slug}', 'item')->whereIn('type', ['pages', 'policies'])->where('slug', '[a-z0-9]+(?:-[a-z0-9]+)*');
+});
 
 Route::controller(PublicCatalogController::class)->group(function (): void {
     Route::get('brands', 'brands');
