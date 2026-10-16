@@ -62,3 +62,5 @@ phase reports.
 Phase 4: [Favorites](favorites.md), [Cart](cart.md), [Catalog boundary](cart-catalog-integration.md), [Checkout boundary](cart-checkout-compatibility.md).
 
 Phase 6C: [Catalog administration](catalog-administration.md) extends the existing private Owner shell, with Catalog-owned transactional writes and audited archival. [ADR-022](../adr/ADR-022-catalog-administration.md).
+
+Phase 6D: [Preliminary request management](preliminary-request-management.md) implements the Owner-approved internal review workflow separately from immutable Customer submissions and PAY001.

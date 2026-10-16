@@ -17,5 +17,5 @@
             </table>
         </div>
     @endif
-    <p class="border-t border-stone-100 px-5 py-3 text-xs leading-6 text-stone-500">مربعات الجدول تحدد سجلات الصفحة. في إدارة الكتالوج يمكنكِ اختيار كل النتائج من نطاق التحديد، ثم معاينة الإجراء وتأكيده.</p>
+    <p class="border-t border-stone-100 px-5 py-3 text-xs leading-6 text-stone-500">مربعات الجدول تحدد سجلات الصفحة. عند توفر إجراء جماعي يمكنكِ اختيار كل النتائج من نطاق التحديد، ثم معاينة الإجراء وتأكيده.</p>
 </section>

@@ -11,7 +11,7 @@ class DashboardSchema
     public function has(string ...$tables): bool
     {
         $this->tables ??= DB::table('information_schema.tables')->where('table_schema', DB::connection()->getDatabaseName())
-            ->whereIn('TABLE_NAME', ['products', 'brands', 'concerns', 'customers', 'checkout_intents', 'checkout_intent_items', 'product_variants', 'concern_product'])
+            ->whereIn('TABLE_NAME', ['products', 'brands', 'concerns', 'customers', 'checkout_intents', 'checkout_intent_items', 'product_variants', 'concern_product', 'preliminary_request_reviews', 'preliminary_request_review_events'])
             ->select('TABLE_NAME as name')->pluck('name')->all();
 
         return array_diff($tables, $this->tables) === [];

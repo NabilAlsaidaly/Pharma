@@ -3,6 +3,7 @@
 namespace App\Domains\ManagementDashboard\Infrastructure\ReadModels;
 
 use App\Domains\ManagementDashboard\Application\DashboardDateRange;
+use App\Domains\Orders\Infrastructure\Persistence\Queries\OwnerRequestReviewReader;
 use Illuminate\Support\Facades\DB;
 
 class DashboardMetrics
@@ -50,6 +51,7 @@ class DashboardMetrics
             $metrics['range_requests'] = array_sum(array_column($days, 'count'));
         }
 
-        return ['metrics' => $metrics, 'days' => $days, 'range' => $range, 'chart_max' => max(array_column($days ?? [], 'count') ?: [0])];
+        return ['metrics' => $metrics, 'days' => $days, 'range' => $range, 'chart_max' => max(array_column($days ?? [], 'count') ?: [0]),
+            'reviewMetrics' => (new OwnerRequestReviewReader($this->schema))->statistics($range)];
     }
 }

@@ -1,0 +1,9 @@
+# ADR-023: Preliminary request administration
+
+Accepted for Phase6D implementation. ADR023 verified unused. Owner explicitly approved the consolidated design gate on 2026-10-16: «أعتمد السياسة كاملة كما وردت».
+
+Orders owns a separate one-to-one review aggregate and append-only typed events; Checkout submission/status/contact/items remain immutable. Infer new/version0 without backfill or GET writes. Only approved transitions, reason-required reopening, individual completion/reopening and cap100 eligible start/contact bulk actions. Private notes and manually documented follow-up are attributed observations, never delivery confirmation or automatic messaging. Completion does not create a confirmed Order/payment/stock effect; PAY001 unchanged.
+
+Original header→review→event locks serialize initial creation; versions reject stale browser changes. Owner-scoped operation UUID/canonical fingerprint replays before new-version validation. Bulk holds sorted original IDs and versions captured at preview, rechecks selected filter membership, applies all-or-nothing and never includes unseen new requests. Only bounded one10minute pending confirmation; committed repeats do not duplicate history.
+
+Existing private Owner routes/guard/session/CSRF/no-store/Arabic Blade shell remain. Detail alone exposes original contact data; identifier search/list/metrics exclude PII and private note bodies. Read projection uses bounded SQL aggregates/pagination, request/event time semantics stay distinct. Additive restrictive schema/index migration only tested on physical sumaya_pharma_test. Historical migrations and Customer contracts unchanged; rollback loses review history and is not automatically safe. No dependency/Redis/System Console/notification/financial Order feature; no development migration/real Owner/merge/deployment.

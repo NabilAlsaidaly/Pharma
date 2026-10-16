@@ -1,0 +1,9 @@
+# Preliminary request review schema
+
+Additive migration: preliminary_request_reviews, preliminary_request_review_events, and Owner-wide checkout_intents(created_at,id) index. Original Checkout enum/rows/FKs untouched; no backfill. Index justification: existing Customer-first date index cannot prefix-match Owner-wide dates; record actual before/after EXPLAIN in report before claiming improvement.
+
+Reviews: UUIDv7 id; unique restrictive checkout_intent_id; approved review_status enum new/under_review/awaiting_contact/reviewed; unsigned BIGINT lock_version default0; nullable last_reviewed_by_owner_id restrictive ManagementUser FK; nullable first-start/current-completion/last-activity; created/updated. Status/request and activity/request indexes; composite(id,request) unique for event ownership FK. No contact copy or financial fields.
+
+Events: UUIDv7 id, restrictive request and composite review/request FKs, restrictive Owner FK; fixed six event types (note_added/follow_up_recorded/review_started/status_changed/review_completed/review_reopened); exact prior/result states, nullable note<=2000characters, Owner-scoped unique operation UUID, SHA256 canonical payload fingerprint, resulting_version, nullable bulk UUID, safe correlation request_id, created timestamp. Request/time/id, time/request and bulk indexes. No generic body JSON, no credentials, no cascade/hard-delete route. Note text may contain sensitive Owner-entered observations and belongs only on private detail.
+
+Test only positively verified configured AND physical sumaya_pharma_test, APP_ENV testing. No development migration. Rollback drops events/reviews and destroys administrative history; obtain backup/retention approval before rollback. No claim that down() is operationally safe. Real original-row/schema/.env preservation evidence required.

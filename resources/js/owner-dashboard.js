@@ -59,7 +59,7 @@ document.querySelectorAll("[data-selection]").forEach((table) => {
     const all = table.querySelector("[data-select-page]");
     const clear = table.querySelector("[data-clear-selection]");
     const count = table.querySelector("[data-selected-count]");
-    const bulk = document.getElementById("catalog-bulk");
+    const bulk = document.getElementById("catalog-bulk") ?? document.querySelector("[data-review-bulk]");
     const scope = bulk?.querySelector('[name="scope"]');
     const refresh = () => {
         const selected = rows.filter((row) => row.checked).length;

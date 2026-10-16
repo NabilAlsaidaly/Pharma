@@ -40,7 +40,7 @@
                     @endforeach
                 </nav>
                 <div class="mt-8 rounded-xl border border-stone-200 bg-stone-50 p-4 text-xs leading-6 text-stone-600">
-                    يمكنكِ إدارة الكتالوج والبحث في المعلومات. الطلبات المبدئية متاحة للاستعراض فقط.</div>
+                    يمكنكِ إدارة الكتالوج ومراجعة الطلبات المبدئية وتسجيل الملاحظات الداخلية.</div>
                 <form method="POST" action="{{ route('owner.logout') }}" class="mt-5">@csrf<button
                         class="flex w-full items-center justify-center gap-2 rounded-xl border border-stone-300 px-4 py-3 text-sm"><x-owner-icon
                             name="logout" />تسجيل الخروج</button></form>
@@ -73,7 +73,7 @@
                 </header>
                 <main id="main" tabindex="-1" class="min-w-0 px-5 py-8 sm:px-8 lg:py-10">
                     @include('owner.feedback') @yield('content')</main>
-                <footer class="px-5 pb-6 text-xs leading-6 text-stone-500 sm:px-8">سمية فارما · مساحة المالكة لإدارة الكتالوج واستعراض المعلومات.
+                <footer class="px-5 pb-6 text-xs leading-6 text-stone-500 sm:px-8">سمية فارما · مساحة المالكة لإدارة الكتالوج ومراجعة الطلبات المبدئية.
                     تتيح صفحة حسابي تعديل الاسم وكلمة المرور.</footer>
             </div>
         </div>

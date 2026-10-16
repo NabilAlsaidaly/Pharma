@@ -57,6 +57,14 @@ return Application::configure(basePath: dirname(__DIR__))
                     ->header('Cache-Control', 'no-store, private, max-age=0')
                     ->header('Referrer-Policy', 'no-referrer');
             }
+            if (str_starts_with((string) $request->route()?->getName(), 'owner.requests.') && $exception instanceof HttpExceptionInterface && in_array($exception->getStatusCode(), [409, 422], true)) {
+                return response()->view('owner.dashboard.validation', ['validationErrors' => ['review' => [$exception->getMessage() ?: 'تعذر حفظ المراجعة. حدّثي الصفحة وراجعي الحالة.']]], $exception->getStatusCode())
+                    ->header('Cache-Control', 'no-store, private, max-age=0')->header('Referrer-Policy', 'no-referrer');
+            }
+            if (str_starts_with((string) $request->route()?->getName(), 'owner.requests.') && $exception instanceof UniqueConstraintViolationException) {
+                return response()->view('owner.dashboard.validation', ['validationErrors' => ['review' => ['تعارضت العملية مع تعديل آخر. حدّثي الصفحة وأعيدي المحاولة.']]], 409)
+                    ->header('Cache-Control', 'no-store, private, max-age=0')->header('Referrer-Policy', 'no-referrer');
+            }
             if ($exception instanceof ConflictingPriceOwnership || $exception instanceof UniqueConstraintViolationException) {
                 return response()->view('owner.catalog.validation', ['validationErrors' => ['catalog' => ['تعارض في ملكية السعر أو رابط محجوز. راجعي القيم وحدّثي الصفحة.']]], 409)
                     ->header('Cache-Control', 'no-store, private, max-age=0')->header('Referrer-Policy', 'no-referrer');
