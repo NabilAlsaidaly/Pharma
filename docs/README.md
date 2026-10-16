@@ -1,5 +1,7 @@
 # Sumaya Pharma Backend
 
+Phase 6E: [Business settings](architecture/business-settings.md), [Content publication](architecture/storefront-content-management.md), [commercial preparation](architecture/commercial-policy-preparation.md), [Owner web forms](api/owner-business-settings-web.md), [published reads](api/public-storefront-content.md), [ADR024](adr/ADR-024-business-settings-and-storefront-content.md), [approved gate](reports/phase-06e-business-configuration-design-gate.md), [report](reports/phase-06e-store-settings-and-content-report.md). Payment/delivery remain preparation only; intake pausing deferred, rollout separate.
+
 Phase 6B adds the read-only custom Arabic Owner dashboard: [architecture](architecture/owner-dashboard.md), [web queries/routes](api/owner-dashboard-web.md), [privacy/access](security/owner-dashboard-access.md), [ADR-021](adr/ADR-021-custom-owner-dashboard.md) and [report](reports/phase-06b-owner-dashboard-report.md). Real aggregates/search/inspection only; visitor analytics and business mutations remain deferred.
 
 Phase 6A adds the custom Arabic Owner identity foundation: [architecture](architecture/owner-authentication.md), [secure access operations](security/owner-access.md), [web interface](api/owner-web-interface.md), [ADR-020](adr/ADR-020-owner-authentication-foundation.md) and [evidence](reports/phase-06a-owner-authentication-report.md). Customer Google identity remains separate. Schema rollout and real owner provisioning are deferred; business management is not implemented.

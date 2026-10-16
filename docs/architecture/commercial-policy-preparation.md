@@ -1,0 +1,11 @@
+# Commercial policy preparation
+
+Owner explicitly approved the [Phase6E gate](../reports/phase-06e-business-configuration-design-gate.md). Settings owns this preparation. Payments and Delivery retain future execution boundaries; Orders retains immutable preliminary submissions and private review. PAY-001/ADR015 is unchanged.
+
+Full payment is exactly100.00%; deposit is0.01–99.99%, two decimal places, decimal strings, never float/exponent arithmetic. Original strictly greater-than-zero/less-than100 rule is preserved at supported precision; no invented commercial minimum. Successful changes produce immutable prepared revisions and Owner audit, never an effective payment rule or Customer obligation. No payment methods/accounts, proof, paid balance, amount calculation, rounding/verification or confirmed Order is introduced.
+
+Delivery records are entered by Owner, no seeded served regions. Normalize surrounding/repeated governorate/city whitespace for duplicate identity; archived identities remain reserved. No fuzzy matching, city-to-governorate inference, fallback fee or priority between broad/narrow geographic zones. Independent nullable fees USD/SYP use DECIMAL(18,2): null unknown;0.00explicit prepared free; positive up to9999999999999999.99technical storage ceiling. Missing fees do not establish eligibility, and a geographic record alone does not promise dispatch. Zone may have both fees absent. Editing/archiving/restoring preserves typed revision history, does not alter historical contact facts or create/cancel shipments.
+
+Current Checkout/Cart services do not consume these preparations. No fee addition, deposit requirement, currency conversion/disablement, historical recalculation, stock action or notification. Intake pausing is explicitly deferred: no fake toggle or gate in submission/replay. Real controls here are Content publication and archival with actual public-read consumers.
+
+Future authorized integration must explicitly select an immutable unarchived policy revision at a defined transaction boundary; define financial price/currency selection, exact rounding, verified payment, outstanding balance, stable payment/delivery snapshots, geographic eligibility and overlap/fallback policy, then PAY-001 recheck before confirmed Order/stock allocation. This document prepares those boundaries without claiming their implementation.

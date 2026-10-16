@@ -39,6 +39,15 @@ return Application::configure(basePath: dirname(__DIR__))
             if (! str_starts_with((string) $request->route()?->getName(), 'owner.') && ! $privatePath) {
                 return null;
             }
+            if (preg_match('/^owner\.(settings|content)\./', (string) $request->route()?->getName())
+                && ($exception instanceof ValidationException || $exception instanceof UniqueConstraintViolationException || ($exception instanceof HttpExceptionInterface && in_array($exception->getStatusCode(), [409, 422], true)))) {
+                $status = $exception instanceof ValidationException ? 422 : ($exception instanceof UniqueConstraintViolationException ? 409 : $exception->getStatusCode());
+                $errors = $exception instanceof ValidationException ? $exception->errors() : ['store' => [$exception instanceof UniqueConstraintViolationException ? 'تعارضت البيانات مع سجل محفوظ. راجعي البيانات وحدّثي الصفحة.' : ($exception->getMessage() ?: 'تعذر حفظ الإجراء. حدّثي الصفحة وراجعي البيانات.')]];
+
+                return response()->view('owner.store.validation', ['validationErrors' => $errors], $status)
+                    ->header('Cache-Control', 'no-store, private, max-age=0')->header('Referrer-Policy', 'no-referrer')
+                    ->header('X-Frame-Options', 'DENY')->header('X-Content-Type-Options', 'nosniff');
+            }
             if ($exception instanceof ValidationException) {
                 if (str_starts_with((string) $request->route()?->getName(), 'owner.catalog.')) {
                     return response()->view('owner.catalog.validation', ['validationErrors' => $exception->errors()], 422)
