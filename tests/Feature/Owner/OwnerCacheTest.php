@@ -11,7 +11,7 @@ class OwnerCacheTest extends TestCase
 {
     public static function prefixes(): array
     {
-        return ['configured' => ['fixture-cache-portal', 63], 'missing' => ['', 0], 'reserved' => ['admin', 0]];
+        return ['configured' => ['fixture-cache-portal', 68], 'missing' => ['', 0], 'reserved' => ['admin', 0]];
     }
 
     #[DataProvider('prefixes')]

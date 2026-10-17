@@ -44,3 +44,5 @@ Phase 6C: [Catalog administration](architecture/catalog-administration.md), [web
 Phase 6D: [Request management](architecture/preliminary-request-management.md), [Owner web contract](api/owner-preliminary-request-web.md), [schema](database/preliminary-request-review-schema.md), [privacy](security/preliminary-request-management.md), [ADR023](adr/ADR-023-preliminary-request-review.md), [approved workflow gate](reports/phase-06d-review-workflow-design-gate.md), [report](reports/phase-06d-preliminary-request-management-report.md).
 
 Phase 6G: [Educational Content](architecture/educational-content-domain.md), [approved design](reports/phase-06g-educational-content-design-gate.md), [ADR026](adr/ADR-026-educational-content-management.md), [implementation report](reports/phase-06g-educational-content-implementation-report.md).
+
+Phase 6H: [Simple manual delivery](architecture/simple-delivery-foundation.md), [approved gate](reports/phase-06h-simple-delivery-design-gate.md), [ADR027](adr/ADR-027-simple-delivery-foundation.md), [implementation report](reports/phase-06h-simple-delivery-implementation-report.md).

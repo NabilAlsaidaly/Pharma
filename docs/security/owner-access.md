@@ -44,3 +44,5 @@ No email verification, email change, forgot-password, password reset, backup cod
 Deployment-specific TLS, domain/proxy/cookie policies, distributed cache/session storage and real account provisioning remain unverified until a server is chosen. Multi-instance production must share limiter storage; a per-node file cache does not provide cluster-wide quotas.
 
 Phase 6G adds ten protected educational Article/Category/media/history routes under the same configured Owner prefix. Content commands retain persisted Owner revalidation, native CSRF, credential/session revocation, no-store and bounded writes. The educational shared Owner admission lock plus dedicated writer coordination does not change identity policy. See [educational content security](educational-content-security.md) and [route inventory](../api/owner-educational-content-web.md).
+
+Phase6H adds five private Owner Delivery routes with the existing identity/credential/idle/revocation/CSRF/no-store boundary. Workers are private operational contacts without accounts. Zone publication reuses Settings and exposes no worker/Customer information. See [Delivery security](simple-delivery-security.md).

@@ -11,7 +11,7 @@ class LimitOwnerCatalogBody
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (preg_match('/^owner\.(gifts|education)\./', (string) $request->route()?->getName())) {
+        if (preg_match('/^owner\.(gifts|education|delivery)\./', (string) $request->route()?->getName())) {
             return $next($request);
         }
         if (preg_match('/^owner\.(settings|content)\./', (string) $request->route()?->getName())) {

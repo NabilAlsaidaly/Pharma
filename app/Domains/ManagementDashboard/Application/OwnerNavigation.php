@@ -33,6 +33,7 @@ class OwnerNavigation
         foreach (['index' => 'المقالات والنصائح', 'categories' => 'تصنيفات المقالات', 'history' => 'سجل المحتوى التعليمي'] as $key => $label) {
             $entries[] = ['key' => 'education-'.$key, 'label' => $label, 'route' => 'owner.education.'.$key, 'group' => 'النصائح والمعلومات', 'icon' => 'home', 'order' => 95];
         }
+        $entries[] = ['key' => 'delivery', 'label' => 'التوصيل', 'route' => 'owner.delivery.index', 'group' => 'التواصل', 'icon' => 'home', 'order' => 96];
         $entries[] = ['key' => 'profile', 'label' => 'حسابي', 'route' => 'owner.profile', 'group' => 'الحساب', 'icon' => 'profile', 'order' => 100];
 
         return array_map(fn ($entry) => $entry + ['ability' => null, 'description' => null], $entries);

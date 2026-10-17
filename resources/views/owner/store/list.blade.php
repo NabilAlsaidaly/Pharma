@@ -18,7 +18,7 @@
                 <p class="mt-2 text-xs text-stone-600">
                     {{ $item->archived_at ? 'مؤرشف' : ($item->published_version ? 'منشور — قد توجد مسودة أحدث' : ($spec['public'] ? 'مسودة غير منشورة' : 'محفوظ للتجهيز — بانتظار الربط')) }}
                     · الإصدار {{ $item->lock_version }}</p>
-                @if($type === 'zones')<p class="mt-3 text-sm">{{ $item->governorate }} {{ $item->city }} · رسوم تحضيرية فقط</p><p class="mt-2 text-xs" dir="ltr">USD: {{ $item->fee_usd ?? 'غير محدد' }} · SYP: {{ $item->fee_syp ?? 'غير محدد' }}</p>@endif
+                @if($type === 'zones')<p class="mt-3 text-sm">{{ $item->governorate }} {{ $item->city }} · رسوم المسودة إرشادية بانتظار التأكيد اليدوي</p><p class="mt-2 text-xs" dir="ltr">USD: {{ $item->fee_usd ?? 'غير محدد' }} · SYP: {{ $item->fee_syp ?? 'غير محدد' }}</p>@endif
             </a>
         @empty<p class="rounded-xl border bg-white p-6 text-sm">لم تُضاف بيانات بعد. لا توجد قيم افتراضية منشورة.</p>
         @endforelse

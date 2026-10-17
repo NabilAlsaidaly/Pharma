@@ -24,8 +24,8 @@
             </p>
         @endif
         @if ($type === 'zones')
-            <p class="mt-3 text-sm">فارغ = رسوم غير محددة؛ 0.00 = مجانية مُعدّة صراحةً. لا أولوية مناطق أو تطابق جغرافي آلي.
-                كل عملة مستقلة، والرسوم لا تُضاف للسلة.</p>
+            <p class="mt-3 text-sm">فارغ = رسوم غير محددة؛ الصفر مجاني وفق النسخة المنشورة فقط. كل عملة مستقلة والرسوم بانتظار التأكيد اليدوي ولا تُضاف للسلة أو الطلب. النشر إرشادي لا يضمن التغطية، ولا توجد أولوية أو مطابقة جغرافية آلية. ملاحظات التجهيز تبقى خاصة.</p>
+            <a class="mt-3 inline-block text-sm underline" href="{{ route('owner.delivery.index') }}">التوصيل ودليل العمال الخاص</a>
         @endif
         @if ($type === 'policies')
             <p class="mt-3 text-sm">أدخلي النص الذي اعتمدتِه أنتِ. لا توجد سياسة قانونية افتراضية. النشر يتطلب موافقتك
@@ -98,7 +98,7 @@
                     <h2 class="font-semibold">{{ $label }}</h2><label
                         class="my-4 flex items-start gap-3 text-sm leading-6"><input type="checkbox" name="confirm"
                             value="1" required class="mt-1">أعتمد هذا الإجراء على السجل الحالي.
-                        {{ $action === 'publish' ? 'أوافق على إتاحة النص والصورة الحاليين للعملاء.' : 'لا يتغير أي طلب أو دفع أو شحنة.' }}</label><button
+                        {{ $action === 'publish' ? ($type === 'zones' ? 'أوافق على عرض المنطقة ورسومها إرشادياً فقط، دون الملاحظات الخاصة أو التزام بالتوصيل.' : 'أوافق على إتاحة النص والصورة الحاليين للعملاء.') : 'لا يتغير أي طلب أو دفع أو شحنة.' }}</label><button
                         class="rounded-lg border border-emerald-900 px-4 py-2 text-sm">{{ $label }}</button>
                 </form>
             @endforeach
