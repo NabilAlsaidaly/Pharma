@@ -16,11 +16,11 @@ Evidence: **CONFIRMED** directly observed; **POTENTIAL** reasoned risk; **NEEDS 
 
 ## 4. Final source HEAD
 
-**NEEDS VERIFICATION:** exact source SHA will be recorded after source commit; final report-only documentation head and independent workflow are recorded externally in PR/final delivery to avoid recursive self-referential commits. Prior source CI alone does not establish final-head success.
+**CONFIRMED:** implementation source commit `c890b9c91e3833f0aadda880df39c270039fd178`. CI checkout explicitly merged this source into the unchanged baseline main. The subsequent report-only documentation head and its independent workflow are recorded externally in PR/final delivery to avoid recursive self-referential commits. Prior source CI alone does not establish final-head success.
 
 ## 5. PR URL
 
-**NEEDS VERIFICATION:** one PR will target verified main after required local checks, remain OPEN/UNMERGED. No PR merge authorization.
+**CONFIRMED:** exactly one [PR #11](https://github.com/NabilAlsaidaly/Pharma/pull/11), OPEN/UNMERGED, targets main at a78f4149e1a68342e318405f8d25c4347a4cd29b. Initial source head matches section4; final report-only head is independently checked externally. No PR merge authorization.
 
 ## 6. Approved business gate
 
@@ -88,7 +88,7 @@ Evidence: **CONFIRMED** directly observed; **POTENTIAL** reasoned risk; **NEEDS 
 
 ## 22. Migration inventory
 
-**CONFIRMED:** new `2026_10_17_000002_create_educational_content.php`; no historical migration edited. Development remains3applied of11files,8pending including6G; no development/production migration. Guarded independent-worker schema setup/down validates additive migration and dependency rollback locally; CI8.4 remains separately verified below. Down destroys educational history, not an automatic recovery procedure.
+**CONFIRMED:** new `2026_10_17_000002_create_educational_content.php`; no historical migration edited. Development remains3applied of11files,8pending including6G; no development/production migration. Guarded independent-worker schema setup/down validates additive migration and dependency rollback locally and in successful MySQL8.4.11 CI. Down destroys educational history, not an automatic recovery procedure.
 
 ## 23. Owner routes
 
@@ -136,7 +136,7 @@ Evidence: **CONFIRMED** directly observed; **POTENTIAL** reasoned risk; **NEEDS 
 
 ## 34. EXPLAIN evidence
 
-**CONFIRMED:** ten plans captured again in the final local full suite, including separate public page/COUNT, search page/COUNT, Concern page/COUNT, category COUNT, history, media and category directory. Initial search scanned247 revision-history rows. A fixed server-owned STRAIGHT_JOIN now starts with Article pointers and probes each exact published revision; assertions reject unrelated revision table/index scans. History uses a covering reverse lookup, media an index, categories a covering listing index. Sorting current Articles may filesort; optimizer row estimates are not exact fixture counts or capacity evidence. **NEEDS VERIFICATION:** CI MySQL8.4 plans.
+**CONFIRMED:** ten plans captured again in the final local full suite and successful source CI MySQL8.4.11, including separate public page/COUNT, search page/COUNT, Concern page/COUNT, category COUNT, history, media and category directory. Initial search scanned247 revision-history rows. A fixed server-owned STRAIGHT_JOIN now starts with Article pointers and probes each exact published revision; assertions reject unrelated revision table/index scans. CI traditional EXPLAIN shows Article index education_publication_listing and revision eq_ref education_revision_identity; Concern membership eq_ref, history/media/category ref indexes. Local9.7 TREE agrees on bounded revision probes. Sorting current Articles may filesort; optimizer row estimates are not exact fixture counts or capacity evidence. All thirteen HTTP counts match local at10/50/200.
 
 ## 35. Browser test results
 
@@ -168,7 +168,7 @@ Evidence: **CONFIRMED** directly observed; **POTENTIAL** reasoned risk; **NEEDS 
 
 ## 42. Assertion count
 
-**CONFIRMED:** local complete suite and independently parsed JUnit both report **6964 assertions**. **NEEDS VERIFICATION:** independently observe source-CI and final-documentation-head totals; do not infer them from local evidence.
+**CONFIRMED:** local complete suite and independently parsed JUnit both report **6964 assertions**. Successful source CI independently reports **802 passed,6973 assertions,546.22s**. The nine-assertion difference is explained by the seven educational plan checks: local9.7 TREE returns seven plan rows, CI8.4 traditional format returns sixteen; each row receives an assertFalse scan check. No test was skipped or removed. Final report-head totals are independently recorded in PR/final delivery, not inferred from source CI.
 
 ## 43. Pint result
 
@@ -220,8 +220,8 @@ Evidence: **CONFIRMED** directly observed; **POTENTIAL** reasoned risk; **NEEDS 
 
 ## 55. GitHub Actions URL/conclusion
 
-**NEEDS VERIFICATION:** successful source CI, then report-only evidence commit, then independently verified workflow/jobs/logs for the actual final PR head against verified main. Final SHA/run/job/result recorded externally without a recursive evidence commit. Prior phase/main/earlier-source success alone never satisfies the final gate.
+**CONFIRMED:** source [Backend CI run39014500487](https://github.com/NabilAlsaidaly/Pharma/actions/runs/39014500487), [quality job117343675562](https://github.com/NabilAlsaidaly/Pharma/actions/runs/39014500487/job/117343675562), completed/success. All steps and decoded logs inspected: PHP8.4.26, MySQL8.4.11,802passed/6973assertions/546.22s, Composer strict/platform, locked Node22/Vite, Pint279files, PHPStan and security audit success with no vulnerability advisories. Twelve educational independent-process races on connections450–502 all attempts1, plus identical HTTP counts and ten plans. This report-only evidence commit is followed by an independently verified workflow/jobs/logs for the actual final PR head. Final SHA/run/job/result are recorded externally in PR/final delivery without a recursive evidence commit; this source success alone never satisfies the final gate.
 
 ## 56. Merge-readiness assessment
 
-**CONFIRMED:** approved scope implemented; complete local802/6964 regression, focused/browser/tooling/preservation evidence collected. Protected staged diff, whitespace checks and12-document relative-link inventory passed, zero broken links. Main was fetched again and remains the baseline a78f4149e1a68342e318405f8d25c4347a4cd29b. **NEEDS VERIFICATION:** one PR and exact source/final-head CI. No further business approval is required for approved A–N. Leave PR open for Owner review; no merge, deployment, development/production migration, real Owner,6H or Next.js.
+**CONFIRMED:** approved scope implemented; complete local802/6964 and source-CI802/6973 regression, focused/browser/tooling/preservation evidence collected. Protected staged diff, whitespace checks and12-document relative-link inventory passed, zero broken links. Main was fetched again and remains the baseline a78f4149e1a68342e318405f8d25c4347a4cd29b; exactly one PR #11 remains open. Final report-head CI is the remaining external delivery gate recorded in that PR after this report-only commit. No further business approval is required for approved A–N. Leave PR open for Owner review; no merge, deployment, development/production migration, real Owner,6H or Next.js.
