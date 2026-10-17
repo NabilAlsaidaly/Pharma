@@ -5,3 +5,5 @@ Existing contracts: [foundation](foundation.md), [Customer authentication](custo
 Phase6F adds [public Gifts](gift-public-api.md), [Customer Gift Requests](gift-customer-api.md) and [Owner Gift forms](owner-gifts-web.md). These are internal Laravel contracts; the final consolidated Next.js integration handoff is deferred. No legacy public API breaking change is authorized.
 
 Phase 6G: [Educational public APIs and structured body schema](educational-public-api.md), [Owner educational web routes](owner-educational-content-web.md). Laravel resolves publication/media/Catalog visibility; Next.js remains deferred.
+
+Phase 6H: [Informational delivery Zones](delivery-public-api.md), [private Owner delivery contacts](owner-delivery-web.md). No existing Checkout/Gift fields or replay contracts change.

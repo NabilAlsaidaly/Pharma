@@ -18,7 +18,7 @@ final class SettingGroups
             'payment' => ['table' => 'store_payment_policies', 'label' => 'تجهيز سياسة الدفع', 'singleton' => true, 'public' => false, 'required' => ['mode', 'percentage'], 'verify' => [self::class, 'verifyPayment'], 'fields' => [
                 'mode' => ['نوع السياسة', 7, 'payment_mode'], 'percentage' => ['النسبة المطلوبة', 6, 'percentage'], 'explanation' => ['توضيح داخلي', 1000],
             ]],
-            'zones' => ['table' => 'store_delivery_zones', 'label' => 'تجهيز مناطق ورسوم التوصيل', 'singleton' => false, 'public' => false, 'required' => ['name', 'governorate', 'sort_order'], 'fields' => [
+            'zones' => ['table' => 'store_delivery_zones', 'label' => 'مناطق ورسوم التوصيل الإرشادية', 'singleton' => false, 'public' => true, 'required' => ['name', 'governorate', 'sort_order'], 'fields' => [
                 'name' => ['اسم المنطقة للعرض', 160], 'governorate' => ['المحافظة', 100], 'city' => ['المدينة أو المنطقة (اختياري)', 100], 'fee_usd' => ['رسوم USD — الفارغ غير محدد والصفر مجاني مُعدّ', 19, 'money'], 'fee_syp' => ['رسوم SYP — مستقلة عن الدولار', 19, 'money'], 'sort_order' => ['ترتيب العرض', 10, 'order'], 'conditions' => ['ملاحظات التجهيز', 1000],
             ]],
         ];

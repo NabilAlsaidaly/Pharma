@@ -55,7 +55,7 @@ class OwnerStoreSettingsController
         abort_unless($owner instanceof ManagementUser, 403);
         $target = $service->execute($group, $id, $owner, $request->except(['_token', 'image']), $request->file('image'));
 
-        return redirect()->route(SettingGroups::get($group)['singleton'] ? 'owner.settings.group' : 'owner.settings.edit', ['group' => $group] + (SettingGroups::get($group)['singleton'] ? [] : ['id' => $target]))->with('status', 'حُفظ الإجراء وإصداره في السجل. الدفع والتوصيل يبقيان تجهيزاً للمستقبل.');
+        return redirect()->route(SettingGroups::get($group)['singleton'] ? 'owner.settings.group' : 'owner.settings.edit', ['group' => $group] + (SettingGroups::get($group)['singleton'] ? [] : ['id' => $target]))->with('status', $group === 'zones' ? 'حُفظ الإجراء وإصداره. النشر للعرض الإرشادي فقط، والرسوم بانتظار التأكيد اليدوي.' : 'حُفظ الإجراء وإصداره في السجل. الدفع والتوصيل يبقيان تجهيزاً للمستقبل.');
     }
 
     public function history(Request $request, OwnerBusinessReader $reader)

@@ -6,6 +6,8 @@ use App\Domains\Catalog\Interfaces\Http\Controllers\OwnerCatalogController;
 use App\Domains\Catalog\Interfaces\Http\LimitOwnerCatalogBody;
 use App\Domains\Content\Interfaces\Http\Education\OwnerEducationRoutes;
 use App\Domains\Content\Interfaces\Http\OwnerStoreContentController;
+use App\Domains\Delivery\Interfaces\Http\DeliveryBoundary;
+use App\Domains\Delivery\Interfaces\Http\OwnerDeliveryController;
 use App\Domains\Gifts\Interfaces\Http\GiftOwnerRoutes;
 use App\Domains\ManagementDashboard\Interfaces\Http\Controllers\OwnerDashboardController;
 use App\Domains\ManagementIdentity\Interfaces\Http\Controllers\OwnerAccountController;
@@ -55,6 +57,13 @@ class OwnerPortalRoutes
             Route::middleware(RequireOwner::class)->group(function (): void {
                 GiftOwnerRoutes::register();
                 OwnerEducationRoutes::register();
+                Route::prefix('delivery')->name('delivery.')->middleware(DeliveryBoundary::class)->controller(OwnerDeliveryController::class)->group(function (): void {
+                    Route::get('/', 'index')->name('index');
+                    Route::get('history', 'history')->name('history');
+                    Route::get('workers/create', 'edit')->name('create');
+                    Route::get('workers/{id}', 'edit')->whereUuid('id')->name('edit');
+                    Route::post('workers/{id?}', 'mutate')->whereUuid('id')->name('mutate');
+                });
                 Route::get('/', [OwnerAccountController::class, 'home'])->name('home');
                 Route::get('profile', [OwnerAccountController::class, 'profile'])->name('profile');
                 Route::patch('profile', [OwnerAccountController::class, 'update'])->name('profile.update');

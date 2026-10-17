@@ -39,12 +39,12 @@ return Application::configure(basePath: dirname(__DIR__))
             if (! str_starts_with((string) $request->route()?->getName(), 'owner.') && ! $privatePath) {
                 return null;
             }
-            if (preg_match('/^owner\.(settings|content|gifts|education)\./', (string) $request->route()?->getName())
+            if (preg_match('/^owner\.(settings|content|gifts|education|delivery)\./', (string) $request->route()?->getName())
                 && ($exception instanceof ValidationException || $exception instanceof UniqueConstraintViolationException || ($exception instanceof HttpExceptionInterface && in_array($exception->getStatusCode(), [409, 422], true)))) {
                 $status = $exception instanceof ValidationException ? 422 : ($exception instanceof UniqueConstraintViolationException ? 409 : $exception->getStatusCode());
                 $errors = $exception instanceof ValidationException ? $exception->errors() : ['store' => [$exception instanceof UniqueConstraintViolationException ? 'تعارضت البيانات مع سجل محفوظ. راجعي البيانات وحدّثي الصفحة.' : ($exception->getMessage() ?: 'تعذر حفظ الإجراء. حدّثي الصفحة وراجعي البيانات.')]];
 
-                return response()->view($request->routeIs('owner.education.*') ? 'owner.education.validation' : ($request->routeIs('owner.gifts.*') ? 'owner.gifts.validation' : 'owner.store.validation'), ['validationErrors' => $errors], $status)
+                return response()->view($request->routeIs('owner.delivery.*') ? 'owner.delivery.validation' : ($request->routeIs('owner.education.*') ? 'owner.education.validation' : ($request->routeIs('owner.gifts.*') ? 'owner.gifts.validation' : 'owner.store.validation')), ['validationErrors' => $errors], $status)
                     ->header('Cache-Control', 'no-store, private, max-age=0')->header('Referrer-Policy', 'no-referrer')
                     ->header('X-Frame-Options', 'DENY')->header('X-Content-Type-Options', 'nosniff');
             }
@@ -100,9 +100,9 @@ return Application::configure(basePath: dirname(__DIR__))
 
                 return false;
             }
-            if (request()->is('api/v1/checkout/intents', 'api/v1/checkout/intents/*', 'api/v1/gifts/*', 'api/v1/education/*')) {
+            if (request()->is('api/v1/checkout/intents', 'api/v1/checkout/intents/*', 'api/v1/gifts/*', 'api/v1/education/*', 'api/v1/delivery/*')) {
                 // Exception SQL bindings/stack arguments can contain contact snapshots.
-                Log::error(request()->is('api/v1/education/*') ? 'education_http_failed' : (request()->is('api/v1/gifts/*') ? 'gift_http_failed' : 'preliminary_checkout_failed'), [
+                Log::error(request()->is('api/v1/delivery/*') ? 'delivery_http_failed' : (request()->is('api/v1/education/*') ? 'education_http_failed' : (request()->is('api/v1/gifts/*') ? 'gift_http_failed' : 'preliminary_checkout_failed')), [
                     'exception_type' => $exception::class,
                     'request_id' => request()->attributes->get('request_id'),
                 ]);
