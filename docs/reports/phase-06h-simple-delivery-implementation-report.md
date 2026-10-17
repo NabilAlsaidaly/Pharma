@@ -1,6 +1,6 @@
 # Phase6H — Simple delivery implementation report
 
-Date2026-10-17, Asia/Damascus. Evidence: **CONFIRMED** directly observed, **POTENTIAL** reasoned risk, **NEEDS VERIFICATION** unfinished gate. No merge, deployment or development/production migration. Local results below are actual full-suite observations; CI remains a separately recorded gate.
+Date2026-10-17, Asia/Damascus. Evidence: **CONFIRMED** directly observed, **POTENTIAL** reasoned risk, **NEEDS VERIFICATION** unfinished gate. No merge, deployment or development/production migration. Local and implementation-source CI results below are actual full-suite observations; final report-head CI is independently recorded externally.
 
 ## 1. الملخص التنفيذي
 
@@ -16,11 +16,11 @@ Date2026-10-17, Asia/Damascus. Evidence: **CONFIRMED** directly observed, **POTE
 
 ## 4. Final feature commit SHA
 
-**NEEDS VERIFICATION:** source commit after local gates, then report-only CI evidence commit. Final documentation head and its independently checked workflow are recorded externally in PR/final delivery to avoid recursive self-referential commits. Earlier source CI alone is not final-head evidence.
+**CONFIRMED:** implementation source `1e1b7ed3aef8661f53f6837d9ac8da106f3d2d91`. CI checkout explicitly tested this source merged virtually into baseline mainf1ae9395b525dbba18fd07fd8281683f31b86f73. This report-only evidence commit is followed by an independently checked workflow. Final documentation SHA/run/job are recorded externally in PR/final delivery to avoid recursive self-referential commits; earlier source CI alone is not final-head evidence.
 
 ## 5. PR URL
 
-**NEEDS VERIFICATION:** exactly one feature PR against verified main after local gates; leave OPEN/UNMERGED.
+**CONFIRMED:** exactly one [PR #12](https://github.com/NabilAlsaidaly/Pharma/pull/12) against mainf1ae9395b525dbba18fd07fd8281683f31b86f73, OPEN/UNMERGED. Source head matches section4; final report-only head and its independent CI are recorded externally.
 
 ## 6. Original SRS availability and requirements
 
@@ -52,7 +52,7 @@ Date2026-10-17, Asia/Damascus. Evidence: **CONFIRMED** directly observed, **POTE
 
 ## 13. Database changes
 
-**CONFIRMED:** [two worker tables](../database/simple-delivery-schema.md), real restrictive FKs/uniques/CHECKs/indexes; current fixed fields plus lean attribution/replay journal, not full historical PII. No Zone table/column migration. Full local migration/real SQL constraints and independent-worker reverse dependency rollback passed. Development inventory after all tests confirms3applied/9pending including6H. CI8.4 remains independently verified below.
+**CONFIRMED:** [two worker tables](../database/simple-delivery-schema.md), real restrictive FKs/uniques/CHECKs/indexes; current fixed fields plus lean attribution/replay journal, not full historical PII. No Zone table/column migration. Full local and CI MySQL8.4.11 migrations/real SQL constraints and independent-worker reverse dependency rollback passed. Development inventory after all local tests confirms3applied/9pending including6H.
 
 ## 14. Owner UI
 
@@ -96,7 +96,7 @@ Date2026-10-17, Asia/Damascus. Evidence: **CONFIRMED** directly observed, **POTE
 
 ## 24. Performance evidence
 
-**CONFIRMED:** focused and complete current full runs agree on HTTP-only counts: empty public list4; at1/10/50records identical public5,Owner directory5,literal search5,edit6,global history5,worker history6. At50,public per_page48 returned48 then2 on page2. Four actual EXPLAIN plans: current50Zone rows scanned/sorted then exact unique revision lookup (se4_revision_unique), corresponding COUNT, indexed active-worker listing (delivery_worker_directory), indexed reverse worker timeline (delivery_worker_timeline). This small current-Zone scan/filesort is recorded, not hidden as a fully indexed query or justification for a parallel schema/cache. Draft history growth does not change HTTP query count. No full history/body hydration, N+1, Redis or production capacity claim. CI8.4 plans remain separately verified.
+**CONFIRMED:** focused, complete local and source CI8.4 runs agree on HTTP-only counts: empty public list4; at1/10/50records identical public5,Owner directory5,literal search5,edit6,global history5,worker history6. At50,public per_page48 returned48 then2 on page2. Four actual EXPLAIN plans on both engines: current50Zone rows scanned/sorted then exact unique revision lookup (se4_revision_unique; CIeq_ref), corresponding COUNT, indexed active-worker listing (delivery_worker_directory; CIref), indexed reverse worker timeline (delivery_worker_timeline; CIref/backward). This small current-Zone scan/filesort is recorded, not hidden as a fully indexed query or justification for a parallel schema/cache. Draft history growth does not change HTTP query count. No full history/body hydration, N+1, Redis or production capacity claim.
 
 ## 25. Browser evidence
 
@@ -106,13 +106,15 @@ Date2026-10-17, Asia/Damascus. Evidence: **CONFIRMED** directly observed, **POTE
 
 **CONFIRMED:** complete current suite passed **857tests/7389assertions**, exit0, **22:53.771**, **98MB**, PHP8.4.26/MySQL9.7.0. Independently parsed JUnit:857tests/7389assertions, zero errors/failures/skips,1373.488773 summed test seconds. Ignored artifacts storage/framework/testing/phase6h-full.log and phase6h-full-junit.xml. It includes all802historical tests and55new cases, ninth revocation race, unsignedMAX read/rejected advance and final scoped validation view. Earlier focused6H plus affected historical checks passed105tests/1305assertions,2:32.513,72MB,exit0/clean JUnit, eight races only; it is not substituted for full regression. Only historical inventory expectations changed63→68/15→16. Exploratory failures are not called passing evidence.
 
+Source CI independently reports857passed/7400assertions/635.12s, not a copied local count. Both totals are retained as observed. Assertion counts are not a fixed cross-engine/concurrency oracle: existing tests inspect each EXPLAIN result row and conditionally check permitted race outcomes. No test or assertion was removed to reconcile counts. Final report-head totals are independently recorded externally after this evidence commit.
+
 ## 27. Tooling results
 
 **CONFIRMED:** Pint --test and PHPStan existing level5 passed; Composer validate--strict/platformPHP8.4.26/audit passed with no vulnerability advisories. Locked offline npm ci87 existing packages and Vite7.3.7/61modules passed:CSS54.76kB/gzip12.13,JS65.07/gzip24.37. Existing esbuild allowScripts advisory not resolved by enabling new scripts. No manifests/locks/CI/config suppression changes. Recheck appropriate gates if final source changes.
 
 ## 28. GitHub Actions
 
-**NEEDS VERIFICATION:** source CI then report-only evidence commit and independent exact-final-head workflow/jobs/logs against verified main. Prior main/6G success is not current6H evidence. Final SHA/run/job/checks will be recorded externally in PR/final delivery without recursive report commits.
+**CONFIRMED:** source [Backend CI39056186649](https://github.com/NabilAlsaidaly/Pharma/actions/runs/39056186649), [quality job117464518554](https://github.com/NabilAlsaidaly/Pharma/actions/runs/39056186649/job/117464518554), completed/success. All steps and decoded logs inspected: exact source/main checkout,PHP8.4.26/MySQL8.4.11,857passed/7400assertions/635.12s, Composer strict/platform, locked frontend/Vite, Pint, PHPStan and audit with no vulnerability advisories. All nine Delivery overlaps on connections458–492, attempts1, committed revocation403/no writes; same HTTP counts and all four plans inspected. This report-only evidence commit is followed by independent exact-final-head workflow/jobs/logs; final SHA/run/job/checks are recorded externally in PR/final delivery without recursive report commits. This implementation-source CI alone does not establish the final-head gate.
 
 ## 29. Development preservation
 
@@ -132,4 +134,4 @@ Date2026-10-17, Asia/Damascus. Evidence: **CONFIRMED** directly observed, **POTE
 
 ## 33. Final merge readiness
 
-**CONFIRMED:** complete local857/7389, focused/security/concurrency/browser/preservation/tooling gates passed;17changed documentation files have zero broken relative links. Staged diff/whitespace/protected business commands, historical migrations, manifests/locks and CI/config checked. Main re-fetched after the full run and unchanged atf1ae9395b525dbba18fd07fd8281683f31b86f73. **NEEDS VERIFICATION:** exactly one PR and independently checked source/final-head CI. Approved A–D need no further business approval. Leave PR open for Owner review; never merge/deploy or start6I automatically.
+**CONFIRMED:** complete local857/7389 and source-CI857/7400, focused/security/concurrency/browser/preservation/tooling gates passed;17changed documentation files have zero broken relative links. Staged diff/whitespace/protected business commands, historical migrations, manifests/locks and CI/config checked. Main re-fetched after the full run and unchanged atf1ae9395b525dbba18fd07fd8281683f31b86f73. Exactly one PR #12 remains open. The final report-head workflow is the remaining external delivery gate, independently recorded in PR/final delivery after this report-only commit. Approved A–D need no further business approval. Leave PR open for Owner review; never merge/deploy or start6I automatically.
