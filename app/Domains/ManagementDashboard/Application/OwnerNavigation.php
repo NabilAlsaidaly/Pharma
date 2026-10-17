@@ -30,6 +30,9 @@ class OwnerNavigation
         foreach (['index' => 'باقات الهدايا', 'occasions' => 'المناسبات', 'requests' => 'طلبات الهدايا'] as $key => $label) {
             $entries[] = ['key' => 'gifts-'.$key, 'label' => $label, 'route' => 'owner.gifts.'.$key, 'group' => 'الهدايا', 'icon' => 'home', 'order' => 90];
         }
+        foreach (['index' => 'المقالات والنصائح', 'categories' => 'تصنيفات المقالات', 'history' => 'سجل المحتوى التعليمي'] as $key => $label) {
+            $entries[] = ['key' => 'education-'.$key, 'label' => $label, 'route' => 'owner.education.'.$key, 'group' => 'النصائح والمعلومات', 'icon' => 'home', 'order' => 95];
+        }
         $entries[] = ['key' => 'profile', 'label' => 'حسابي', 'route' => 'owner.profile', 'group' => 'الحساب', 'icon' => 'profile', 'order' => 100];
 
         return array_map(fn ($entry) => $entry + ['ability' => null, 'description' => null], $entries);
@@ -52,6 +55,13 @@ class OwnerNavigation
                     'gifts-index' => in_array($current, ['owner.gifts.index', 'owner.gifts.create', 'owner.gifts.edit', 'owner.gifts.mutate', 'owner.gifts.media', 'owner.gifts.history'], true),
                     'gifts-occasions' => $current === 'owner.gifts.occasions' || str_starts_with($current, 'owner.gifts.occasion.'),
                     default => in_array($current, ['owner.gifts.requests', 'owner.gifts.requests.show', 'owner.gifts.review'], true),
+                };
+            }
+            if (str_starts_with($entry['key'], 'education-')) {
+                $entry['active'] = match ($entry['key']) {
+                    'education-categories' => $current === 'owner.education.categories' || str_starts_with($current, 'owner.education.category.'),
+                    'education-history' => $current === 'owner.education.history',
+                    default => in_array($current, ['owner.education.index', 'owner.education.create', 'owner.education.edit', 'owner.education.mutate', 'owner.education.media'], true),
                 };
             }
 

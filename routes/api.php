@@ -2,6 +2,8 @@
 
 use App\Domains\Cart\Interfaces\Http\Controllers\CartController;
 use App\Domains\Catalog\Interfaces\Http\Controllers\PublicCatalogController;
+use App\Domains\Content\Interfaces\Http\Education\EducationBoundary;
+use App\Domains\Content\Interfaces\Http\Education\PublicEducationController;
 use App\Domains\Content\Interfaces\Http\PublicStorefrontController;
 use App\Domains\Favorites\Interfaces\Http\Controllers\FavoriteController;
 use App\Domains\Gifts\Interfaces\Http\GiftApiController;
@@ -12,6 +14,14 @@ use App\Domains\Orders\Interfaces\Http\Controllers\CheckoutEvaluationController;
 use App\Domains\Orders\Interfaces\Http\Controllers\PreliminaryRequestController;
 use App\Http\Middleware\LimitPersonalMutationBody;
 use Illuminate\Support\Facades\Route;
+
+Route::prefix('education')->middleware(EducationBoundary::class)->controller(PublicEducationController::class)->group(function (): void {
+    Route::get('articles', 'index');
+    Route::get('articles/{slug}', 'show')->where('slug', '[a-z0-9]+(?:-[a-z0-9]+)*');
+    Route::get('categories', 'categories');
+    Route::get('categories/{slug}/articles', 'index')->where('slug', '[a-z0-9]+(?:-[a-z0-9]+)*');
+    Route::get('media/{id}.png', 'media')->whereUuid('id');
+});
 
 Route::prefix('gifts')->middleware(GiftHttpBoundary::class)->controller(GiftApiController::class)->group(function (): void {
     Route::get('packages', 'index');

@@ -10,6 +10,34 @@
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
+.education-panel :where(input:not([type='hidden']):not([type='checkbox']), textarea, select) {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin-block: .5rem;
+    padding: .75rem;
+    border: 1px solid #a8a29e;
+    border-radius: .75rem;
+    background: white;
+}
+.education-panel button {
+    border: 1px solid #a8a29e;
+    border-radius: .75rem;
+    padding: .6rem 1rem;
+    margin-block-start: .5rem;
+}
+.education-panel textarea { resize: vertical; }
+.education-panel button:disabled { opacity: .55; cursor: wait; }
+.education-preview { overflow-wrap: anywhere; }
+.education-preview :where(p, li, h2, h3, figcaption) { white-space: pre-wrap; }
+.education-preview img { max-width: 100%; height: auto; max-height: 32rem; object-fit: contain; }
+.education-preview ol { list-style: decimal; padding-inline-start: 1.5rem; }
+.education-preview ul { list-style: disc; padding-inline-start: 1.5rem; }
+.education-preview :where(a) { text-decoration: underline; }
+.education-preview h2 { font-size: 1.25rem; font-weight: 700; }
+.education-preview h3 { font-size: 1.125rem; font-weight: 700; }
+
 @layer base {
     [data-owner-portal] :where(a, button, input, select, summary):focus-visible {
         outline: 2px solid var(--color-emerald-700);
